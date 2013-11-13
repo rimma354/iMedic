@@ -1,6 +1,6 @@
 ﻿calendar = {
-    month_names: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
-    weekdays: ["Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт","Вск"],
+    month_names: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat","Sun"],
     month_days: [31,28,31,30,31,30,31,31,30,31,30,31],
     //Get today's date - year, month, day and date
     today : new Date(),
@@ -144,7 +144,7 @@
             this.wrt("</tr>");
         }
         this.wrt("</table>");
-        this.wrt("<input type='button' value='Отмена' class='calendar-cancel' onclick='calendar.hideCalendar();' />");
+        this.wrt("<input type='button' value='Cancel' class='calendar-cancel' onclick='calendar.hideCalendar();' />");
  
         document.getElementById(this.opt['calendar']).innerHTML = this.data.join("");
         this.data = [];
