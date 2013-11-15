@@ -1,0 +1,495 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>iMedic</title>
+    <!-- Bootstrap -->
+		<link href="../css/style.css" rel="stylesheet" type="text/css"> 
+	<script src="../js/jquery-latest.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="../js/date.js"></script>
+	<link href="../css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+	<div class="navbar navbar-inverse navbar-static-top">
+		<nav class="navbar-inner">
+			<a class="brand">iMedic</a>
+			<ul class="nav">
+				<li class="divider-vertical"></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Пациент<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+					<li><a href="new-patient.html">Создать карту пациента</a></li>
+						<li><a href="review-patient.html">Просотр мед-карты</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Регистратура<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="new-patient.html">Создать карту пациента</a></li>
+						<li><a href="reception-search.html">Найти пациента</a></li>
+						<li><a href="#">График работы врачей</a></li>
+						<li><a href="#">График работы лаборатории</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Врач<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="doctor-search.html">Найти пациента</a></li>
+						<li><a href="#">График приема</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Лаборатория<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">График приема</a></li>
+						<li><a href="laboratory-search.html">Найти пациента</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Админ<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Редактирование графика работы врача</a></li>
+						<li><a href="#">Редактирование графика работы лаборатории</a></li>
+						<li><a href="#">Редактировать БД врачей</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</div>
+  <div class="container">
+	<header>
+		<h1>Медкарта</h1>
+	</header>
+	 <style>
+	.my-control-label {
+		float: left;
+		width: 250px;
+		padding-top: 5px;
+		text-align: left;	
+	}
+	.my-controls {
+		margin-left: 270px;
+	}
+	</div>
+  </style> 
+  
+		<div class="tabbable">
+		<ul class="nav nav-tabs" >
+			<li class="active"><a href="#tab1" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Личные данные</a></li>
+			<li><a href="#tab2"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Дополнительная информация</a></li>
+			<li><a href="#tab3"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Текущая история болезни</a></li>
+			<li><a href="#tab4"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Анализы</a></li>
+			<li><a href="#tab5"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Запись к врачу</a></li>
+			<li><a href="#tab6"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Направления в лабораторию</a></li>
+			<li><a href="#tab7"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Архив историй болезни</a></li>
+		</ul>
+		 <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+    <body>
+  
+    <div class="container" >
+		<form class="form-horizontal">
+			<div class="row">
+					<div class="span4">
+					<img src="../img/foto.png" style="width:140px; heigth:140px;">
+					<div>
+						<label class="my-control-label" > Открыта</label>
+					</div>	
+				    <br><br>
+					<div>
+						
+						<label class="my-control-label" > Пол</label>
+					</div>
+				</div>
+				<div class="span8 ">
+					<div class="control-group">
+						<label class="my-control-label" for="outputNumber" >Номер медицинской страховки</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputtNumber"> Номер медицинской страховки</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputBirth">Дата рождения</label>
+						<div class="my-controls">
+								<label class="my-control-label" id="outputBirth"> Дата рождения</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputFIO">Фамилия, имя, отчество</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputFIO"> Фамилия, имя, отчество</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputTel">Телефон</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputTel"> Телефон</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputAddress">Адрес</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputAddress"> Адрес</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="my-control-label" for="outputPassport">№ Паспорта</label>
+						<div class="my-controls">
+								<label class="my-control-label" id="outputPassport"> № Паспорта</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div >
+ 
+		</form>
+    </div>
+	
+    <div class="tab-pane" id="tab2">
+      <body>
+  
+    <div class="container" >
+		<form class="form-horizontal">
+			<div class="row">
+								<div class="span8 "style="margin-left: 200px;">
+					<div class="control-group">
+						<label class="my-control-label" for="outputChronicDiseases" >Хронические заболевания</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputChronicDiseases"> Хронические заболевания</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputDrugIntolerance">Непереносимость лекарст</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputDrugIntolerance"> Список лекарст</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputAllergy">Аллергия</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputAllergy"> Аллергия</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputVaccinations">Прививки</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputVaccinations"> Прививки</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputBloodGroup">Группа крови</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputBloodGroup"> Группа крови</label>
+						</div>
+					</div>
+					
+						<div class="control-group">
+						<label class="my-control-label" for="outputRHFactor">Резус фактор</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputRHFactor"> Резус фактор</label>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			</div >
+ 
+		</form>
+    </div>
+
+  
+  
+     <div class="tab-pane" id="tab3">
+      <body>
+  
+    <div class="container" >
+		<form class="form-horizontal">
+			<div class="row">
+								<div class="span8 " style="margin-left: 200px;">
+					<div class="control-group">
+						<label class="my-control-label" for="outputPatientComplaint" >Жалобы пациента</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputPatientComplaint"> Жалобы пациента</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputFirstInspection">Первичный осмотр</label>
+						<div class="my-controls">
+						<label class="my-control-label" id="outputFirstInspection"> Первичный осмотр</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputSecondaryInspection">Вторичный осмотр</label>
+						<div class="my-controls">
+								<label class="my-control-label" id="outputSecondaryInspection"> Вторичный осмотр</label>
+						</div>
+					</div>	
+					
+					<div class="control-group">
+						<label class="my-control-label" for="outputDiagnosis">Диагноз</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputDiagnosis"> Диагноз</label>
+						</div>
+					</div>	
+					
+					<div class="control-group">
+						<label class="my-control-label" for="outputTreatmentAssignment">Назначение лечения</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputTreatmentAssignment"> Назначение лечения</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="my-control-label" for="outputFirstDate">Дата 1-го приема</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputFirstDate"> Дата 1-го приема</label>
+						</div>
+					</div>	
+				</div>
+			</div>
+			</div >
+ 
+		</form>
+    </div>
+	
+	
+	     <div class="tab-pane" id="tab4">
+      <body>
+  
+    <div class="container" >
+		<form class="form-horizontal">
+			<div class="row">
+								<div class="span8 " style="margin-left: 200px;">
+	<table class="table table-hover">
+	<thead>
+	<tr>
+	<th>Дата анализа</th>
+	<th>Название анализа</th>
+	<th>Выбор анализа</th>
+	</tr>
+	</thead>
+		<tbody>
+			<tr>
+			<td>1</td>
+			<td>2</td>
+			<td>
+			
+			<p><a href="#openModal3" class="btn">Просмотр</a></p>
+	  <div id="openModal3" class="modalDialog">
+	  <div>
+        <a href="#closeDialog" title="close" class="closeDialog" class="calendar-cancel" onclick="calendar.hideCalendar()" >X</a>
+        <h2>Анализы</h2>
+		<center>
+		<p>Название анализа</p>
+		<p>Дата проведения</p>
+		<p>Описание</p>
+		<p><a href="#" class="btn">Просмотр файла</a></p>
+		
+    </div>
+</div>
+	  </td>
+			</tr>
+			<tr>
+			<td>1</td>
+			<td>2</td>
+			<td>
+			
+			<p><a href="#openModal3" class="btn">Просмотр</a></p>
+	  <div id="openModal3" class="modalDialog">
+	  <div>
+        <a href="#closeDialog" title="close" class="closeDialog" class="calendar-cancel" onclick="calendar.hideCalendar()" >X</a>
+        <h2>Анализы</h2>
+		<center>
+		<p>Название анализа</p>
+		<p>Дата проведения</p>
+		<p>Описание</p>
+		<p><a href="#" class="btn">Просмотр файла</a></p>
+		
+    </div>
+</div>
+	  </td>
+			</tr>
+				</tbody>
+					</table>
+								
+					<div class="control-group">
+						<label class="my-control-label" for="inputAnalisisSearch" >Поиск по названию анализа</label>
+						<div class="my-controls">
+							<input type="text" id="inputAnalisisSearch">
+						</div>
+						<p><a href="#openModal3" class="btn">Искать</a></p>
+	  <div id="openModal3" class="modalDialog">
+	  <div>
+        <a href="#closeDialog" title="close" class="closeDialog" class="calendar-cancel" onclick="calendar.hideCalendar()" >X</a>
+        <h2>Анализы</h2>
+		<center>
+		<p>Название анализа</p>
+		<p>Дата проведения</p>
+		<p>Описание</p>
+		<p><a href="#" class="btn">Просмотр файла</a></p>
+		
+    </div>
+</div>
+					</div>	
+					
+				</div >	
+</div >					
+		
+			</div >
+ 
+		</form>
+    </div>
+		
+	
+	
+	<div class="tab-pane" id="tab5">
+      <body>
+  
+    <div class="container" >
+		<form class="form-horizontal">
+			<div class="row">
+								<div class="span8 " style="margin-left: 200px;">
+					 
+		<center>
+		  <h3>Making an appointment to see a doctor</h3>
+		<p>Doctor's full name</p>
+		<select>
+  <option>Golovchenko Valeriy</option>
+  <option>Golovchenko Valeriy</option>
+  <option>Golovchenko Valeriy</option>
+  <option>Golovchenko Valeriy</option>
+  <option>Golovchenko Valeriy</option>
+</select>
+				
+		<p>Date of appointment</p>
+       	<input type="text" name="date" id="dateMeet" value="dd.mm.yyyy" />
+		<p> <script type="text/javascript" />
+		calendar.set("dateMeet"); </script /></p>
+        <p>Time of appointment</p>
+		<select>
+  <option>8-00</option>
+  <option>9-00</option>
+  <option>10-00</option>
+  <option>11-00</option>
+  <option>12-00</option>
+			</select>
+			<br></br>
+			<p><button>Enter</button></p>
+			</center>
+					
+				</div>
+			</div>
+			</div >
+ 
+		</form>
+    </div>
+	
+	
+	<div class="tab-pane" id="tab6">
+      <body>
+  
+    <div class="container" >
+		<form class="form-horizontal">
+			<div class="row">
+								<div class="span8 " style="margin-left: 200px;">
+					 
+		<a href="#closeDialog" title="Закрыть" class="closeDialog" class="calendar-cancel" onclick="calendar.hideCalendar()" >X</a>
+        <center>
+		<h3>Record on lab tests</h3>
+			<p>Title of analysis</p>
+		 <select>
+  <option>Complete blood count</option>
+  <option>Complete blood count</option>
+  <option>Complete blood count</option>
+  <option>Complete blood count</option>
+  <option>Complete blood count</option>
+</select>
+		
+		<p>Date of appointment</p>
+       	<input type="text" name="date" id="date" value="XX.XX.XXXX" style ="height:21px;"/>
+		<p> <script type="text/javascript" />
+		calendar.set("date"); </script /></p>
+        <p>Time of appointment</p>
+		<select>
+  <option>8-00</option>
+  <option>9-00</option>
+  <option>10-00</option>
+  <option>11-00</option>
+  <option>12-00</option>
+</select>
+<p><button>Enter</button>
+</center>
+					
+				</div>
+			</div>
+			</div >
+ 
+		</form>
+    </div>
+	
+	
+	<div class="tab-pane" id="tab7">
+      <body>
+  
+    <div class="container" >
+		<form class="form-horizontal">
+			<div class="row">
+								<div class="span8 " style="margin-left: 200px;">
+					<div class="control-group">
+						<label class="my-control-label" for="outputPatientComplaint" >Жалобы пациента</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputPatientComplaint"> Жалобы пациента</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputFirstInspection">Первичный осмотр</label>
+						<div class="my-controls">
+						<label class="my-control-label" id="outputFirstInspection"> Первичный осмотр</label>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="my-control-label" for="outputSecondaryInspection">Вторичный осмотр</label>
+						<div class="my-controls">
+								<label class="my-control-label" id="outputSecondaryInspection"> Вторичный осмотр</label>
+						</div>
+					</div>	
+					
+					<div class="control-group">
+						<label class="my-control-label" for="outputDiagnosis">Диагноз</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputDiagnosis"> Диагноз</label>
+						</div>
+					</div>	
+					
+					<div class="control-group">
+						<label class="my-control-label" for="outputTreatmentAssignment">Назначение лечения</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputTreatmentAssignment"> Назначение лечения</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="my-control-label" for="outputFirstDate">Дата 1-го приема</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputFirstDate"> Дата 1-го приема</label>
+						</div>
+						<div class="control-group">
+						<label class="my-control-label" for="outputLastDate">Дата выписки</label>
+						<div class="my-controls">
+							<label class="my-control-label" id="outputLastDate"> Дата выписки</label>
+						</div>
+					</div>	
+				</div>
+			</div>
+			</div >
+ 
+		</form>
+    </div>
+	
+  </div>
+  
+  
+  
+	  </div>
+  
+  
+  </body>
+</html>
