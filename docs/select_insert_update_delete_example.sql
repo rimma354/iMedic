@@ -12,9 +12,9 @@ SELECT id_state, state_title
   FROM Card_state;
 SELECT id_sex, sex_title 
   FROM Sex;
-SELECT id_time, time 
-  FROM time;
-SELECT id_week_day, day 
+SELECT id_time, work_time 
+  FROM work_time;
+SELECT id_week_day, week_day 
   FROM week_day;
 SELECT id_medical_card, id_vaccination 
   FROM Rates_vaccinations;
@@ -40,19 +40,19 @@ SELECT id_analisis, analysis_tittle
   FROM Analisis;
 SELECT id_treatment, id_examination, id_drug, dosage, quantity, duration 
   FROM Treatment;
-SELECT id_laboratory, week_day, time 
+SELECT id_laboratory, week_day, work_time 
   FROM Laboratory_schedule;
 SELECT id_laboratory, lab_title 
   FROM Laboratory;
-SELECT id_doctor, week_day, time 
+SELECT id_doctor, week_day, work_time 
   FROM Doctor_schedule;
 SELECT id_doctor, first_name, last_name, patronymic, id_specialization 
   FROM Doctor;
 SELECT id_diagnosis, id_examination, id_illness 
   FROM Diagnosis;
-SELECT id_laboratory_reception, id_examination, id_laboratory, analysis_date, result, id_analisis 
+SELECT id_laboratory_reception, id_examination, id_laboratory, analysis_date, analysis_result, id_analisis 
   FROM Laboratory_reception;
-SELECT id_doctor_reception, id_medical_history, id_doctor, "date", time 
+SELECT id_doctor_reception, id_medical_history, id_doctor, reception_date, reception_time 
   FROM Doctor_reception;
 SELECT id_examination, id_doctor_reception, complaints 
   FROM Examination;
@@ -112,15 +112,15 @@ INSERT INTO Sex
 VALUES 
   (?, 
   ?);
-INSERT INTO time
+INSERT INTO work_time
   (id_time, 
-  time) 
+  work_time) 
 VALUES 
   (?, 
   ?);
 INSERT INTO week_day
   (id_week_day, 
-  day) 
+  week_day) 
 VALUES 
   (?, 
   ?);
@@ -211,7 +211,7 @@ VALUES
 INSERT INTO Laboratory_schedule
   (id_laboratory, 
   week_day, 
-  time) 
+  work_time) 
 VALUES 
   (?, 
   ?, 
@@ -225,7 +225,7 @@ VALUES
 INSERT INTO Doctor_schedule
   (id_doctor, 
   week_day, 
-  time) 
+  work_time) 
 VALUES 
   (?, 
   ?, 
@@ -268,8 +268,8 @@ INSERT INTO Doctor_reception
   (id_doctor_reception, 
   id_medical_history, 
   id_doctor, 
-  "date", 
-  time) 
+  reception_date, 
+  reception_time) 
 VALUES 
   (?, 
   ?, 
@@ -358,12 +358,12 @@ UPDATE Sex SET
   sex_title = ? 
 WHERE
   id_sex = ?;
-UPDATE time SET 
-  time = ? 
+UPDATE work_time SET 
+  work_time = ? 
 WHERE
   id_time = ?;
 UPDATE week_day SET 
-  day = ? 
+  week_day = ? 
 WHERE
   id_week_day = ?;
 UPDATE Rates_vaccinations SET 
@@ -423,7 +423,7 @@ WHERE
 UPDATE Laboratory_schedule SET 
    
 WHERE
-  id_laboratory = ? AND week_day = ? AND time = ?;
+  id_laboratory = ? AND week_day = ? AND work_time = ?;
 UPDATE Laboratory SET 
   lab_title = ? 
 WHERE
@@ -431,7 +431,7 @@ WHERE
 UPDATE Doctor_schedule SET 
    
 WHERE
-  id_doctor = ? AND week_day = ? AND time = ?;
+  id_doctor = ? AND week_day = ? AND work_time = ?;
 UPDATE Doctor SET 
   first_name = ?, 
   last_name = ?, 
@@ -448,15 +448,15 @@ UPDATE Laboratory_reception SET
   id_examination = ?, 
   id_laboratory = ?, 
   analysis_date = ?, 
-  result = ?, 
+  analysis_result = ?, 
   id_analisis = ? 
 WHERE
   id_laboratory_reception = ?;
 UPDATE Doctor_reception SET 
   id_medical_history = ?, 
   id_doctor = ?, 
-  "date" = ?, 
-  time = ? 
+  reception_date = ?, 
+  reception_time = ? 
 WHERE
   id_doctor_reception = ?;
 UPDATE Examination SET 
@@ -509,7 +509,7 @@ DELETE FROM Card_state
   WHERE id_state = ?;
 DELETE FROM Sex 
   WHERE id_sex = ?;
-DELETE FROM time 
+DELETE FROM work_time 
   WHERE id_time = ?;
 DELETE FROM week_day 
   WHERE id_week_day = ?;
@@ -538,11 +538,11 @@ DELETE FROM Analisis
 DELETE FROM Treatment 
   WHERE id_treatment = ?;
 DELETE FROM Laboratory_schedule 
-  WHERE id_laboratory = ? AND week_day = ? AND time = ?;
+  WHERE id_laboratory = ? AND week_day = ? AND work_time = ?;
 DELETE FROM Laboratory 
   WHERE id_laboratory = ?;
 DELETE FROM Doctor_schedule 
-  WHERE id_doctor = ? AND week_day = ? AND time = ?;
+  WHERE id_doctor = ? AND week_day = ? AND work_time = ?;
 DELETE FROM Doctor 
   WHERE id_doctor = ?;
 DELETE FROM Diagnosis 
