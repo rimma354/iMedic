@@ -1,23 +1,23 @@
 CREATE TABLE Card_state (
   id_state    number(10) NOT NULL, 
-  state_title varchar2(255) NOT NULL UNIQUE, 
+  state_title varchar2(15) NOT NULL UNIQUE, 
   PRIMARY KEY (id_state));
   
 CREATE TABLE Sex (
   id_sex    number(10) NOT NULL, 
-  sex_title varchar(20) NOT NULL UNIQUE, 
+  sex_title varchar2(15) NOT NULL UNIQUE, 
   PRIMARY KEY (id_sex));
   
 CREATE TABLE Patient (
   id_patient       number(10) NOT NULL, 
-  first_name       varchar(50) NOT NULL, 
-  last_name        varchar(50) NOT NULL, 
-  patronymic       varchar(50) NOT NULL, 
+  first_name       varchar2(50) NOT NULL, 
+  last_name        varchar2(50) NOT NULL, 
+  patronymic       varchar2(50) NOT NULL, 
   id_sex           number(10) NOT NULL, 
   date_birth       date NOT NULL, 
-  telephone        varchar(50) NOT NULL, 
-  passport         varchar(50) NOT NULL UNIQUE, 
-  insurance_number varchar(50) NOT NULL UNIQUE, 
+  telephone        varchar2(50) NOT NULL, 
+  passport         varchar2(50) NOT NULL UNIQUE, 
+  insurance_number varchar2(50) NOT NULL UNIQUE, 
   PRIMARY KEY (id_patient));
   
 ALTER TABLE Patient ADD CONSTRAINT FKPatient_sex FOREIGN KEY (id_sex) REFERENCES Sex (id_sex);
@@ -34,7 +34,7 @@ ALTER TABLE Medical_card ADD CONSTRAINT FKMedical_card_patient FOREIGN KEY (id_p
 
 CREATE TABLE History_type (
   id_history_type number(10) NOT NULL, 
-  type_title      varchar(50) NOT NULL UNIQUE, 
+  type_title      varchar2(50) NOT NULL UNIQUE, 
   PRIMARY KEY (id_history_type));
  
 CREATE TABLE Medical_History (
@@ -49,14 +49,14 @@ ALTER TABLE Medical_History ADD CONSTRAINT FKMedical_History_card FOREIGN KEY (i
 
 CREATE TABLE Specialization (
   id_specialization number(10) NOT NULL, 
-  spec_title        varchar(50)  NOT NULL UNIQUE, 
+  spec_title        varchar2(50)  NOT NULL UNIQUE, 
   PRIMARY KEY (id_specialization));
   
 CREATE TABLE Doctor (
   id_doctor         number(10) NOT NULL, 
-  first_name        varchar(50) NOT NULL, 
-  last_name         varchar(50) NOT NULL, 
-  patronymic        varchar(50) NOT NULL, 
+  first_name        varchar2(50) NOT NULL, 
+  last_name         varchar2(50) NOT NULL, 
+  patronymic        varchar2(50) NOT NULL, 
   id_specialization number(10) NOT NULL, 
   PRIMARY KEY (id_doctor));
   
@@ -64,23 +64,23 @@ ALTER TABLE Doctor ADD CONSTRAINT FKDoctor_spec FOREIGN KEY (id_specialization) 
  
 CREATE TABLE Vaccinations (
   id_vaccination    number(10) NOT NULL, 
-  vaccination_title varchar(50) NOT NULL UNIQUE, 
+  vaccination_title varchar2(50) NOT NULL UNIQUE, 
   PRIMARY KEY (id_vaccination));
   
   
 CREATE TABLE Drugs (
   id_drug    number(10) NOT NULL, 
-  drug_title varchar(50) NOT NULL UNIQUE, 
+  drug_title varchar2(50) NOT NULL UNIQUE, 
   PRIMARY KEY (id_drug));
   
 CREATE TABLE Allergy_group (
   id_allergy       number(10) NOT NULL, 
-  allergy_gr_title varchar(50) NOT NULL UNIQUE, 
+  allergy_gr_title varchar2(50) NOT NULL UNIQUE, 
   PRIMARY KEY (id_allergy));
   
 CREATE TABLE Allergens (
   id_allergens    number(10) NOT NULL, 
-  allergens_title varchar(50) NOT NULL UNIQUE, 
+  allergens_title varchar2(50) NOT NULL UNIQUE, 
   id_allergy      number(10) NOT NULL, 
   PRIMARY KEY (id_allergens));
   
@@ -88,12 +88,12 @@ CREATE TABLE Allergens (
 
 CREATE TABLE Group_illnesses (
   id_group          number(10) NOT NULL, 
-  ilnesses_gr_title varchar(50) NOT NULL UNIQUE, 
+  ilnesses_gr_title varchar2(50) NOT NULL UNIQUE, 
   PRIMARY KEY (id_group));
   
 CREATE TABLE Illnesses (
   id_illness      number(10) NOT NULL, 
-  illnesses_title varchar(50) NOT NULL UNIQUE, 
+  illnesses_title varchar2(50) NOT NULL UNIQUE, 
   id_group        number(10) NOT NULL, 
   PRIMARY KEY (id_illness));
   
@@ -101,12 +101,12 @@ ALTER TABLE Illnesses ADD CONSTRAINT FKIllnesses_gr FOREIGN KEY (id_group) REFER
   
 CREATE TABLE RH_factor (
   id_rh    number(10) NOT NULL, 
-  rh_title varchar(3) NOT NULL UNIQUE, 
+  rh_title varchar2(3) NOT NULL UNIQUE, 
   PRIMARY KEY (id_rh));
     
 CREATE TABLE Blood_group (
   id_blood_group number(10) NOT NULL, 
-  group_title    varchar(10) NOT NULL UNIQUE, 
+  group_title    varchar2(10) NOT NULL UNIQUE, 
   PRIMARY KEY (id_blood_group));
   
 CREATE TABLE Rates_chronyc_illnesses (
@@ -154,25 +154,25 @@ ALTER TABLE Rates_drugs ADD CONSTRAINT FKRates_drug_dr FOREIGN KEY (id_drug) REF
  
 CREATE TABLE work_time (
   id_time number(10) NOT NULL, 
-  work_time  varchar(10) NOT NULL UNIQUE, 
+  work_time  varchar2(10) NOT NULL UNIQUE, 
   PRIMARY KEY (id_time));
   
   
 CREATE TABLE week_day (
   id_week_day number(10) NOT NULL, 
-  week_day    varchar(10) NOT NULL UNIQUE, 
+  week_day    varchar2(20) NOT NULL UNIQUE, 
   PRIMARY KEY (id_week_day));
     
   
 CREATE TABLE Analisis (
   id_analisis     number(10) NOT NULL, 
-  analysis_tittle varchar(50) NOT NULL, 
+  analysis_tittle varchar2(50) NOT NULL, 
   PRIMARY KEY (id_analisis));
   
 
 CREATE TABLE Laboratory (
   id_laboratory number(10) NOT NULL, 
-  lab_title     varchar(50) NOT NULL, 
+  lab_title     varchar2(50) NOT NULL, 
   PRIMARY KEY (id_laboratory));
   
 CREATE TABLE Laboratory_schedule (
@@ -204,7 +204,7 @@ CREATE TABLE Doctor_reception (
   id_medical_history  number(10) NOT NULL, 
   id_doctor           number(10) NOT NULL, 
   reception_date      date NOT NULL, 
-  reception_time      varchar(10) NOT NULL, 
+  reception_time      varchar2(10) NOT NULL, 
   PRIMARY KEY (id_doctor_reception));
   
  ALTER TABLE Doctor_reception ADD CONSTRAINT FKDoctor_reception_doc FOREIGN KEY (id_doctor) REFERENCES Doctor (id_doctor);
