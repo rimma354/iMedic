@@ -112,10 +112,10 @@ CREATE TABLE Week_day (
   PRIMARY KEY (id_week_day));
     
   
-CREATE TABLE Analisis (
-  id_analisis     number(10) NOT NULL, 
-  analysis_tittle varchar2(50) NOT NULL, 
-  PRIMARY KEY (id_analisis));
+CREATE TABLE Analysis (
+  id_analysis     number(10) NOT NULL, 
+  analysis_title varchar2(50) NOT NULL, 
+  PRIMARY KEY (id_analysis));
   
 
 CREATE TABLE Laboratory (
@@ -171,10 +171,10 @@ CREATE TABLE Examination (
   id_laboratory           number(10) NOT NULL, 
   analysis_date           date NOT NULL, 
   analysis_result         varchar2(255) NOT NULL, 
-  id_analisis             number(10) NOT NULL, 
+  id_analysis             number(10) NOT NULL, 
   PRIMARY KEY (id_laboratory_reception));
   
-ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_an FOREIGN KEY (id_analisis) REFERENCES Analisis (id_analisis);
+ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_an FOREIGN KEY (id_analisis) REFERENCES Analysis (id_analysis);
 ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_exam FOREIGN KEY (id_examination) REFERENCES Examination (id_examination);
 ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_lab FOREIGN KEY (id_laboratory) REFERENCES Laboratory (id_laboratory);
 
@@ -211,7 +211,7 @@ CREATE SEQUENCE seq_Drugs;
 CREATE SEQUENCE seq_Measure;
 CREATE SEQUENCE seq_Group_illnesses;
 CREATE SEQUENCE seq_Illnesses;
-CREATE SEQUENCE seq_Analisis;
+CREATE SEQUENCE seq_Analysis;
 CREATE SEQUENCE seq_Treatment;
 CREATE SEQUENCE seq_Laboratory;
 CREATE SEQUENCE seq_Doctor;
