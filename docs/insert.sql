@@ -1,274 +1,206 @@
---Sex(id_sex, sex_title)
-INSERT INTO Sex VALUES (1, 'мужской');
-INSERT INTO Sex VALUES (2, 'женский');
-
---History_type(id_history_type, type_title)
-INSERT INTO History_type VALUES (1, 'болезнь');
-INSERT INTO History_type VALUES (2, 'осмотр');
-
---Analisis(id_analisis, analisis_title)
-INSERT INTO Analisis VALUES (1, 'кровь');
-INSERT INTO Analisis VALUES (2, 'моча');
-INSERT INTO Analisis VALUES (3, 'кал');
-INSERT INTO Analisis VALUES (4, 'вич');
-INSERT INTO Analisis VALUES (5, 'беременность');
-INSERT INTO Analisis VALUES (6, 'гепатит');
-
---Laboratory(id_laboratory, lab_title)
-INSERT INTO Laboratory VALUES (1, 'общая');
-INSERT INTO Laboratory VALUES (2, 'специальная');
-
 --Card_state(id_state, state_title)
-INSERT INTO Card_state VALUES (1, 'открыта');
-INSERT INTO Card_state VALUES (2, 'закрыта');
+INSERT INTO Card_state VALUES (id_state.nextval, 'Open');
+INSERT INTO Card_state VALUES (id_state.nextval, 'Close');
 
---week_day(id_week_day, day)
-INSERT INTO week_day VALUES (1, 'пн');
-INSERT INTO week_day VALUES (2, 'вт');
-INSERT INTO week_day VALUES (3, 'ср');
-INSERT INTO week_day VALUES (4, 'чт');
-INSERT INTO week_day VALUES (5, 'пт');
-INSERT INTO week_day VALUES (6, 'сб');
-INSERT INTO week_day VALUES (7, 'вс');
-
---work_time (id_time, work_time)
-INSERT INTO work_time VALUES (1, '08:00:00');
-INSERT INTO work_time VALUES (2, '09:00:00');
-INSERT INTO work_time VALUES (3, '10:00:00');
-INSERT INTO work_time VALUES (4, '11:00:00');
-INSERT INTO work_time VALUES (5, '12:00:00');
-INSERT INTO work_time VALUES (6, '13:00:00');
-INSERT INTO work_time VALUES (7, '14:00:00');
-INSERT INTO work_time VALUES (8, '15:00:00');
-INSERT INTO work_time VALUES (9, '16:00:00');
-INSERT INTO work_time VALUES (10, '17:00:00');
-INSERT INTO work_time VALUES (11, '18:00:00');
-
---Specialiazation(id_specialiazation, specialiazation_title)
-INSERT INTO Specialization VALUES (1, 'хирург');
-INSERT INTO Specialization VALUES (2, 'терапевт');
-INSERT INTO Specialization VALUES (3, 'лор');
-INSERT INTO Specialization VALUES (4, 'гинеколог');
-INSERT INTO Specialization VALUES (5, 'патологоанатом');
-INSERT INTO Specialization VALUES (6, 'дерматолог');
-INSERT INTO Specialization VALUES (7, 'окулист');
-INSERT INTO Specialization VALUES (8, 'рентгенолог');
-INSERT INTO Specialization VALUES (9, 'кардиолог');
-INSERT INTO Specialization VALUES (10, 'аллерголог');
-
---Vaccinations(id_vaccination, vaccination_title)
-INSERT INTO Vaccinations VALUES (1, 'живые');
-INSERT INTO Vaccinations VALUES (2, 'корпускулярные');
-INSERT INTO Vaccinations VALUES (3, 'химические');
-INSERT INTO Vaccinations VALUES (4, 'рекомбинантные');
-
---Blood_group(id_blood_group, group_title)
-INSERT INTO Blood_group VALUES (1, 'I');
-INSERT INTO Blood_group VALUES (2, 'II');
-INSERT INTO Blood_group VALUES (3, 'III');
-INSERT INTO Blood_group VALUES (4, 'IV');
-
---RH_factor(id_rh, rh_title)
-INSERT INTO RH_factor VALUES (1, 'RH+');
-INSERT INTO RH_factor VALUES (2, 'RH-');
-
---Drugs(id_drug, drug_title)
-INSERT INTO Drugs VALUES (1, 'Ибупрофен');
-INSERT INTO Drugs VALUES (2, 'Називин');
-INSERT INTO Drugs VALUES (3, 'Ношпа');
-INSERT INTO Drugs VALUES (4, 'Кардиомагнил');
-INSERT INTO Drugs VALUES (5, 'Сорбекс');
-INSERT INTO Drugs VALUES (6, 'Левомецитин');
-INSERT INTO Drugs VALUES (7, 'Випросал');
-INSERT INTO Drugs VALUES (8, 'Стрепсилс');
-INSERT INTO Drugs VALUES (9, 'оксациллин');
-
---Group_illnesses(id_group, illnesses_gr_title)
-INSERT INTO Group_illnesses VALUES (1, 'венерические');
-INSERT INTO Group_illnesses VALUES (2, 'кардио');
-INSERT INTO Group_illnesses VALUES (3, 'травмы');
-INSERT INTO Group_illnesses VALUES (4, 'опухоли');
-INSERT INTO Group_illnesses VALUES (5, 'орви');
-
---Illnesses(id_illness, illnesses_title, id_group)
-INSERT INTO Illnesses VALUES (1, 'сифилис', 1);
-INSERT INTO Illnesses VALUES (2, 'триппер', 1);
-INSERT INTO Illnesses VALUES (3, 'стенокардия', 2);
-INSERT INTO Illnesses VALUES (4, 'аритмия', 2);
-INSERT INTO Illnesses VALUES (5, 'перелом', 3);
-INSERT INTO Illnesses VALUES (6, 'растяжение', 3);
-INSERT INTO Illnesses VALUES (7, 'доброкачественная', 4);
-INSERT INTO Illnesses VALUES (8, 'злокачественная', 4);
-INSERT INTO Illnesses VALUES (9, 'насморк', 5);
-INSERT INTO Illnesses VALUES (10, 'кашель', 5);
-INSERT INTO Illnesses VALUES (11, 'ангина', 5);
-
---Allergy_group(id_allergy, allergy_gr_title)
-INSERT INTO Allergy_group VALUES (1, 'сезонные');
-INSERT INTO Allergy_group VALUES (2, 'хронические');
-INSERT INTO Allergy_group VALUES (3, 'растительные');
-INSERT INTO Allergy_group VALUES (4, 'бытовые');
-
---Allergens(id_illness, illnesses_title, id_group)
-INSERT INTO Allergens VALUES (1, 'жара', 1);
-INSERT INTO Allergens VALUES (2, 'холод', 1);
-INSERT INTO Allergens VALUES (3, 'насекомые', 2);
-INSERT INTO Allergens VALUES (4, 'пух', 3);
-INSERT INTO Allergens VALUES (5, 'пыльца', 3);
-INSERT INTO Allergens VALUES (6, 'химикаты', 4);
-INSERT INTO Allergens VALUES (7, 'продукты', 4);
+--Sex(id_sex, sex_title)
+INSERT INTO Sex VALUES (id_sex.nextval, 'Men');
+INSERT INTO Sex VALUES (id_sex.nextval, 'Women');
 
 --Patient(id_patient,first_name,last_name,patronymic,id_sex, date_birth, telephone,passport,insurance_number)
-INSERT INTO PATIENT VALUES (1,'ИВАНОВ','ИВАН','ИВАНОВИЧ',1,TO_DATE('1981-03-17', 'YYYY-MM-DD'),380481234560,1111222220,0123456780);
-INSERT INTO PATIENT VALUES (2,'ПАВЛОВА','ТАТЬЯНА','ВЯЧЕСЛАВОВНА',2,TO_DATE('1978-11-14', 'YYYY-MM-DD'),380481234561,1111222221,0123456781);
-INSERT INTO PATIENT VALUES (3,'ГЕРОСИМОВ','НИКОЛАЙ','ГРИГОРЬЕВИЧ',1,TO_DATE('1990-02-06', 'YYYY-MM-DD'),380481234562,1111222222,0123456782);
-INSERT INTO PATIENT VALUES (4,'АБДУЛОВА','ЕВГЕНИЯ','СЕРГЕЕВНА',2,TO_DATE('1984-05-12', 'YYYY-MM-DD'),380481234563,1111222223,0123456783);
-INSERT INTO PATIENT VALUES (5,'ДЕМИТРОВ','ВИКТОР','АЛЕКСАНДРОВИЧ',1,TO_DATE('1977-08-19', 'YYYY-MM-DD'),380481234564,1111222224,0123456784);
-INSERT INTO PATIENT VALUES (6,'ВОЛКОВ','СЕРГЕЙ','ИВАНОВИЧ',1,TO_DATE('1992-09-11', 'YYYY-MM-DD'),380481234565,1111222225,0123456785);
-INSERT INTO PATIENT VALUES (7,'ДАНИЛОВ','СЕРГЕЙ','ВАЛЕНТИНОВИЧ',1,TO_DATE('1990-01-19', 'YYYY-MM-DD'),380481234566,1111222226,0123456786);
-INSERT INTO PATIENT VALUES (8,'СМИРНОВ','КОНСТАНТИН','ПАВЛОВИЧ',1,TO_DATE('1981-11-17', 'YYYY-MM-DD'),380481234567,1111222227,0123456787);
-INSERT INTO PATIENT VALUES (9,'КАТИНА','ЕЛЕНА','ПЕТРОВНА',2,TO_DATE('1964-10-22', 'YYYY-MM-DD'),380481234568,1111222228,0123456788);
-INSERT INTO PATIENT VALUES (10,'СИДОРОВА','ВАЛЕНТИНА','МИХАЙЛОВНА',2,TO_DATE('1993-07-28', 'YYYY-MM-DD'),380481234569,1111222229,0123456789);
+INSERT INTO Patient VALUES (id_patient.nextval,'Ivanov','Ivan','Ivanovich',1,TO_DATE('1981-03-17', 'YYYY-MM-DD'),380481234560,1111222220,0123456780);
+INSERT INTO Patient VALUES (id_patient.nextval,'Pavlova','Tatiana','Viacheslavovna',2,TO_DATE('1978-11-14', 'YYYY-MM-DD'),380481234561,1111222221,0123456781);
+INSERT INTO Patient VALUES (id_patient.nextval,'Gerasimov','Nikolay','Grigorievich',1,TO_DATE('1990-02-06', 'YYYY-MM-DD'),380481234562,1111222222,0123456782);
+INSERT INTO Patient VALUES (id_patient.nextval,'Abduliva','Evgenia','Sergeevna',2,TO_DATE('1984-05-12', 'YYYY-MM-DD'),380481234563,1111222223,0123456783);
+INSERT INTO Patient VALUES (id_patient.nextval,'Demitrov','Victor','Alexandrovich',1,TO_DATE('1977-08-19', 'YYYY-MM-DD'),380481234564,1111222224,0123456784);
+INSERT INTO Patient VALUES (id_patient.nextval,'Volkov','Sergey','Ivanovich',1,TO_DATE('1992-09-11', 'YYYY-MM-DD'),380481234565,1111222225,0123456785);
+INSERT INTO Patient VALUES (id_patient.nextval,'Danilov','Sergey','Valentinovich',1,TO_DATE('1990-01-19', 'YYYY-MM-DD'),380481234566,1111222226,0123456786);
+INSERT INTO Patient VALUES (id_patient.nextval,'Smirnov','Konstantin','Pavlovich',1,TO_DATE('1981-11-17', 'YYYY-MM-DD'),380481234567,1111222227,0123456787);
+INSERT INTO Patient VALUES (id_patient.nextval,'Katina','Elena','Petrovna',2,TO_DATE('1964-10-22', 'YYYY-MM-DD'),380481234568,1111222228,0123456788);
+INSERT INTO Patient VALUES (id_patient.nextval,'Sidorava','Valentina','Mihaylovna',2,TO_DATE('1993-07-28', 'YYYY-MM-DD'),380481234569,1111222229,0123456789);
 
 --Medical_card (id_medical_card,id_patient,id_state)
-INSERT INTO MEDICAL_CARD VALUES (1,1,1);
-INSERT INTO MEDICAL_CARD VALUES (2,2,1);
-INSERT INTO MEDICAL_CARD VALUES (3,3,1);
-INSERT INTO MEDICAL_CARD VALUES (4,4,1);
-INSERT INTO MEDICAL_CARD VALUES (5,5,1);
-INSERT INTO MEDICAL_CARD VALUES (6,6,1);
-INSERT INTO MEDICAL_CARD VALUES (7,7,1);
-INSERT INTO MEDICAL_CARD VALUES (8,8,1);
-INSERT INTO MEDICAL_CARD VALUES (9,9,1);
-INSERT INTO MEDICAL_CARD VALUES (10,10,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,1,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,2,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,3,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,4,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,5,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,6,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,7,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,8,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,9,1);
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,10,1);
 
---Rates_chronyc_illnesses (id_medical_card, id_illness)
-INSERT INTO Rates_chronyc_illnesses VALUES (1, 5);
-INSERT INTO Rates_chronyc_illnesses VALUES (2, 4);
-INSERT INTO Rates_chronyc_illnesses VALUES (3, 3);
-INSERT INTO Rates_chronyc_illnesses VALUES (4, 2);
-INSERT INTO Rates_chronyc_illnesses VALUES (5, 1);
-INSERT INTO Rates_chronyc_illnesses VALUES (6, 10);
-INSERT INTO Rates_chronyc_illnesses VALUES (7, 9);
-INSERT INTO Rates_chronyc_illnesses VALUES (8, 8);
-INSERT INTO Rates_chronyc_illnesses VALUES (9, 7);
-INSERT INTO Rates_chronyc_illnesses VALUES (10, 6);
+--Group_info (id_group_info,group_title)
+INSERT INTO Group_info VALUES (id_group_info.nextval,'Allergy');
+INSERT INTO Group_info VALUES (id_group_info.nextval,'Blood_group');
+INSERT INTO Group_info VALUES (id_group_info.nextval,'Chronyc_illnesses');
+INSERT INTO Group_info VALUES (id_group_info.nextval,'Intolerance');
+INSERT INTO Group_info VALUES (id_group_info.nextval,'RH_factor');
+INSERT INTO Group_info VALUES (id_group_info.nextval,'Vaccinations');
 
---Rates_allergens (id_medical_card, id_allergens)
-INSERT INTO Rates_allergens VALUES (1, 3);
-INSERT INTO Rates_allergens VALUES (2, 1);
-INSERT INTO Rates_allergens VALUES (3, 7);
-INSERT INTO Rates_allergens VALUES (4, 7);
-INSERT INTO Rates_allergens VALUES (5, 6);
-INSERT INTO Rates_allergens VALUES (6, 5);
-INSERT INTO Rates_allergens VALUES (7, 4);
-INSERT INTO Rates_allergens VALUES (8, 3);
-INSERT INTO Rates_allergens VALUES (9, 2);
-INSERT INTO Rates_allergens VALUES (10, 1);
+--Additional_info (id_info,id_medical_card,id_group,description)
+INSERT INTO Additional_info VALUES (id_info.nextval,1,1,'The chocolate');
+INSERT INTO Additional_info VALUES (id_info.nextval,2,2,'I');
+INSERT INTO Additional_info VALUES (id_info.nextval,3,3,'Insomnia');
+INSERT INTO Additional_info VALUES (id_info.nextval,4,4,'Antibiotics');
+INSERT INTO Additional_info VALUES (id_info.nextval,5,5,'RH+');
+INSERT INTO Additional_info VALUES (id_info.nextval,6,6,'Whooping cough');
 
---Rates_blood (id_medical_card, id_blood_group, id_rh)
-INSERT INTO Rates_blood VALUES (1, 1, 1);
-INSERT INTO Rates_blood VALUES (2, 1, 2);
-INSERT INTO Rates_blood VALUES (3, 2, 1);
-INSERT INTO Rates_blood VALUES (4, 2, 2);
-INSERT INTO Rates_blood VALUES (5, 3, 1);
-INSERT INTO Rates_blood VALUES (6, 3, 2);
-INSERT INTO Rates_blood VALUES (7, 4, 1);
-INSERT INTO Rates_blood VALUES (8, 4, 2);
-INSERT INTO Rates_blood VALUES (9, 2, 1);
-INSERT INTO Rates_blood VALUES (10, 4, 1);
-
---Rates_vaccinations (id_medical_card, id_vaccination)
-INSERT INTO Rates_vaccinations VALUES (1, 1);
-INSERT INTO Rates_vaccinations VALUES (2, 2);
-INSERT INTO Rates_vaccinations VALUES (3, 3);
-INSERT INTO Rates_vaccinations VALUES (4, 4);
-INSERT INTO Rates_vaccinations VALUES (5, 1);
-INSERT INTO Rates_vaccinations VALUES (6, 1);
-INSERT INTO Rates_vaccinations VALUES (7, 3);
-INSERT INTO Rates_vaccinations VALUES (8, 2);
-INSERT INTO Rates_vaccinations VALUES (9, 4);
-INSERT INTO Rates_vaccinations VALUES (10, 1);
-
---Rates_drugs (id_medical_card, id_drug)
-INSERT INTO Rates_drugs VALUES (1, 4);
-INSERT INTO Rates_drugs VALUES (2, 2);
-INSERT INTO Rates_drugs VALUES (3, 1);
-INSERT INTO Rates_drugs VALUES (4, 3);
-INSERT INTO Rates_drugs VALUES (5, 6);
-INSERT INTO Rates_drugs VALUES (6, 5);
-INSERT INTO Rates_drugs VALUES (7, 3);
-INSERT INTO Rates_drugs VALUES (8, 2);
-INSERT INTO Rates_drugs VALUES (9, 4);
-INSERT INTO Rates_drugs VALUES (10, 1);
-
---Doctor (id_doctor,first_name,last_name,patronymic,id_specialization)
-INSERT INTO Doctor VALUES   (1, 'Ivan', 'Palivoda', 'Nicolaevich',   1);
-INSERT INTO Doctor VALUES   (2, 'Petr', 'Gaydarji', 'Arcadievich',   2);
-INSERT INTO Doctor VALUES   (3, 'Semen', 'Vinogradov', 'Pavlovich',   3);
-INSERT INTO Doctor VALUES   (4, 'Valentin', 'Verbickiy', 'Alexandrovich',   4);
-
---Doctor_shedule(id_doctor,week_day,work_time)
-INSERT INTO Doctor_schedule VALUES   (1,   1,   1);
-INSERT INTO Doctor_schedule VALUES   (1,   1,   2);
-INSERT INTO Doctor_schedule VALUES   (1,   2,   1);
-INSERT INTO Doctor_schedule VALUES   (1,   2,   2);
-INSERT INTO Doctor_schedule VALUES   (1,   3,   3);
-INSERT INTO Doctor_schedule VALUES   (1,   3,   4);
-INSERT INTO Doctor_schedule VALUES   (1,   4,   3);
-INSERT INTO Doctor_schedule VALUES   (1,   4,   4);
-INSERT INTO Doctor_schedule VALUES   (2,   2,   1);
-INSERT INTO Doctor_schedule VALUES   (2,   2,   2);
-INSERT INTO Doctor_schedule VALUES   (2,   3,   1);
-INSERT INTO Doctor_schedule VALUES   (2,   3,   2);
-INSERT INTO Doctor_schedule VALUES   (2,   4,   4);
-INSERT INTO Doctor_schedule VALUES   (2,   4,   5);
-INSERT INTO Doctor_schedule VALUES   (2,   5,   4);
-INSERT INTO Doctor_schedule VALUES   (2,   5,   5);
-
---Laboratory_schedule(id_laboratory,week_day,work_time)
-INSERT INTO Laboratory_schedule VALUES (1,   1,   1);
-INSERT INTO Laboratory_schedule VALUES (1,   1,   2);
-INSERT INTO Laboratory_schedule VALUES (1,   2,   1);
-INSERT INTO Laboratory_schedule VALUES (1,   2,   2);
-INSERT INTO Laboratory_schedule VALUES (1,   3,   1);
-INSERT INTO Laboratory_schedule VALUES (1,   3,   2);
-INSERT INTO Laboratory_schedule VALUES (1,   4,   1);
-INSERT INTO Laboratory_schedule VALUES (1,   4,   2);
-INSERT INTO Laboratory_schedule VALUES (2,   1,   3);
-INSERT INTO Laboratory_schedule VALUES (2,   1,   4);
-INSERT INTO Laboratory_schedule VALUES (2,   2,   3);
-INSERT INTO Laboratory_schedule VALUES (2,   3,   4);
-INSERT INTO Laboratory_schedule VALUES (2,   4,   3);
-INSERT INTO Laboratory_schedule VALUES (2,   4,   4);
-INSERT INTO Laboratory_schedule VALUES (2,   5,   3);
-INSERT INTO Laboratory_schedule VALUES (2,   5,   4);
+--History_type(id_history_type, type_title)
+INSERT INTO History_type VALUES (id_history_type.nextval, 'Illness');
+INSERT INTO History_type VALUES (id_history_type.nextval, 'Examination');
 
 --Medical_history(id_medical_history,id_medical_card,id_history_type,description)
-INSERT INTO Medical_history VALUES (1,1,1,'Боль в ноге');
-INSERT INTO Medical_history VALUES (2,2,1,'Температура, кашель, насморк');
+INSERT INTO Medical_history VALUES (id_medical_history.nextval,1,1,'Scelalgia');
+INSERT INTO Medical_history VALUES (id_medical_history.nextval,2,1,'Fever, cough, runny nose');
 
---Doctor_reception(id_doctor_reception,id_medical_history,id_doctor,reception_date,reception_time)
-INSERT INTO Doctor_reception VALUES(1,1,1,TO_DATE('11-11-2013', 'dd-mm-yyyy'),'9:00:00');
-INSERT INTO Doctor_reception VALUES(2,2,2,TO_DATE('15-11-2013', 'dd-mm-yyyy'),'12:00:00');
-INSERT INTO Doctor_reception VALUES(3,2,3,TO_DATE('16-11-2013', 'dd-mm-yyyy'),'9:00:00');
+--Specialization(id_specialization, specialiazation_title)
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Surgeon');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Therapist');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'ENT');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Gyn');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Pathologist');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Dermatologist');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Optometrist');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Radiologist');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Cardiologist');
+INSERT INTO Specialization VALUES (id_specialization.nextval, 'Allergist');
+
+--Doctor (id_doctor,first_name,last_name,patronymic,id_specialization)
+INSERT INTO Doctor VALUES   (id_doctor.nextval, 'Ivan', 'Palivoda', 'Nicolaevich',   1);
+INSERT INTO Doctor VALUES   (id_doctor.nextval, 'Petr', 'Gaydarji', 'Arcadievich',   2);
+INSERT INTO Doctor VALUES   (id_doctor.nextval, 'Semen', 'Vinogradov', 'Pavlovich',   3);
+INSERT INTO Doctor VALUES   (id_doctor.nextval, 'Valentin', 'Verbickiy', 'Alexandrovich',   4);
+
+--Group_illnesses(id_group_illnesses, illnesses_gr_title)
+INSERT INTO Group_illnesses VALUES (id_group_illnesses.nextval, 'Neurological');
+INSERT INTO Group_illnesses VALUES (id_group_illnesses.nextval, 'Cardio');
+INSERT INTO Group_illnesses VALUES (id_group_illnesses.nextval, 'Injury');
+INSERT INTO Group_illnesses VALUES (id_group_illnesses.nextval, 'Tumor');
+INSERT INTO Group_illnesses VALUES (id_group_illnesses.nextval, 'Viral colds');
+
+--Illnesses(id_illness, illnesses_title, id_group)
+
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Stenocardia', 2);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Arrhythmia', 2);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Fracture', 3);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Tension', 3);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Benign', 4);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Malignant', 4);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Flu', 5);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Bronchitis', 5);
+INSERT INTO Illnesses VALUES (id_illness.nextval, 'Angina', 5);
+
+--Drugs(id_drug, drug_title)
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Ibuprofen');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Nazivin');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Noshpa');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Kardiomagnil');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Sorbeks');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Levometsitin');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Viprosal');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Strepsils');
+INSERT INTO Drugs VALUES (id_drug.nextval, 'Oxacillin');
+
+--Measure(id_measure, measure_title)
+INSERT INTO Measure VALUES (id_measure.nextval, 'Drops');
+INSERT INTO Measure VALUES (id_measure.nextval, 'Tablets');
+INSERT INTO Measure VALUES (id_measure.nextval, 'ml');
+
+
+--work_time (id_time, work_time)
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 08:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 09:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 10:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 11:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 12:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 13:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 14:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 15:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 16:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 17:00:00','DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO work_time VALUES (id_time.nextval, TO_DATE('01-JAN-1800 18:00:00','DD-MON-YYYY HH24:MI:SS'));
+
+--week_day(id_week_day, day)
+
+INSERT INTO week_day VALUES (id_week_day.nextval, 'Mn');
+INSERT INTO week_day VALUES (id_week_day.nextval, 'Ts');
+INSERT INTO week_day VALUES (id_week_day.nextval, 'Wd');
+INSERT INTO week_day VALUES (id_week_day.nextval, 'Th');
+INSERT INTO week_day VALUES (id_week_day.nextval, 'Fr');
+INSERT INTO week_day VALUES (id_week_day.nextval, 'St');
+INSERT INTO week_day VALUES (id_week_day.nextval, 'Sn');
+
+--Analysis(id_analysis, analysis_title)
+INSERT INTO Analysis VALUES (id_analysis.nextval, 'Complete blood count');
+INSERT INTO Analysis VALUES (id_analysis.nextval, 'Blood sugar');
+INSERT INTO Analysis VALUES (id_analysis.nextval, 'LHC crop analysis');
+INSERT INTO Analysis VALUES (id_analysis.nextval, 'General analysis');
+INSERT INTO Analysis VALUES (id_analysis.nextval, 'Aureus analysis');
+
+--Laboratory(id_laboratory, lab_title)
+INSERT INTO Laboratory VALUES (id_laboratory.nextval, 'Total');
+INSERT INTO Laboratory VALUES (id_laboratory.nextval, 'Special');
+
+--Laboratory_schedule(id_laboratory,id_week_day,id_work_time)
+INSERT INTO Laboratory_schedule VALUES (1, 1, 1);
+INSERT INTO Laboratory_schedule VALUES (1, 1, 2);
+INSERT INTO Laboratory_schedule VALUES (1, 2, 1);
+INSERT INTO Laboratory_schedule VALUES (1, 2, 2);
+INSERT INTO Laboratory_schedule VALUES (1, 3, 1);
+INSERT INTO Laboratory_schedule VALUES (1, 3, 2);
+INSERT INTO Laboratory_schedule VALUES (1, 4, 1);
+INSERT INTO Laboratory_schedule VALUES (1, 4, 2);
+INSERT INTO Laboratory_schedule VALUES (2, 1, 3);
+INSERT INTO Laboratory_schedule VALUES (2, 1, 4);
+INSERT INTO Laboratory_schedule VALUES (2, 2, 3);
+INSERT INTO Laboratory_schedule VALUES (2, 3, 4);
+INSERT INTO Laboratory_schedule VALUES (2, 4, 3);
+INSERT INTO Laboratory_schedule VALUES (2, 4, 4);
+INSERT INTO Laboratory_schedule VALUES (2, 5, 3);
+INSERT INTO Laboratory_schedule VALUES (2, 5, 4);
+
+--Doctor_shedule(id_doctor,id_week_day,id_work_time)
+INSERT INTO Doctor_schedule VALUES   (1, 1, 1);
+INSERT INTO Doctor_schedule VALUES   (1, 1, 2);
+INSERT INTO Doctor_schedule VALUES   (1, 2, 1);
+INSERT INTO Doctor_schedule VALUES   (1, 2, 2);
+INSERT INTO Doctor_schedule VALUES   (1, 3, 3);
+INSERT INTO Doctor_schedule VALUES   (1, 3, 4);
+INSERT INTO Doctor_schedule VALUES   (1, 4, 3);
+INSERT INTO Doctor_schedule VALUES   (1, 4, 4);
+INSERT INTO Doctor_schedule VALUES   (2, 2, 1);
+INSERT INTO Doctor_schedule VALUES   (2, 2, 2);
+INSERT INTO Doctor_schedule VALUES   (2, 3, 1);
+INSERT INTO Doctor_schedule VALUES   (2, 3, 2);
+INSERT INTO Doctor_schedule VALUES   (2, 4, 4);
+INSERT INTO Doctor_schedule VALUES   (2, 4, 5);
+INSERT INTO Doctor_schedule VALUES   (2, 5, 4);
+INSERT INTO Doctor_schedule VALUES   (2, 5, 5);
+
+--Doctor_reception(id_doctor_reception,id_medical_history,id_doctor,reception_date)
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,1,1,TO_DATE('11-NOV-2013 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,2,TO_DATE('15-NOV-2013 12:00:00', 'DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('16-NOV-2013 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
 
 --Examination (id_examination,id_doctor_reception,complaints)
-INSERT INTO Examination VALUES(1,1,'Больно наступать на ногу, нога опухла');
-INSERT INTO Examination VALUES(2,2,'Высокая температура, общая слабость, кашель');
-INSERT INTO Examination VALUES(3,3,'Боль в горле');
+INSERT INTO Examination VALUES(id_examination.nextval,1,'It hurts to step on foot, foot swollen');
+INSERT INTO Examination VALUES(id_examination.nextval,2,'Fever, weakness, cough');
+INSERT INTO Examination VALUES(id_examination.nextval,3,'Pharyngalgia');
 
---Laboratory_reception (id_laboratory_reception,id_examination,id_laboratory,analysis_date,analysis_result,id_analisis)
-INSERT INTO Laboratory_reception VALUES(1,2,1,TO_DATE('15-11-2013', 'dd-mm-yyyy'),'Все показатели в норме',1);
-INSERT INTO Laboratory_reception VALUES(2,2,1,TO_DATE('15-11-2013', 'dd-mm-yyyy'),'Все показатели в норме',2);
+--Laboratory_reception (id_laboratory_reception,id_examination,id_laboratory,analysis_date,analysis_result,id_analysis)
+INSERT INTO Laboratory_reception VALUES(id_laboratory_reception.nextval,2,1,TO_DATE('15-NOV-2013', 'dd-mm-yyyy'),'Normal',1);
+INSERT INTO Laboratory_reception VALUES(id_laboratory_reception.nextval,2,1,TO_DATE('15-NOV-2013', 'dd-mm-yyyy'),'Normal',2);
 
---Treatment (id_treatment,id_examination,id_drug,dosage,quantity,duration)
-INSERT INTO Treatment VALUES(1,1,1,600,3,5);
-INSERT INTO Treatment VALUES(2,1,7,10,3,5);
-INSERT INTO Treatment VALUES(3,3,8,1,5,5);
-INSERT INTO Treatment VALUES(4,3,9,0.5,3,5);
+--Treatment (id_treatment,id_examination,id_drug,id_measure,dosage,quantity,duration)
+INSERT INTO Treatment VALUES(id_treatment.nextval,1,1,2,600,3,5);
+INSERT INTO Treatment VALUES(id_treatment.nextval,1,7,3,10,3,5);
+INSERT INTO Treatment VALUES(id_treatment.nextval,3,8,2,1,5,5);
+INSERT INTO Treatment VALUES(id_treatment.nextval,3,9,2,0.5,3,5);
 
 
 --Diagnosis (id_diagnosis,id_examination,id_illness)
-INSERT INTO Diagnosis VALUES(1,1,6);
-INSERT INTO Diagnosis VALUES(2,3,11);
+INSERT INTO Diagnosis VALUES(id_diagnosis.nextval,1,6);
+INSERT INTO Diagnosis VALUES(id_diagnosis.nextval,3,9);
+
+

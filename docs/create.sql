@@ -33,18 +33,18 @@ ALTER TABLE Medical_card ADD CONSTRAINT FKMedical_card_state FOREIGN KEY (id_sta
 ALTER TABLE Medical_card ADD CONSTRAINT FKMedical_card_patient FOREIGN KEY (id_patient) REFERENCES Patient (id_patient);
 
 CREATE TABLE Group_info (
-  id_group        number(10) NOT NULL, 
+  id_group_info        number(10) NOT NULL, 
   group_title     varchar2(20) NOT NULL UNIQUE, 
-  PRIMARY KEY (id_group));
+  PRIMARY KEY (id_group_info));
   
 CREATE TABLE Additional_info (
   id_info         number(10) NOT NULL, 
   id_medical_card number(10) NOT NULL, 
-  id_group        number(10) NOT NULL, 
+  id_group_info        number(10) NOT NULL, 
   description     varchar2(255) NOT NULL, 
   PRIMARY KEY (id_info));
 
- ALTER TABLE Additional_info ADD CONSTRAINT FKMAdditional_info_group FOREIGN KEY (id_group) REFERENCES Group_info (id_group);
+ ALTER TABLE Additional_info ADD CONSTRAINT FKMAdditional_info_group FOREIGN KEY (id_group_info) REFERENCES Group_info (id_group_info);
  ALTER TABLE Additional_info ADD CONSTRAINT FKMAdditional_info_card FOREIGN KEY (id_medical_card) REFERENCES Medical_card (id_medical_card);
  
 CREATE TABLE History_type (
@@ -78,17 +78,17 @@ CREATE TABLE Doctor (
 ALTER TABLE Doctor ADD CONSTRAINT FKDoctor_spec FOREIGN KEY (id_specialization) REFERENCES Specialization (id_specialization);
  
 CREATE TABLE Group_illnesses (
-  id_group          number(10) NOT NULL, 
+  id_group_illnesses          number(10) NOT NULL, 
   ilnesses_gr_title varchar2(50) NOT NULL UNIQUE, 
-  PRIMARY KEY (id_group));
+  PRIMARY KEY (id_group_illnesses));
   
 CREATE TABLE Illnesses (
   id_illness      number(10) NOT NULL, 
   illnesses_title varchar2(50) NOT NULL UNIQUE, 
-  id_group        number(10) NOT NULL, 
+  id_group_illnesses        number(10) NOT NULL, 
   PRIMARY KEY (id_illness));
   
-ALTER TABLE Illnesses ADD CONSTRAINT FKIllnesses_gr FOREIGN KEY (id_group) REFERENCES Group_illnesses (id_group);
+ALTER TABLE Illnesses ADD CONSTRAINT FKIllnesses_gr FOREIGN KEY (id_group_illnesses) REFERENCES Group_illnesses (id_group_illnesses);
 
 CREATE TABLE Drugs (
   id_drug          number(10) NOT NULL, 
@@ -108,7 +108,7 @@ CREATE TABLE Work_time (
   
 CREATE TABLE Week_day (
   id_week_day number(10) NOT NULL, 
-  week_day    DATE NOT NULL UNIQUE, 
+  week_day     varchar2(10) NOT NULL UNIQUE, 
   PRIMARY KEY (id_week_day));
     
   
@@ -174,7 +174,7 @@ CREATE TABLE Examination (
   id_analysis             number(10) NOT NULL, 
   PRIMARY KEY (id_laboratory_reception));
   
-ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_an FOREIGN KEY (id_analisis) REFERENCES Analysis (id_analysis);
+ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_an FOREIGN KEY (id_analysis) REFERENCES Analysis (id_analysis);
 ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_exam FOREIGN KEY (id_examination) REFERENCES Examination (id_examination);
 ALTER TABLE Laboratory_reception ADD CONSTRAINT FKLaboratory_reception_lab FOREIGN KEY (id_laboratory) REFERENCES Laboratory (id_laboratory);
 
@@ -201,28 +201,28 @@ CREATE TABLE Diagnosis (
 ALTER TABLE Diagnosis ADD CONSTRAINT FKDiagnosis_il FOREIGN KEY (id_illness) REFERENCES Illnesses (id_illness);
 ALTER TABLE Diagnosis ADD CONSTRAINT FKDiagnosis_exam FOREIGN KEY (id_examination) REFERENCES Examination (id_examination);
 
-CREATE SEQUENCE seq_Specialization;
-CREATE SEQUENCE seq_History_type;
-CREATE SEQUENCE seq_Card_state;
-CREATE SEQUENCE seq_Sex;
-CREATE SEQUENCE seq_Time;
-CREATE SEQUENCE seq_Week_day;
-CREATE SEQUENCE seq_Drugs;
-CREATE SEQUENCE seq_Measure;
-CREATE SEQUENCE seq_Group_illnesses;
-CREATE SEQUENCE seq_Illnesses;
-CREATE SEQUENCE seq_Analysis;
-CREATE SEQUENCE seq_Treatment;
-CREATE SEQUENCE seq_Laboratory;
-CREATE SEQUENCE seq_Doctor;
-CREATE SEQUENCE seq_Diagnosis;
-CREATE SEQUENCE seq_Laboratory_reception;
-CREATE SEQUENCE seq_Doctor_reception;
-CREATE SEQUENCE seq_Examination;
-CREATE SEQUENCE seq_Medical_history;
-CREATE SEQUENCE seq_Patient;
-CREATE SEQUENCE seq_Medical_card;
-CREATE SEQUENCE seq_Group_info;
-CREATE SEQUENCE seq_Additional_info;
+CREATE SEQUENCE id_specialization;
+CREATE SEQUENCE id_history_type;
+CREATE SEQUENCE id_state;
+CREATE SEQUENCE id_sex;
+CREATE SEQUENCE id_time;
+CREATE SEQUENCE id_week_day;
+CREATE SEQUENCE id_drug;
+CREATE SEQUENCE id_measure;
+CREATE SEQUENCE id_group_illnesses;
+CREATE SEQUENCE id_illness;
+CREATE SEQUENCE id_analysis;
+CREATE SEQUENCE id_treatment;
+CREATE SEQUENCE id_laboratory;
+CREATE SEQUENCE id_doctor;
+CREATE SEQUENCE id_diagnosis;
+CREATE SEQUENCE id_laboratory_reception;
+CREATE SEQUENCE id_doctor_reception;
+CREATE SEQUENCE id_examination;
+CREATE SEQUENCE id_medical_history;
+CREATE SEQUENCE id_patient;
+CREATE SEQUENCE id_medical_card;
+CREATE SEQUENCE id_group_info;
+CREATE SEQUENCE id_info;
 
 
