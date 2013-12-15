@@ -26,8 +26,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Doctor.findByIdDoctor", query = "SELECT d FROM Doctor d WHERE d.idDoctor = :idDoctor"),
     @NamedQuery(name = "Doctor.findByLastName", query = "SELECT d FROM Doctor d WHERE d.lastName = :lastName")})
 public class Doctor implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
-    private Collection<DoctorSchedule> doctorScheduleCollection;
     @Id
     @GeneratedValue(strategy=SEQUENCE, generator="ID_DOCTOR")
     @NotNull
@@ -50,6 +48,8 @@ public class Doctor implements Serializable {
     private Specialization idSpecialization;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDoctor")
     private Collection <DoctorReception> doctorReceptions;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
+    private Collection<DoctorSchedule> doctorSchedules;
 
     public Doctor() {
     }
@@ -136,12 +136,15 @@ public class Doctor implements Serializable {
         return "Doctor[ idDoctor=" + idDoctor + ",firstName=" + firstName + ",lastName=" + lastName + ",patronymic=" + patronymic + ",idSpecialization=" + idSpecialization + " ]";
     }
 
-    public Collection<DoctorSchedule> getDoctorScheduleCollection() {
-        return doctorScheduleCollection;
+    public Collection<DoctorSchedule> getDoctorSchedules() {
+        return doctorSchedules;
     }
 
-    public void setDoctorScheduleCollection(Collection<DoctorSchedule> doctorScheduleCollection) {
-        this.doctorScheduleCollection = doctorScheduleCollection;
+    public void addDoctorSchedules(DoctorSchedule doctorSchedule) {
+        if (this.doctorSchedules==null){
+            this.doctorSchedules=new ArrayList<DoctorSchedule>();
+        }
+        this.doctorSchedules.add(doctorSchedule);
     }
     
 }

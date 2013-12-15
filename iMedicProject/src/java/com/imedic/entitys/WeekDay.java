@@ -98,7 +98,7 @@ public class WeekDay implements Serializable {
         return laboratorySchedules;
     }
 
-    public void setLaboratorySchedule(LaboratorySchedule laboratorySchedule) {
+    public void addLaboratorySchedule(LaboratorySchedule laboratorySchedule) {
         if (this.laboratorySchedules==null){
             this.laboratorySchedules=new ArrayList<LaboratorySchedule>();
         }

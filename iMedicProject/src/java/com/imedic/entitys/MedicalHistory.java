@@ -41,7 +41,7 @@ public class MedicalHistory implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "DESCRIPTION")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDoctor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMedicalHistory")
     private Collection <DoctorReception> doctorReceptions;
 
     public MedicalHistory() {

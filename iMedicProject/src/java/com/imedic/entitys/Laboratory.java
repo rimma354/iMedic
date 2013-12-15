@@ -23,8 +23,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Laboratory.findAll", query = "SELECT l FROM Laboratory l"),
     @NamedQuery(name = "Laboratory.findByIdLaboratory", query = "SELECT l FROM Laboratory l WHERE l.idLaboratory = :idLaboratory")})
 public class Laboratory implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratory")
-    private Collection<LaboratorySchedule> laboratoryScheduleCollection;
     @Id
     @GeneratedValue(strategy=SEQUENCE, generator="ID_LABORATORY")
     @NotNull
@@ -34,8 +32,10 @@ public class Laboratory implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "LAB_TITLE")
     private String labTitle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idExamination")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLaboratory")
     private Collection<LaboratoryReception> laboratoryReceptions;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratory")
+    private Collection<LaboratorySchedule> laboratorySchedules;
     
     public Laboratory() {
     }
@@ -95,12 +95,15 @@ public class Laboratory implements Serializable {
         return "comLaboratory[ idLaboratory=" + idLaboratory + ",labTitle=" + labTitle + " ]";
     }
 
-    public Collection<LaboratorySchedule> getLaboratoryScheduleCollection() {
-        return laboratoryScheduleCollection;
+    public Collection<LaboratorySchedule> getLaboratorySchedules() {
+        return laboratorySchedules;
     }
 
-    public void setLaboratoryScheduleCollection(Collection<LaboratorySchedule> laboratoryScheduleCollection) {
-        this.laboratoryScheduleCollection = laboratoryScheduleCollection;
+    public void addLaboratorySchedule(LaboratorySchedule laboratorySchedule) {
+        if (this.laboratorySchedules==null){
+            this.laboratorySchedules=new ArrayList<LaboratorySchedule>();
+        }
+        this.laboratorySchedules.add(laboratorySchedule);
     }
     
 }

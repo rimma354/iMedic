@@ -32,7 +32,7 @@ public class Analysis implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "ANALYSIS_TITLE")
     private String analysisTitle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idExamination")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalysis")
     private Collection<LaboratoryReception> laboratoryReceptions;
     
     public Analysis() {
