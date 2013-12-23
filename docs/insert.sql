@@ -6,7 +6,7 @@ INSERT INTO Card_state VALUES (id_state.nextval, 'Close');
 INSERT INTO Sex VALUES (id_sex.nextval, 'Men');
 INSERT INTO Sex VALUES (id_sex.nextval, 'Women');
 
---Patient(id_patient,first_name,last_name,patronymic,id_sex, date_birth, telephone,passport,insurance_number)
+--Patient(id_patient,last_name,first_name,patronymic,id_sex, date_birth, telephone,passport,insurance_number)
 INSERT INTO Patient VALUES (id_patient.nextval,'Ivanov','Ivan','Ivanovich',1,TO_DATE('1981-03-17', 'YYYY-MM-DD'),380481234560,1111222220,0123456780);
 INSERT INTO Patient VALUES (id_patient.nextval,'Pavlova','Tatiana','Viacheslavovna',2,TO_DATE('1978-11-14', 'YYYY-MM-DD'),380481234561,1111222221,0123456781);
 INSERT INTO Patient VALUES (id_patient.nextval,'Gerasimov','Nikolay','Grigorievich',1,TO_DATE('1990-02-06', 'YYYY-MM-DD'),380481234562,1111222222,0123456782);
@@ -17,7 +17,7 @@ INSERT INTO Patient VALUES (id_patient.nextval,'Danilov','Sergey','Valentinovich
 INSERT INTO Patient VALUES (id_patient.nextval,'Smirnov','Konstantin','Pavlovich',1,TO_DATE('1981-11-17', 'YYYY-MM-DD'),380481234567,1111222227,0123456787);
 INSERT INTO Patient VALUES (id_patient.nextval,'Katina','Elena','Petrovna',2,TO_DATE('1964-10-22', 'YYYY-MM-DD'),380481234568,1111222228,0123456788);
 INSERT INTO Patient VALUES (id_patient.nextval,'Sidorava','Valentina','Mihaylovna',2,TO_DATE('1993-07-28', 'YYYY-MM-DD'),380481234569,1111222229,0123456789);
-
+INSERT INTO Patient VALUES (id_patient.nextval,'Ivanov','Oleg','Sergeevich',1,TO_DATE('1990-08-12', 'YYYY-MM-DD'),380487778890,1111222230,0123456790);
 --Medical_card (id_medical_card,id_patient,id_state)
 INSERT INTO Medical_card VALUES (id_medical_card.nextval,1,1);
 INSERT INTO Medical_card VALUES (id_medical_card.nextval,2,1);
@@ -29,7 +29,7 @@ INSERT INTO Medical_card VALUES (id_medical_card.nextval,7,1);
 INSERT INTO Medical_card VALUES (id_medical_card.nextval,8,1);
 INSERT INTO Medical_card VALUES (id_medical_card.nextval,9,1);
 INSERT INTO Medical_card VALUES (id_medical_card.nextval,10,1);
-
+INSERT INTO Medical_card VALUES (id_medical_card.nextval,11,1);
 --Group_info (id_group_info,group_title)
 INSERT INTO Group_info VALUES (id_group_info.nextval,'Allergy');
 INSERT INTO Group_info VALUES (id_group_info.nextval,'Blood_group');

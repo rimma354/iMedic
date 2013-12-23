@@ -10,8 +10,8 @@ CREATE TABLE Sex (
   
 CREATE TABLE Patient (
   id_patient       number(10) NOT NULL, 
-  first_name       varchar2(50) NOT NULL, 
   last_name        varchar2(50) NOT NULL, 
+  first_name       varchar2(50) NOT NULL, 
   patronymic       varchar2(50) NOT NULL, 
   id_sex           number(10) NOT NULL, 
   date_birth       date NOT NULL, 
