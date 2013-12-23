@@ -40,8 +40,8 @@ public class MedicalCard implements Serializable {
     private CardState idState;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMedicalCard")
 //    private Collection <MedicalHistory> medicalHistories;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMedicalCard")
-//    private Collection <AdditionalInfo> additionalInfos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMedicalCard")
+    private Collection <AdditionalInfo> additionalInfos;
     
     public MedicalCard() {
     }
@@ -87,16 +87,16 @@ public class MedicalCard implements Serializable {
 //        this.medicalHistories.add(medicalHistory);
 //    }
 //  
-//     public Collection<AdditionalInfo> getAdditionalInfos() {
-//        return additionalInfos;
-//    }
-//
-//    public void addMAdditionalInfo(AdditionalInfo additionalInfo) {
-//        if (this.additionalInfos==null){
-//            this.additionalInfos=new ArrayList<AdditionalInfo>();
-//        }
-//        this.additionalInfos.add(additionalInfo);
-//    }
+     public Collection<AdditionalInfo> getAdditionalInfos() {
+        return additionalInfos;
+    }
+
+    public void addMAdditionalInfo(AdditionalInfo additionalInfo) {
+        if (this.additionalInfos==null){
+            this.additionalInfos=new ArrayList<AdditionalInfo>();
+        }
+        this.additionalInfos.add(additionalInfo);
+    }
 
     @Override
     public int hashCode() {
