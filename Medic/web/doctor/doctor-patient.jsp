@@ -1,3 +1,7 @@
+<%@page import="java.util.Collection"%>
+<%@page import="java.util.List"%>
+<%@page import="com.medic.entity.AdditionalInfo"%>
+<%@page import="com.medic.facade.AdditionalInfoFacadeLocal"%>
 <%@page import="com.medic.entity.MedicalCard"%>
 <%@page import="com.medic.facade.MedicalCardFacadeLocal"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -73,6 +77,7 @@
                 .my-controls {
                     margin-left: 270px;
                 }
+
             </style> 
         </div>
         <div id="openModal3" class="modalDialog">
@@ -92,10 +97,12 @@
 
             String patientId = request.getParameter("id");
             Patient patient = null;
-            MedicalCard card=null;
+            MedicalCard card = null;
+            Collection<AdditionalInfo> additionalInfo = null;
             InitialContext ic = new InitialContext();
-            PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/LocalRef");
-            MedicalCardFacadeLocal localCard = (MedicalCardFacadeLocal) ic.lookup("java:comp/env/ejb/LocalRef2");
+            PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/PatientRef");
+            MedicalCardFacadeLocal localCard = (MedicalCardFacadeLocal) ic.lookup("java:comp/env/ejb/MedicalCardRef");
+            AdditionalInfoFacadeLocal localInfo = (AdditionalInfoFacadeLocal) ic.lookup("java:comp/env/ejb/AdditionalInfoRef");
             String str = "";
             Integer id = null;
             if (patientId != null) {
@@ -103,14 +110,14 @@
             }
             if (id != null) {
                 patient = localPatient.find(id);
-                card=patient.getIdMedicalCard();
-                
+                card = patient.getIdMedicalCard();
+                additionalInfo = card.getAdditionalInfos();
             }
-           str = patient.getLastName() + " " + patient.getFirstName() + " " + patient.getPatronymic();
-           SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-           String birth= sdf.format(patient.getDateBirth());
+            str = patient.getLastName() + " " + patient.getFirstName() + " " + patient.getPatronymic();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String birth = sdf.format(patient.getDateBirth());
         %>
-        
+
 
 
         <div class="tabbable">
@@ -147,7 +154,7 @@
                                     <div class="control-group">
                                         <label class="my-control-label" for="card" >Medical card</label>
                                         <div class="my-controls">
-                                            <input type="text" id="card" readonly placeholder="<%= card.getIdMedicalCard() %>">
+                                            <input type="text" id="card" readonly placeholder="<%= card.getIdMedicalCard()%>">
                                         </div>
                                     </div>	
 
@@ -194,38 +201,74 @@
                                     <div class="control-group">
                                         <label class="my-control-label" for="outputChronicDiseases" >Chronic illness</label>
                                         <div class="my-controls">
-                                            <input type="text" id="outputChronicDiseases" readonly placeholder="some data">
+                                            <input type="text" id="outputChronicDiseases" readonly placeholder="<%
+                                                for (AdditionalInfo someInfo : additionalInfo) {
+                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 3) {
+                                                        out.print(someInfo.getDescription());
+                                                    }
+                                                }
+                                                   %>">
                                         </div>
                                     </div>	
                                     <div class="control-group">
                                         <label class="my-control-label" for="outputDrugIntolerance">Drug intolerance</label>
                                         <div class="my-controls">
-                                            <input type="text" id="outputDrugIntolerance" readonly placeholder="some data">
+                                            <input type="text" id="outputDrugIntolerance" readonly placeholder="<%
+                                                for (AdditionalInfo someInfo : additionalInfo) {
+                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 4) {
+                                                        out.print(someInfo.getDescription());
+                                                    }
+                                                }
+                                                   %>">
                                         </div>
                                     </div>	
                                     <div class="control-group">
                                         <label class="my-control-label" for="outputAllergy">Allergies</label>
                                         <div class="my-controls">
-                                            <input type="text" id="outputAllergy" readonly placeholder="some data">
+                                            <input type="text" id="outputAllergy" readonly placeholder="<%
+                                                for (AdditionalInfo someInfo : additionalInfo) {
+                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 1) {
+                                                        out.print(someInfo.getDescription());
+                                                    }
+                                                }
+                                                   %>">
                                         </div>
                                     </div>	
                                     <div class="control-group">
                                         <label class="my-control-label" for="outputVaccinations">Vaccinations</label>
                                         <div class="my-controls">
-                                            <input type="text" id="outputVaccinations" readonly placeholder="some data">
+                                            <input type="text" id="outputVaccinations" readonly placeholder="<%
+                                                for (AdditionalInfo someInfo : additionalInfo) {
+                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 6) {
+                                                        out.print(someInfo.getDescription());
+                                                    }
+                                                }
+                                                   %>">
                                         </div>
                                     </div>	
                                     <div class="control-group">
                                         <label class="my-control-label" for="outputBloodGroup">Blood group</label>
                                         <div class="my-controls">
-                                            <input type="text" id="outputBloodGroup" readonly placeholder="some data">
+                                            <input type="text" id="outputBloodGroup" readonly placeholder="<%
+                                                for (AdditionalInfo someInfo : additionalInfo) {
+                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 2) {
+                                                        out.print(someInfo.getDescription());
+                                                    }
+                                                }
+                                                   %>">
                                         </div>
                                     </div>
 
                                     <div class="control-group">
                                         <label class="my-control-label" for="outputRHFactor">RH factor</label>
                                         <div class="my-controls">
-                                            <input type="text" id="outputRHFactor" readonly placeholder="some data">
+                                            <input type="text" id="outputRHFactor" readonly placeholder="<%
+                                                for (AdditionalInfo someInfo : additionalInfo) {
+                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 5) {
+                                                        out.print(someInfo.getDescription());
+                                                    }
+                                                }
+                                                   %>">
                                         </div>
                                     </div>
 

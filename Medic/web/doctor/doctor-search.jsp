@@ -117,7 +117,7 @@
             String patientLastName = request.getParameter("lastName");
             List<Patient> patients = null;
             InitialContext ic = new InitialContext();
-            PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/LocalRef");
+            PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/PatientRef");
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             if (patientLastName != null) {
                 patients = localPatient.findByLastName(patientLastName);
