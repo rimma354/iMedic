@@ -21,14 +21,43 @@
     <body>
         <h1>Hello World!</h1>
         <%
-        
-         
-            InitialContext ic = new InitialContext();
-             ExaminationFacadeLocal localExam = (ExaminationFacadeLocal) ic.lookup("java:comp/env/ejb/ExaminationRef");
-            Collection <Examination> exams=localExam.findAll();
-            for (Examination someExam: exams){
-                 out.print(someExam.getIdExamination()+" "+someExam.getIdDoctorReception()+"!");
-            }
+            String pa=request.getParameter("a");
+            String pb=request.getParameter("b");
+            String pAction=request.getParameter("action");
+
+           out.print(pa+" !!!!!!!! ");
+           out.print(pb+ " !!!!");
+           
+           if ("first".equals(pAction)){
+               if (pa == null)
+                   out.print("NULL");
+                  else  {
+                   if (pa.equals(""))
+                   out.print("PUSTOE");
+                   else 
+                        out.print("!"+pa+"NONE");
+                  
+                     
+           }}
+             if ("second".equals(pAction)){
+               if (pb == null)
+                   out.print("NULL");
+                  else  {
+                   if (pb == "")
+                   out.print("PUSTOE");
+                   else 
+                        out.print("!"+pb+"NONE");
+                  
+                     
+           }}
         %>
+        <form action='test.jsp' method="Post">
+            <input type='text' name="a">
+            <button type="submit" name="action" value="first" class="btn">sss</button>
+        </form>
+         <form action='test.jsp' method="GET">
+            <input type="text" name="b">
+            <button type="submit" name="action" value="second" class="btn">sss</button>
+        </form>
     </body>
 </html>

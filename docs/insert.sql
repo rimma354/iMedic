@@ -183,6 +183,10 @@ INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,1,1,TO_DATE('11-
 INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,2,TO_DATE('15-NOV-2013 12:00:00', 'DD-MON-YYYY HH24:MI:SS'));
 INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('16-NOV-2013 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
 INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('08-JAN-2014 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('01-NOV-2013 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('02-JAN-2014 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('03-NOV-2013 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('04-JAN-2014 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
 
 --Examination (id_examination,id_doctor_reception,complaints)
 INSERT INTO Examination VALUES(id_examination.nextval,1,'It hurts to step on foot, foot swollen');

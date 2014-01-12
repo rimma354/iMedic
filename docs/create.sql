@@ -184,7 +184,7 @@ CREATE TABLE Treatment (
   id_drug        number(10) NOT NULL,
   id_measure     number(10) NOT NULL,
   dosage         number(10,2) NOT NULL, 
-  quantity       number(10) NOT NULL, 
+  quantity       number(10,2) NOT NULL, 
   duration       number(10) NOT NULL, 
   PRIMARY KEY (id_treatment));
  

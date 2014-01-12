@@ -56,4 +56,34 @@
         <local>com.medic.facade.local.MeasureFacadeLocal</local>
         <ejb-link>MeasureBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/TreatmentRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.TreatmentFacadeLocal</local>
+        <ejb-link>TreatmentBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/IllnessesRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.IllnessesFacadeLocal</local>
+        <ejb-link>IllnessesBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/DiagnosisRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.DiagnosisFacadeLocal</local>
+        <ejb-link>DiagnosisBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/LaboratoryReceptionRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.LaboratoryReceptionFacadeLocal</local>
+        <ejb-link>LaboratoryReceptionBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/AnalysisRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.AnalysisFacadeLocal</local>
+        <ejb-link>AnalysisBean</ejb-link>
+    </ejb-local-ref>
 </web-app>

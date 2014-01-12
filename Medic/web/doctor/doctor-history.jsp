@@ -34,7 +34,6 @@
             String pDocReception = request.getParameter("reception");
             String pComplaints = request.getParameter("complaints");
             String pAction = request.getParameter("action");
-
             Integer historyId = null;
             Integer idDoctorReception = null;
             MedicalHistory history = null;
@@ -54,10 +53,10 @@
 
             historyId = Integer.valueOf(pHistoryId);
             history = localHistory.find(historyId);
-         
 
             if ("newExam".equals(pAction)) {
-                if ((pComplaints == "")) {%>
+                if ("".equals(pComplaints) || "null".equals(pDocReception)) {
+        %>
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4>Error!</h4>
@@ -70,18 +69,16 @@
             localExamination.create(newExamination);
             checkedReception.setIdExamination(newExamination);
             localReception.edit(checkedReception);
-            %>
+        %>
         <div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             You successfully added new examination!
         </div>
         <%
-                }  
+                }
             }
             receptions = history.getDoctorReceptions();
             patient = history.getIdMedicalCard().getIdPatient();
-
-
         %>
 
         <div class="tabbable">
@@ -126,26 +123,29 @@
 
                         </p>
 
-                        <div class="modal" id="newExam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" <%if (request.getParameter("docRec") == null) {%> style="display: none;"<%}%>>
+                        <div class="modal" id="newExam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" <%if (!"ckechReception".equals(pAction)) {%> style="display: none;"<%}%>>
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 id="myModalLabel">Creating new examination</h4>
                             </div>
-                            <form class="form-horizontal" method="GET">
-                                <input type="hidden"  name="id"  value="<%=historyId%>">
+                            <form class="form-horizontal" method="POST">
                                 <div class="modal-body">
-                                    <div class="control-group">
+                                    <div class="control-group warning">
                                         <label class="my-control-label" for="outputReception">Doctor reception</label>
                                         <div class="my-controls">
                                             <input type="text" id="outputReception" name="reception" readonly style="width: 200px;" value="<%=request.getParameter("docRec")%>">
                                             <a href="#ckechReception" role="button" class="btn" data-toggle="modal">...</a>
                                         </div>
                                     </div>
-                                    <div class="control-group">
+                                    <div class="control-group warning">
                                         <label class="my-control-label" for="outputComplaints">Complaints</label>
                                         <div class="my-controls">
-                                            <textarea rows="5" id="outputComplaints" name="complaints"></textarea>
+                                            <textarea rows="5" id="outputComplaints" name="complaints" ></textarea>
                                         </div>
+                                    </div>
+                                    <div class="alert alert-block">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <b>Attention!</b>Highlighted fields are mandatory.
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -161,8 +161,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 id="myModalLabel">Check reception</h4>
                             </div>
-                            <form class="form-horizontal" method="GET">
-                                <input type="hidden"  name="id"  value="<%=historyId%>">
+                            <form class="form-horizontal" method="POST">
 
                                 <%  for (DoctorReception someReception : receptions) {
                                         if (someReception.getIdExamination() == null) {
@@ -176,6 +175,7 @@
                                     </label>
                                     <div class="my-controls">
                                         <input type ="radio" id="outputReception" name="docRec" value="<%=someReception.getIdDoctorReception()%>">
+
                                     </div>
 
 
@@ -184,7 +184,7 @@
                                     }%>
                                 <div class="modal-footer">
                                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                    <button class="btn btn-primary" >Check</button>
+                                    <button  type="submit" name="action" value="ckechReception" class="btn btn-primary" >Check</button>
                             </form>
                         </div>
 

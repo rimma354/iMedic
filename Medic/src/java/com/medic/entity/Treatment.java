@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotNull;
 public class Treatment implements Serializable {
     @Id
     @GeneratedValue(strategy=SEQUENCE, generator="ID_TREATMENT")
+    @SequenceGenerator(name = "ID_TREATMENT", sequenceName = "ID_TREATMENT", allocationSize = 1)
     @NotNull
     @Column(name = "ID_TREATMENT")
     private Integer idTreatment;
@@ -38,7 +40,7 @@ public class Treatment implements Serializable {
     private Double dosage;
     @NotNull
     @Column(name = "QUANTITY")
-    private Integer quantity;
+    private Double quantity;
     @NotNull
     @Column(name = "DURATION")
     private Integer duration;
@@ -49,8 +51,7 @@ public class Treatment implements Serializable {
     public Treatment() {
     }
 
-    public Treatment(Integer idTreatment,Examination idExamination, Drugs idDrug, Measure idMeasure, Double dosage, Integer quantity, Integer duration) {
-        this.idTreatment = idTreatment;
+    public Treatment(Examination idExamination, Drugs idDrug, Measure idMeasure, Double dosage, Double quantity, Integer duration) {
         this.idExamination=idExamination;
         this.idDrug=idDrug;
         this.idMeasure=idMeasure;
@@ -97,11 +98,11 @@ public class Treatment implements Serializable {
         this.dosage = dosage;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 

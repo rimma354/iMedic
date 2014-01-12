@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,6 +26,7 @@ import javax.validation.constraints.Size;
 public class Analysis implements Serializable {
     @Id
     @GeneratedValue(strategy=SEQUENCE, generator="ID_ANALYSIS")
+    @SequenceGenerator(name = "ID_ANALYSIS", sequenceName = "ID_ANALYSIS", allocationSize = 1)
     @NotNull
     @Column(name = "ID_ANALYSIS")
     private Integer idAnalysis;
@@ -38,8 +40,7 @@ public class Analysis implements Serializable {
     public Analysis() {
     }
 
-    public Analysis(Integer idAnalysis, String analysisTitle) {
-        this.idAnalysis = idAnalysis;
+    public Analysis(String analysisTitle) {
         this.analysisTitle = analysisTitle;
     }
 

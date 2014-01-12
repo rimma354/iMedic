@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
@@ -27,32 +28,38 @@ import javax.validation.constraints.Size;
 public class LaboratoryReception implements Serializable {
     @Id
     @GeneratedValue(strategy=SEQUENCE, generator="ID_LABORATORY_RECEPTION")
+    @SequenceGenerator(name = "ID_LABORATORY_RECEPTION", sequenceName = "ID_LABORATORY_RECEPTION", allocationSize = 1)
     @NotNull
     @Column(name = "ID_LABORATORY_RECEPTION")
     private Integer idLaboratoryReception;
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "ID_EXAMINATION")
     private Examination idExamination;
     @ManyToOne
     @JoinColumn(name = "ID_LABORATORY")
     private Laboratory idLaboratory;
-    @NotNull
     @Column(name = "ANALYSIS_DATE")
     @Temporal(DATE)
     private Date analysisDate;
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "ANALYSIS_RESULT")
     private String analysisResult;
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "ID_ANALYSIS")
     private Analysis idAnalysis;
 
-    public LaboratoryReception() {
+    public LaboratoryReception(){
+        
+    }
+    
+    public LaboratoryReception(Examination idExamination,Analysis idAnalysis) {
+        this.idExamination=idExamination;
+        this.idAnalysis=idAnalysis; 
     }
 
-    public LaboratoryReception(Integer idLaboratoryReception,Examination idExamination,Laboratory idLaboratory, Date analysisDate, String analysisResult,Analysis idAnalysis) {
-        this.idLaboratoryReception = idLaboratoryReception;
+    public LaboratoryReception(Examination idExamination,Laboratory idLaboratory, Date analysisDate, String analysisResult,Analysis idAnalysis) {
         this.idExamination=idExamination;
         this.idLaboratory=idLaboratory;
         this.analysisDate = analysisDate;

@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,6 +24,7 @@ import javax.validation.constraints.Size;
 public class Diagnosis implements Serializable {
     @Id
     @GeneratedValue(strategy=SEQUENCE, generator="ID_DIAGNOSIS")
+    @SequenceGenerator(name = "ID_DIAGNOSIS", sequenceName = "ID_DIAGNOSIS", allocationSize = 1)
     @NotNull
     @Column(name = "ID_DIAGNOSIS")
     private Integer idDiagnosis;
@@ -38,8 +40,7 @@ public class Diagnosis implements Serializable {
     public Diagnosis() {
     }
 
-    public Diagnosis(Integer idDiagnosis, Examination idExamination, Illnesses idIllness) {
-        this.idDiagnosis = idDiagnosis;
+    public Diagnosis(Examination idExamination, Illnesses idIllness) {
         this.idExamination=idExamination;
         this.idIllness=idIllness;
     }
