@@ -15,10 +15,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "EXAMINATION")
@@ -26,8 +26,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Examination.findAll", query = "SELECT e FROM Examination e"),
     @NamedQuery(name = "Examination.findByIdExamination", query = "SELECT e FROM Examination e WHERE e.idExamination = :idExamination")})
 public class Examination implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_EXAMINATION")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_EXAMINATION")
+    @SequenceGenerator(name = "ID_EXAMINATION", sequenceName = "ID_EXAMINATION", allocationSize = 1)
     @NotNull
     @Column(name = "ID_EXAMINATION")
     private Integer idExamination;
@@ -45,14 +47,14 @@ public class Examination implements Serializable {
     private Collection<LaboratoryReception> laboratoryReceptions;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idExamination")
     private Collection<Diagnosis> diagnoses;
-    
+
     public Examination() {
     }
 
-    public Examination(Integer idExamination,DoctorReception idDoctorReception, String complaints) {
-        this.idExamination = idExamination;
-        this.idDoctorReception = idDoctorReception;
-        this.complaints = complaints;
+    public Examination(DoctorReception idDoctorReception, String complaints) {
+            this.idDoctorReception = idDoctorReception;
+            this.complaints = complaints;
+       
     }
 
     public Integer getIdExamination() {
@@ -84,8 +86,8 @@ public class Examination implements Serializable {
     }
 
     public void addTreatment(Treatment treatment) {
-        if (this.treatments==null){
-            this.treatments=new ArrayList<Treatment>();
+        if (this.treatments == null) {
+            this.treatments = new ArrayList<Treatment>();
         }
         this.treatments.add(treatment);
     }
@@ -95,19 +97,19 @@ public class Examination implements Serializable {
     }
 
     public void addLaboratoryReception(LaboratoryReception laboratoryReception) {
-        if (this.laboratoryReceptions==null){
-            this.laboratoryReceptions=new ArrayList<LaboratoryReception>();
+        if (this.laboratoryReceptions == null) {
+            this.laboratoryReceptions = new ArrayList<LaboratoryReception>();
         }
         this.laboratoryReceptions.add(laboratoryReception);
     }
- 
+
     public Collection<Diagnosis> getDiagnoses() {
         return this.diagnoses;
     }
 
     public void addDiagnosis(Diagnosis diagnosis) {
-        if (this.diagnoses==null){
-            this.diagnoses=new ArrayList<Diagnosis>();
+        if (this.diagnoses == null) {
+            this.diagnoses = new ArrayList<Diagnosis>();
         }
         this.diagnoses.add(diagnosis);
     }
@@ -115,8 +117,8 @@ public class Examination implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idExamination!=null){
-            hash +=idExamination.hashCode();
+        if (idExamination != null) {
+            hash += idExamination.hashCode();
         }
         return hash;
     }
@@ -127,12 +129,12 @@ public class Examination implements Serializable {
             return false;
         }
         Examination other = (Examination) object;
-        return this.idExamination.equals(other.idExamination);   
+        return this.idExamination.equals(other.idExamination);
     }
 
     @Override
     public String toString() {
         return "Examination[ idExamination=" + idExamination + ",idDoctorReception=" + idDoctorReception + ",complaints=" + complaints + " ]";
     }
-    
+
 }

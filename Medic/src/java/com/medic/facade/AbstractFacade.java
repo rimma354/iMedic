@@ -7,7 +7,9 @@
 package com.medic.facade;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+
 
 /**
  *
@@ -24,6 +26,8 @@ public abstract class AbstractFacade<T> {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
+        
     }
 
     public void edit(T entity) {
@@ -36,6 +40,7 @@ public abstract class AbstractFacade<T> {
 
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
+        
     }
 
     public List<T> findAll() {

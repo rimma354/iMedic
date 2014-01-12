@@ -1,6 +1,8 @@
 package com.medic.facade.local;
 
 import com.medic.entity.DoctorReception;
+import com.medic.entity.MedicalHistory;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 

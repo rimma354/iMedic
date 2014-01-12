@@ -9,9 +9,9 @@ public interface DoctorFacadeLocal {
 
     void create(Doctor doctor);
 
-    void edit(Doctor Doctor);
+    void edit(Doctor doctor);
 
-    void remove(Doctor Doctor);
+    void remove(Doctor doctor);
 
     Doctor find(Object id);
 

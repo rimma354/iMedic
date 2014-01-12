@@ -15,12 +15,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "DOCTOR_RECEPTION")
@@ -29,18 +29,21 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "DoctorReception.findByIdDoctorReception", query = "SELECT d FROM DoctorReception d WHERE d.idDoctorReception = :idDoctorReception"),
     @NamedQuery(name = "DoctorReception.findByReceptionDate", query = "SELECT d FROM DoctorReception d WHERE d.receptionDate = :receptionDate")})
 public class DoctorReception implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_DOCTOR_RECEPTION")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_DOCTOR_RECEPTION")
+    @SequenceGenerator(name = "ID_DOCTOR_RECEPTION", sequenceName = "ID_DOCTOR_RECEPTION", allocationSize = 1)
+
     @NotNull
     @Column(name = "ID_DOCTOR_RECEPTION")
     private Integer idDoctorReception;
     @NotNull
     @ManyToOne
-    @JoinColumn (name="ID_MEDICAL_HISTORY")
+    @JoinColumn(name = "ID_MEDICAL_HISTORY")
     private MedicalHistory idMedicalHistory;
     @NotNull
     @ManyToOne
-    @JoinColumn (name="ID_DOCTOR")
+    @JoinColumn(name = "ID_DOCTOR")
     private Doctor idDoctor;
     @NotNull
     @Column(name = "RECEPTION_DATE")
@@ -52,8 +55,8 @@ public class DoctorReception implements Serializable {
     public DoctorReception() {
     }
 
-    public DoctorReception(Integer idDoctorReception,MedicalHistory idMedicalHistory,Doctor idDoctor, Date receptionDate) {
-        this.idDoctorReception = idDoctorReception;
+    public DoctorReception(MedicalHistory idMedicalHistory, Doctor idDoctor, Date receptionDate) {
+        //  this.idDoctorReception = idDoctorReception;
         this.idMedicalHistory = idMedicalHistory;
         this.idDoctor = idDoctor;
         this.receptionDate = receptionDate;
@@ -99,12 +102,11 @@ public class DoctorReception implements Serializable {
         this.idExamination = idExamination;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idDoctorReception!=null){
-            hash +=idDoctorReception.hashCode();
+        if (idDoctorReception != null) {
+            hash += idDoctorReception.hashCode();
         }
         return hash;
     }
@@ -115,12 +117,12 @@ public class DoctorReception implements Serializable {
             return false;
         }
         DoctorReception other = (DoctorReception) object;
-        return this.idDoctorReception.equals(other.idDoctorReception);   
+        return this.idDoctorReception.equals(other.idDoctorReception);
     }
 
     @Override
     public String toString() {
         return "DoctorReception[ idDoctorReception=" + idDoctorReception + ",idMedicalHistory=" + idMedicalHistory + ",idDoctor=" + idDoctor + ",receptionDate=" + receptionDate + " ]";
     }
-    
+
 }

@@ -168,9 +168,9 @@ CREATE TABLE Examination (
  CREATE TABLE Laboratory_reception (
   id_laboratory_reception number(10) NOT NULL, 
   id_examination          number(10) NOT NULL, 
-  id_laboratory           number(10) NOT NULL, 
-  analysis_date           date NOT NULL, 
-  analysis_result         varchar2(255) NOT NULL, 
+  id_laboratory           number(10) , 
+  analysis_date           date , 
+  analysis_result         varchar2(255), 
   id_analysis             number(10) NOT NULL, 
   PRIMARY KEY (id_laboratory_reception));
   

@@ -182,6 +182,7 @@ INSERT INTO Doctor_schedule VALUES   (2, 5, 5);
 INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,1,1,TO_DATE('11-NOV-2013 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
 INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,2,TO_DATE('15-NOV-2013 12:00:00', 'DD-MON-YYYY HH24:MI:SS'));
 INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('16-NOV-2013 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
+INSERT INTO Doctor_reception VALUES(id_doctor_reception.nextval,2,3,TO_DATE('08-JAN-2014 9:00:00', 'DD-MON-YYYY HH24:MI:SS'));
 
 --Examination (id_examination,id_doctor_reception,complaints)
 INSERT INTO Examination VALUES(id_examination.nextval,1,'It hurts to step on foot, foot swollen');
@@ -193,7 +194,7 @@ INSERT INTO Laboratory_reception VALUES(id_laboratory_reception.nextval,2,1,TO_D
 INSERT INTO Laboratory_reception VALUES(id_laboratory_reception.nextval,2,1,TO_DATE('15-NOV-2013', 'dd-mm-yyyy'),'Normal',2);
 
 --Treatment (id_treatment,id_examination,id_drug,id_measure,dosage,quantity,duration)
-INSERT INTO Treatment VALUES(id_treatment.nextval,1,1,2,600,3,5);
+INSERT INTO Treatment VALUES(id_treatment.nextval,1,1,2,1,3,5);
 INSERT INTO Treatment VALUES(id_treatment.nextval,1,7,3,10,3,5);
 INSERT INTO Treatment VALUES(id_treatment.nextval,3,8,2,1,5,5);
 INSERT INTO Treatment VALUES(id_treatment.nextval,3,9,2,0.5,3,5);

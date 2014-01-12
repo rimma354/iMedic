@@ -44,4 +44,16 @@
         <local>com.medic.facade.local.ExaminationFacadeLocal</local>
         <ejb-link>ExaminationBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/DrugsRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.DrugsFacadeLocal</local>
+        <ejb-link>DrugsBean</ejb-link>
+    </ejb-local-ref>    
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/MeasureRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.MeasureFacadeLocal</local>
+        <ejb-link>MeasureBean</ejb-link>
+    </ejb-local-ref>
 </web-app>

@@ -1,3 +1,8 @@
+<%@page import="com.medic.entity.Measure"%>
+<%@page import="com.medic.facade.local.MeasureFacadeLocal"%>
+<%@page import="com.medic.entity.Drugs"%>
+<%@page import="com.medic.facade.local.DrugsFacadeLocal"%>
+<%@page import="com.medic.entity.MedicalHistory"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.medic.entity.Doctor"%>
 <%@page import="com.medic.entity.LaboratoryReception"%>
@@ -25,30 +30,39 @@
             </header>
         </div>
         <%
-            String examinationID = request.getParameter("id");
+            String pExaminationID = request.getParameter("id");
+
             InitialContext ic = new InitialContext();
             ExaminationFacadeLocal localExamination = (ExaminationFacadeLocal) ic.lookup("java:comp/env/ejb/ExaminationRef");
-            Integer id = null;
+            DrugsFacadeLocal localDrugs = (DrugsFacadeLocal) ic.lookup("java:comp/env/ejb/DrugsRef");
+            MeasureFacadeLocal localMeasure = (MeasureFacadeLocal) ic.lookup("java:comp/env/ejb/MeasureRef");
+
+            Integer examinationID = null;
             Examination examination = null;
+            MedicalHistory history = null;
+            Collection<Drugs> drugs = localDrugs.findAll();
+            Collection<Measure> measures = localMeasure.findAll();
             Collection<Diagnosis> diagnosis = null;
             Collection<Treatment> treatment = null;
             Collection<LaboratoryReception> laboratoryReceptions = null;
-            Doctor doctor=null;
-            String doctorFIO="";
-            Date examinationDate=null;
-            if (examinationID != null) {
-                id = Integer.valueOf(examinationID);
-            }
-            if (id != null) {
-                examination = localExamination.find(id);
+            Doctor doctor = null;
+            String doctorFIO = "";
+            Date examinationDate = null;
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+            if (pExaminationID != null) {
+                examinationID = Integer.valueOf(pExaminationID);
+                examination = localExamination.find(examinationID);
                 diagnosis = examination.getDiagnoses();
                 treatment = examination.getTreatments();
                 laboratoryReceptions = examination.getLaboratoryReceptios();
-                doctor=examination.getIdDoctorReception().getIdDoctor();
-                examinationDate=examination.getIdDoctorReception().getReceptionDate();
-                doctorFIO=doctor.getLastName()+" "+doctor.getFirstName()+" "+doctor.getPatronymic();
+                doctor = examination.getIdDoctorReception().getIdDoctor();
+                examinationDate = examination.getIdDoctorReception().getReceptionDate();
+                doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();
+                history = examination.getIdDoctorReception().getIdMedicalHistory();
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
 
         %>
         <div class="tabbable">
@@ -71,20 +85,23 @@
                             </thead>
                             <tbody>
 
-                                <%
-            for (LaboratoryReception someLabReception:laboratoryReceptions){
+                                <%                                    for (LaboratoryReception someLabReception : laboratoryReceptions) {
                                 %>
                                 <tr>
                                     <td><%=sdf.format(someLabReception.getAnalysisDate())%></td>
                                     <td><%=someLabReception.getIdAnalysis().getAnalysisTitle()%></td>
                                     <td><%=someLabReception.getAnalysisResult()%></td>
-                                    <td><%=doctorFIO+", "+sdf.format(examinationDate)%></td>
+                                    <td><%=doctorFIO + ", " + sdf.format(examinationDate)%></td>
                                 </tr>
                                 <%
-            }
+                                    }
                                 %>
                             </tbody>
                         </table>
+                        <p align="right">
+                            <a class="btn" href="doctor-history.jsp?id=<%=history.getIdMedicalHistory()%>">Back to previous page</a>
+                            <a href="#newAnalysis" role="button" class="btn btn-primary" data-toggle="modal">Direct to analysis</a>
+                        </p>
                     </div >
                 </div>
                 <div class="tab-pane" id="tab2">
@@ -111,6 +128,10 @@
                                 %>
                             </tbody>
                         </table>
+                        <p align="right">
+                            <a class="btn" href="doctor-history.jsp?id=<%=history.getIdMedicalHistory()%>">Back to previous page</a>
+                            <a href="#newDiagnosis" role="button" class="btn btn-primary" data-toggle="modal">Make a diagnosis</a>
+                        </p>
 
                     </div>
                 </div>
@@ -149,11 +170,74 @@
                                 %>
                             </tbody>
                         </table>
+                        <p align="right">
+                            <a class="btn" href="doctor-history.jsp?id=<%=history.getIdMedicalHistory()%>">Back to previous page</a>
+                            <a href="#newTreatment" role="button" class="btn btn-primary" data-toggle="modal">Prescribe treatment</a>
+                        </p>
+                        <div class="modal" id="newTreatment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 id="myModalLabel">Check reception</h4>
+                            </div>
+                            <form class="form-horizontal" method="POST">
 
-                    </div >
-                </div>
+                                <div class="control-group">
+                                    <label class="my-control-label" for="outputDrug">Drug                           
+                                    </label>
+                                    <div class="my-controls">
+                                        <select id="outputDrug" name="drug">
+
+                                            <% for (Drugs someDrug : drugs) {%>
+                                            <option value="<%=someDrug.getIdDrug()%>"><%=someDrug.getDrugTitle()%></option>
+                                            <%}%>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="my-control-label" for="outputDosage">Dosage                           
+                                    </label>
+                                    <div class="my-controls">
+                                        <input type="text" id="outputDosage" name="dosage">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="my-control-label" for="outputMeasure">Measure                           
+                                    </label>
+                                    <div class="my-controls">
+                                        <select id="outputMeasure" name="measure">
+                                            <% for (Measure someMeasure : measures) {%>
+                                            <option value="<%=someMeasure.getIdMeasure()%>"><%=someMeasure.getMeasureTitle()%></option>
+                                            <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="my-control-label" for="outputQuantity">Quantity                           
+                                    </label>
+                                    <div class="my-controls">
+                                        <input type="text" id="outputQuantity" name="quantity">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="my-control-label" for="outputDuration">Duration                           
+                                    </label>
+                                    <div class="my-controls">
+                                        <input type="text" id="outputDuration" name="duration">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                    <button class="btn btn-primary" >Check</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div >
             </div>
         </div>
+    </div>
 
-    </body>
+</body>
 </html>

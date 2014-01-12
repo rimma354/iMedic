@@ -1,15 +1,15 @@
+
 package com.medic.facade;
 
-import com.medic.facade.local.MedicalCardFacadeLocal;
-import com.medic.entity.MedicalCard;
+import com.medic.entity.Drugs;
+import com.medic.facade.local.DrugsFacadeLocal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
-@Stateless (name="MedicalCardBean")
-public class MedicalCardFacade extends AbstractFacade <MedicalCard> implements MedicalCardFacadeLocal {
+@Stateless (name="DrugsBean")
+public class DrugsFacade  extends AbstractFacade<Drugs> implements DrugsFacadeLocal {
  @PersistenceContext(unitName = "MedicPU")
     private EntityManager em;
 
@@ -18,8 +18,7 @@ public class MedicalCardFacade extends AbstractFacade <MedicalCard> implements M
         return em;
     }
 
-    public MedicalCardFacade() {
-        super(MedicalCard.class);
+    public DrugsFacade() {
+        super(Drugs.class);
     }
-
 }
