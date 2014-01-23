@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "HISTORY_TYPE")
@@ -23,8 +23,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "HistoryType.findAll", query = "SELECT h FROM HistoryType h"),
     @NamedQuery(name = "HistoryType.findByIdHistoryType", query = "SELECT h FROM HistoryType h WHERE h.idHistoryType = :idHistoryType")})
 public class HistoryType implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_HISTORY_TYPE")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_HISTORY_TYPE")
+    @SequenceGenerator(name = "ID_HISTORY_TYPE", sequenceName = "ID_HISTORY_TYPE", allocationSize = 1)
     @NotNull
     @Column(name = "ID_HISTORY_TYPE")
     private Integer idHistoryType;
@@ -39,16 +41,14 @@ public class HistoryType implements Serializable {
     }
 
     public HistoryType(Integer idHistoryType, String typeTitle) {
-        this.idHistoryType = idHistoryType;
-        this.typeTitle = typeTitle;
+        if ((idHistoryType != null) && (typeTitle != null)) {
+            this.idHistoryType = idHistoryType;
+            this.typeTitle = typeTitle;
+        }
     }
 
     public Integer getIdHistoryType() {
         return idHistoryType;
-    }
-
-    public void setIdHistoryType(Integer idHistoryType) {
-        this.idHistoryType = idHistoryType;
     }
 
     public String getTypeTitle() {
@@ -56,7 +56,9 @@ public class HistoryType implements Serializable {
     }
 
     public void setTypeTitle(String typeTitle) {
-        this.typeTitle = typeTitle;
+        if (typeTitle != null) {
+            this.typeTitle = typeTitle;
+        }
     }
 
     public Collection<MedicalHistory> getMedicalHistories() {
@@ -64,8 +66,8 @@ public class HistoryType implements Serializable {
     }
 
     public void addMedicalHistory(Collection<MedicalHistory> medicalHistory) {
-        if (this.medicalHistories==null){
-            this.medicalHistories=new ArrayList<MedicalHistory>();
+        if (this.medicalHistories == null) {
+            this.medicalHistories = new ArrayList<MedicalHistory>();
         }
         this.medicalHistories = medicalHistory;
     }
@@ -73,8 +75,8 @@ public class HistoryType implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idHistoryType!=null){
-            hash +=idHistoryType.hashCode();
+        if (idHistoryType != null) {
+            hash += idHistoryType.hashCode();
         }
         return hash;
     }
@@ -92,5 +94,5 @@ public class HistoryType implements Serializable {
     public String toString() {
         return "HistoryType[ idHistoryType=" + idHistoryType + ",typeTitle=" + typeTitle + " ]";
     }
-    
+
 }

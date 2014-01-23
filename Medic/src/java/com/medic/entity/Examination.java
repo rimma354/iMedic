@@ -52,17 +52,14 @@ public class Examination implements Serializable {
     }
 
     public Examination(DoctorReception idDoctorReception, String complaints) {
+        if ((idDoctorReception != null) && (complaints != null)) {
             this.idDoctorReception = idDoctorReception;
             this.complaints = complaints;
-       
+        }
     }
 
     public Integer getIdExamination() {
         return idExamination;
-    }
-
-    public void setIdExamination(Integer idExamination) {
-        this.idExamination = idExamination;
     }
 
     public String getComplaints() {
@@ -70,7 +67,9 @@ public class Examination implements Serializable {
     }
 
     public void setComplaints(String complaints) {
-        this.complaints = complaints;
+        if (complaints != null) {
+            this.complaints = complaints;
+        }
     }
 
     public DoctorReception getIdDoctorReception() {
@@ -78,7 +77,9 @@ public class Examination implements Serializable {
     }
 
     public void setIdDoctorReception(DoctorReception idDoctorReception) {
-        this.idDoctorReception = idDoctorReception;
+        if (idDoctorReception != null) {
+            this.idDoctorReception = idDoctorReception;
+        }
     }
 
     public Collection<Treatment> getTreatments() {

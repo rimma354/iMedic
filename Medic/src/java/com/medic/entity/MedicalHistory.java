@@ -3,6 +3,7 @@ package com.medic.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "MEDICAL_HISTORY")
@@ -26,7 +29,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "MedicalHistory.findByIdMedicalHistory", query = "SELECT m FROM MedicalHistory m WHERE m.idMedicalHistory = :idMedicalHistory")})
 public class MedicalHistory implements Serializable {
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_MEDICAL_HISTORY")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_MEDICAL_HISTORY")
+    @SequenceGenerator(name = "ID_MEDICAL_HISTORY", sequenceName = "ID_MEDICAL_HISTORY", allocationSize = 1)
     @NotNull
     @Column(name = "ID_MEDICAL_HISTORY")
     private Integer idMedicalHistory;
@@ -41,41 +45,47 @@ public class MedicalHistory implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "DESCRIPTION")
     private String description;
+    @NotNull
+    @Column(name = "OPENNING_DATE")
+    @Temporal(DATE)
+    private  Date openningDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMedicalHistory")
-    private Collection <DoctorReception> doctorReceptions;
+    private Collection<DoctorReception> doctorReceptions;
 
     public MedicalHistory() {
     }
 
-    public MedicalHistory(Integer idMedicalHistory,MedicalCard idMedicalCard,HistoryType idHistoryType, String description) {
-        this.idMedicalHistory = idMedicalHistory;
-        this.idMedicalCard = idMedicalCard;
-        this.idHistoryType=idHistoryType;
-        this.description = description;
+    public MedicalHistory(MedicalCard idMedicalCard, HistoryType idHistoryType, String description, Date openningDate) {
+        if ((idMedicalCard != null) && (idHistoryType != null) && (description != null)) {
+            this.idMedicalCard = idMedicalCard;
+            this.idHistoryType = idHistoryType;
+            this.description = description;
+            this.openningDate=openningDate;
+        }
     }
 
     public Integer getIdMedicalHistory() {
         return idMedicalHistory;
     }
 
-    public void setIdMedicalHistory(Integer idMedicalHistory) {
-        this.idMedicalHistory = idMedicalHistory;
-    }
-    
     public MedicalCard getIdMedicalCard() {
         return idMedicalCard;
     }
 
     public void setIdMedicalCard(MedicalCard idMedicalCard) {
-        this.idMedicalCard = idMedicalCard;
+        if (idMedicalCard != null) {
+            this.idMedicalCard = idMedicalCard;
+        }
     }
-    
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description != null) {
+            this.description = description;
+        }
     }
 
     public HistoryType getIdHistoryType() {
@@ -83,16 +93,24 @@ public class MedicalHistory implements Serializable {
     }
 
     public void setIdHistoryType(HistoryType idHistoryType) {
-        this.idHistoryType = idHistoryType;
+        if (idHistoryType != null) {
+            this.idHistoryType = idHistoryType;
+        }
+    }
+   public Date getOpenningDate() {
+        return openningDate;
     }
 
+    public void setOpenningDate(Date openningDate) {
+        this.openningDate = openningDate;
+    }
     public Collection<DoctorReception> getDoctorReceptions() {
         return doctorReceptions;
     }
 
     public void addDoctorReception(DoctorReception doctorReception) {
-        if (this.doctorReceptions==null){
-            this.doctorReceptions=new ArrayList<DoctorReception>();
+        if (this.doctorReceptions == null) {
+            this.doctorReceptions = new ArrayList<DoctorReception>();
         }
         this.doctorReceptions.add(doctorReception);
     }
@@ -100,8 +118,8 @@ public class MedicalHistory implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idMedicalHistory!=null){
-            hash +=idMedicalHistory.hashCode();
+        if (idMedicalHistory != null) {
+            hash += idMedicalHistory.hashCode();
         }
         return hash;
     }
@@ -117,7 +135,7 @@ public class MedicalHistory implements Serializable {
 
     @Override
     public String toString() {
-        return "MedicalHistory[ idMedicalHistory=" + idMedicalHistory + ",idMedicalCard=" + idMedicalCard + ",idHistoryType=" + idHistoryType + ",description=" + description + " ]";
+        return "MedicalHistory[ idMedicalHistory=" + idMedicalHistory + ",idMedicalCard=" + idMedicalCard + ",idHistoryType=" + idHistoryType + ",description=" + description + ",openning date=" + openningDate + " ]";
     }
-    
+
 }

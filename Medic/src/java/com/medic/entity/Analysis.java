@@ -17,7 +17,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
 @Table(name = "ANALYSIS")
 @NamedQueries({
@@ -25,7 +24,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Analysis.findByIdAnalysis", query = "SELECT a FROM Analysis a WHERE a.idAnalysis = :idAnalysis")})
 public class Analysis implements Serializable {
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_ANALYSIS")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_ANALYSIS")
     @SequenceGenerator(name = "ID_ANALYSIS", sequenceName = "ID_ANALYSIS", allocationSize = 1)
     @NotNull
     @Column(name = "ID_ANALYSIS")
@@ -36,20 +35,18 @@ public class Analysis implements Serializable {
     private String analysisTitle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalysis")
     private Collection<LaboratoryReception> laboratoryReceptions;
-    
+
     public Analysis() {
     }
 
     public Analysis(String analysisTitle) {
-        this.analysisTitle = analysisTitle;
+        if (analysisTitle != null) {
+            this.analysisTitle = analysisTitle;
+        }
     }
 
     public Integer getIdAnalysis() {
         return idAnalysis;
-    }
-
-    public void setIdAnalysis(Integer idAnalysis) {
-        this.idAnalysis = idAnalysis;
     }
 
     public String getAnalysisTitle() {
@@ -57,7 +54,9 @@ public class Analysis implements Serializable {
     }
 
     public void setAnalysisTitle(String analysisTitle) {
-        this.analysisTitle = analysisTitle;
+        if (analysisTitle != null) {
+            this.analysisTitle = analysisTitle;
+        }
     }
 
     public Collection<LaboratoryReception> getLaboratoryReceptios() {
@@ -65,8 +64,8 @@ public class Analysis implements Serializable {
     }
 
     public void addLaboratoryReception(LaboratoryReception laboratoryReception) {
-        if (this.laboratoryReceptions==null){
-            this.laboratoryReceptions=new ArrayList<LaboratoryReception>();
+        if (this.laboratoryReceptions == null) {
+            this.laboratoryReceptions = new ArrayList<LaboratoryReception>();
         }
         this.laboratoryReceptions.add(laboratoryReception);
     }
@@ -74,8 +73,8 @@ public class Analysis implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idAnalysis!=null){
-            hash +=idAnalysis.hashCode();
+        if (idAnalysis != null) {
+            hash += idAnalysis.hashCode();
         }
         return hash;
     }
@@ -86,12 +85,12 @@ public class Analysis implements Serializable {
             return false;
         }
         Analysis other = (Analysis) object;
-        return this.idAnalysis.equals(other.idAnalysis);   
+        return this.idAnalysis.equals(other.idAnalysis);
     }
 
     @Override
     public String toString() {
         return "Analysis[ idAnalysis=" + idAnalysis + ",analysisTitle=" + analysisTitle + " ]";
     }
-    
+
 }

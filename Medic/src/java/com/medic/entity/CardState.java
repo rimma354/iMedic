@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "CARD_STATE")
@@ -23,8 +23,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "CardState.findAll", query = "SELECT c FROM CardState c"),
     @NamedQuery(name = "CardState.findByIdState", query = "SELECT c FROM CardState c WHERE c.idState = :idState")})
 public class CardState implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_STATE")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_STATE")
+    @SequenceGenerator(name = "ID_STATE", sequenceName = "ID_STATE", allocationSize = 1)
     @NotNull
     @Column(name = "ID_STATE")
     private Integer idState;
@@ -33,22 +35,19 @@ public class CardState implements Serializable {
     @Column(name = "STATE_TITLE")
     private String stateTitle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idState")
-    private Collection <MedicalCard> medicalCards;
-    
+    private Collection<MedicalCard> medicalCards;
+
     public CardState() {
     }
 
-    public CardState(Integer idState, String stateTitle) {
-        this.idState = idState;
-        this.stateTitle = stateTitle;
+    public CardState(String stateTitle) {
+        if (stateTitle != null) {
+            this.stateTitle = stateTitle;
+        }
     }
 
     public int getIdState() {
         return idState;
-    }
-
-    public void setIdState(Integer idState) {
-        this.idState = idState;
     }
 
     public String getStateTitle() {
@@ -56,41 +55,43 @@ public class CardState implements Serializable {
     }
 
     public void setStateTitle(String stateTitle) {
-        this.stateTitle = stateTitle;
+        if (stateTitle != null) {
+            this.stateTitle = stateTitle;
+        }
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idState!=null){
-            hash +=idState.hashCode();
+        if (idState != null) {
+            hash += idState.hashCode();
         }
         return hash;
     }
-    
+
     public Collection<MedicalCard> getMedicalCards() {
         return medicalCards;
     }
 
     public void addMedicalCard(MedicalCard medicalCard) {
-        if (this.medicalCards==null){
-            this.medicalCards=new ArrayList<MedicalCard>();
+        if (this.medicalCards == null) {
+            this.medicalCards = new ArrayList<MedicalCard>();
         }
         this.medicalCards.add(medicalCard);
     }
-    
+
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof CardState)) {
             return false;
         }
         CardState other = (CardState) object;
-        return this.idState.equals(other.idState);   
+        return this.idState.equals(other.idState);
     }
 
     @Override
     public String toString() {
         return "CardState[ idState=" + idState + ",stateTitle=" + stateTitle + " ]";
     }
-    
+
 }

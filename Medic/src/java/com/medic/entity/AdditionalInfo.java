@@ -10,10 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "ADDITIONAL_INFO")
@@ -21,8 +21,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "AdditionalInfo.findAll", query = "SELECT a FROM AdditionalInfo a"),
     @NamedQuery(name = "AdditionalInfo.findByIdInfo", query = "SELECT a FROM AdditionalInfo a WHERE a.idInfo = :idInfo")})
 public class AdditionalInfo implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_INFO")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_INFO")
+    @SequenceGenerator(name = "ID_INFO", sequenceName = "ID_INFO", allocationSize = 1)
     @NotNull
     @Column(name = "ID_INFO")
     private Integer idInfo;
@@ -41,19 +43,16 @@ public class AdditionalInfo implements Serializable {
     public AdditionalInfo() {
     }
 
-    public AdditionalInfo(Integer idInfo,MedicalCard idMedicalCard, GroupInfo idGroupInfo, String description) {
-        this.idInfo = idInfo;
-        this.idMedicalCard=idMedicalCard;
-        this.idGroupInfo=idGroupInfo;
-        this.description = description;
+    public AdditionalInfo(MedicalCard idMedicalCard, GroupInfo idGroupInfo, String description) {
+        if ((idMedicalCard != null) && (idGroupInfo != null) && (description != null)) {
+            this.idMedicalCard = idMedicalCard;
+            this.idGroupInfo = idGroupInfo;
+            this.description = description;
+        }
     }
 
     public Integer getIdInfo() {
         return idInfo;
-    }
-
-    public void setIdInfo(Integer idInfo) {
-        this.idInfo = idInfo;
     }
 
     public MedicalCard getIdMedicalCard() {
@@ -61,7 +60,9 @@ public class AdditionalInfo implements Serializable {
     }
 
     public void setIdMEdicalCard(MedicalCard idMedicalCard) {
-        this.idMedicalCard = idMedicalCard;
+        if (idMedicalCard != null) {
+            this.idMedicalCard = idMedicalCard;
+        }
     }
 
     public String getDescription() {
@@ -69,7 +70,9 @@ public class AdditionalInfo implements Serializable {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description != null) {
+            this.description = description;
+        }
     }
 
     public GroupInfo getIdGroupInfo() {
@@ -77,14 +80,16 @@ public class AdditionalInfo implements Serializable {
     }
 
     public void setIdGroupInfo(GroupInfo idGroupInfo) {
-        this.idGroupInfo = idGroupInfo;
+        if (idGroupInfo != null) {
+            this.idGroupInfo = idGroupInfo;
+        }
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idInfo!=null){
-            hash +=idInfo.hashCode();
+        if (idInfo != null) {
+            hash += idInfo.hashCode();
         }
         return hash;
     }
@@ -102,5 +107,5 @@ public class AdditionalInfo implements Serializable {
     public String toString() {
         return "AdditionalInfo[ idInfo=" + idInfo + ",idMedicalCard=" + idMedicalCard + ",idGroupInfo=" + idGroupInfo + ",description=" + description + " ]";
     }
-    
+
 }

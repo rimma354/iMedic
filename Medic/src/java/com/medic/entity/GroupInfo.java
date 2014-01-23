@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "GROUP_INFO")
@@ -23,8 +23,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "GroupInfo.findAll", query = "SELECT g FROM GroupInfo g"),
     @NamedQuery(name = "GroupInfo.findByIdGroupInfo", query = "SELECT g FROM GroupInfo g WHERE g.idGroupInfo = :idGroupInfo")})
 public class GroupInfo implements Serializable {
-    @Id    
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_GROUP_INFO")
+
+    @Id
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_GROUP_INFO")
+    @SequenceGenerator(name = "ID_GROUP_INFO", sequenceName = "ID_GROUP_INFO", allocationSize = 1)
     @NotNull
     @Column(name = "ID_GROUP_INFO")
     private Integer idGroupInfo;
@@ -38,18 +40,14 @@ public class GroupInfo implements Serializable {
     public GroupInfo() {
     }
 
-
-    public GroupInfo(Integer idGroupInfo, String groupTitle) {
-        this.idGroupInfo = idGroupInfo;
-        this.groupTitle = groupTitle;
+    public GroupInfo(String groupTitle) {
+        if (groupTitle != null) {
+            this.groupTitle = groupTitle;
+        }
     }
 
     public Integer getIdGroupInfo() {
         return idGroupInfo;
-    }
-
-    public void setIdGroupInfo(Integer idGroupInfo) {
-        this.idGroupInfo = idGroupInfo;
     }
 
     public String getGroupTitle() {
@@ -57,7 +55,9 @@ public class GroupInfo implements Serializable {
     }
 
     public void setGroupTitle(String groupTitle) {
-        this.groupTitle = groupTitle;
+        if (groupTitle != null) {
+            this.groupTitle = groupTitle;
+        }
     }
 
     public Collection<AdditionalInfo> getAdditionalInfos() {
@@ -65,8 +65,8 @@ public class GroupInfo implements Serializable {
     }
 
     public void addAdditionalInfo(AdditionalInfo additionalInfo) {
-        if (this.additionalInfos==null){
-            this.additionalInfos=new ArrayList<AdditionalInfo>();
+        if (this.additionalInfos == null) {
+            this.additionalInfos = new ArrayList<AdditionalInfo>();
         }
         this.additionalInfos.add(additionalInfo);
     }
@@ -74,8 +74,8 @@ public class GroupInfo implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idGroupInfo!=null){
-            hash +=idGroupInfo.hashCode();
+        if (idGroupInfo != null) {
+            hash += idGroupInfo.hashCode();
         }
         return hash;
     }
@@ -93,5 +93,5 @@ public class GroupInfo implements Serializable {
     public String toString() {
         return "GroupInfo[ idGroupInfo=" + idGroupInfo + ",groupTitle=" + groupTitle + " ]";
     }
-    
+
 }

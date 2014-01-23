@@ -15,46 +15,46 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
 @Table(name = "DIAGNOSIS")
 @NamedQueries({
     @NamedQuery(name = "Diagnosis.findAll", query = "SELECT d FROM Diagnosis d"),
     @NamedQuery(name = "Diagnosis.findByIdDiagnosis", query = "SELECT d FROM Diagnosis d WHERE d.idDiagnosis = :idDiagnosis")})
 public class Diagnosis implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_DIAGNOSIS")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_DIAGNOSIS")
     @SequenceGenerator(name = "ID_DIAGNOSIS", sequenceName = "ID_DIAGNOSIS", allocationSize = 1)
     @NotNull
     @Column(name = "ID_DIAGNOSIS")
     private Integer idDiagnosis;
     @NotNull
     @ManyToOne
-    @JoinColumn (name="ID_EXAMINATION")
+    @JoinColumn(name = "ID_EXAMINATION")
     private Examination idExamination;
     @NotNull
     @ManyToOne
-    @JoinColumn (name="ID_ILLNESS")
+    @JoinColumn(name = "ID_ILLNESS")
     private Illnesses idIllness;
 
     public Diagnosis() {
     }
 
     public Diagnosis(Examination idExamination, Illnesses idIllness) {
-        this.idExamination=idExamination;
-        this.idIllness=idIllness;
+        if ((idExamination != null) && (idIllness != null)) {
+            this.idExamination = idExamination;
+            this.idIllness = idIllness;
+        }
     }
 
     public Integer getIdDiagnosis() {
         return idDiagnosis;
     }
 
-    public void setIdDiagnosis(Integer idDiagnosis) {
-        this.idDiagnosis = idDiagnosis;
-    }
-
     public void setIdExamination(Examination idExamination) {
-        this.idExamination = idExamination;
+        if (idExamination != null) {
+            this.idExamination = idExamination;
+        }
     }
 
     public Examination getIdExamination() {
@@ -62,7 +62,9 @@ public class Diagnosis implements Serializable {
     }
 
     public void setIdIllnesses(Illnesses idIllness) {
-        this.idIllness = idIllness;
+        if (idIllness != null) {
+            this.idIllness = idIllness;
+        }
     }
 
     public Illnesses getIdIllnesses() {
@@ -72,8 +74,8 @@ public class Diagnosis implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idDiagnosis!=null){
-            hash +=idDiagnosis.hashCode();
+        if (idDiagnosis != null) {
+            hash += idDiagnosis.hashCode();
         }
         return hash;
     }
@@ -84,12 +86,12 @@ public class Diagnosis implements Serializable {
             return false;
         }
         Diagnosis other = (Diagnosis) object;
-        return this.idDiagnosis.equals(other.idDiagnosis);   
+        return this.idDiagnosis.equals(other.idDiagnosis);
     }
 
     @Override
     public String toString() {
         return "Diagnosis[ idDiagnosis=" + idDiagnosis + ",idExamination=" + idExamination + ",idIllness=" + idIllness + " ]";
     }
-    
+
 }

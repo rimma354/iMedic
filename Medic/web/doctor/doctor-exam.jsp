@@ -111,29 +111,37 @@
             You didn't complete all required fields!
         </div>
         <%    } else {
-            idDrug = Integer.valueOf(pDrugId);
-            checkedDrug = localDrugs.find(idDrug);
-            idMeasure = Integer.valueOf(pMeasureId);
-            checkedMeasure = localMeasure.find(idMeasure);
-            dosage = Double.valueOf(pDosage);
-            quantity = Double.valueOf(pQuantity);
-            duration = Integer.valueOf(pDuration);
-            newTreatment = new Treatment(examination, checkedDrug, checkedMeasure, dosage, quantity, duration);
-            localTreatment.create(newTreatment);
-            checkedDrug.addTreatment(newTreatment);
-            localDrugs.edit(checkedDrug);
-            checkedMeasure.addTreatment(newTreatment);
-            localMeasure.edit(checkedMeasure);
-            examination.addTreatment(newTreatment);
-            localExamination.edit(examination);
+            try {
+                dosage = Double.valueOf(pDosage);
+                quantity = Double.valueOf(pQuantity);
+                duration = Integer.valueOf(pDuration);
+                idDrug = Integer.valueOf(pDrugId);
+                checkedDrug = localDrugs.find(idDrug);
+                idMeasure = Integer.valueOf(pMeasureId);
+                checkedMeasure = localMeasure.find(idMeasure);
+                newTreatment = new Treatment(examination, checkedDrug, checkedMeasure, dosage, quantity, duration);
+                localTreatment.create(newTreatment);
+                checkedDrug.addTreatment(newTreatment);
+                localDrugs.edit(checkedDrug);
+                checkedMeasure.addTreatment(newTreatment);
+                localMeasure.edit(checkedMeasure);
+                examination.addTreatment(newTreatment);
+                localExamination.edit(examination);
         %>
         <div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             You successfully prescribed new treatment!
         </div>
         <%
+        } catch (NumberFormatException e) {
+        %>
+        <div class="alert  alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Error!</h4>Fields "quantity","duration","dosage" should be numeric. Check them.
+        </div>
+        <%
                 }
-            }
+            }}
 
             if ("newAnalysis".equals(pAction)) {
                 if ("".equals(pAnalysisId)) {
@@ -187,12 +195,12 @@
         %>
         <div class="tabbable">
             <ul class="nav nav-tabs" >
-                <li class="active"><a href="#tab1" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Analysis</a></li>
-                <li><a href="#tab2" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Diagnosis</a></li>
-                <li><a href="#tab3" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Treatment</a></li>
+                <li <% if ("newAnalysis".equals(pAction) || (pAction == null)) {%> class="active"<%}%>><a href="#tab1" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Analysis</a></li>
+                <li <% if ("newDiagnosis".equals(pAction)) {%> class="active"<%}%>><a href="#tab2" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Diagnosis</a></li>
+                <li <% if ("newTreatment".equals(pAction)) {%> class="active"<%}%>><a href="#tab3" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Treatment</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
+                <div class="tab-pane  <% if ("newAnalysis".equals(pAction) || (pAction == null)) {%>active<%}%>"   id="tab1">
                     <div class="container" >
                         <table  class="table table-hover">
                             <thead>
@@ -208,10 +216,18 @@
                                 <%                                    for (LaboratoryReception someLabReception : laboratoryReceptions) {
                                 %>
                                 <tr>
-                               
-                                    <td <% if (someLabReception.getAnalysisDate()==null){ %> class="text-warning"<%}%> ><% if (someLabReception.getAnalysisDate()!=null) out.print(sdf.format(someLabReception.getAnalysisDate())); else out.print("no record"); %></td>
+
+                                    <td <% if (someLabReception.getAnalysisDate() == null) { %> class="text-warning"<%}%> ><% if (someLabReception.getAnalysisDate() != null) {
+                                            out.print(sdf.format(someLabReception.getAnalysisDate()));
+                                        } else {
+                                            out.print("no record");
+                                        }%></td>
                                     <td><%=someLabReception.getIdAnalysis().getAnalysisTitle()%></td>
-                                    <td <% if (someLabReception.getAnalysisResult()==null) { %> class="text-warning"<%}%> ><% if (someLabReception.getAnalysisResult()!=null) out.print(someLabReception.getAnalysisResult()); else out.print("no results"); %></td>
+                                    <td <% if (someLabReception.getAnalysisResult() == null) { %> class="text-warning"<%}%> ><% if (someLabReception.getAnalysisResult() != null) {
+                                            out.print(someLabReception.getAnalysisResult());
+                                        } else {
+                                            out.print("no results");
+                                        }%></td>
                                     <td><%=doctorFIO + ", " + sdf.format(examinationDate)%></td>
                                 </tr>
                                 <%
@@ -228,190 +244,195 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 id="myModalLabel">Direct to analysis</h4>
                             </div>
-                            <form class="form-horizontal" method="POST">
-
-                                <div class="control-group">
-                                    <label class="my-control-label" for="outputAnalysis">Analysis title                           
-                                    </label>
-                                    <div class="my-controls">
-                                        <select id="outputAnalysis" name="analysis">
-                                            <% for (Analysis someAnalysis : analyses) {%>
-                                            <option value="<%=someAnalysis.getIdAnalysis()%>"><%=someAnalysis.getAnalysisTitle()%></option>
-                                            <%}%>
-                                        </select>
+                            <div>
+                                <form class="form-horizontal" method="POST">
+                                    <div class="modal-body">
+                                        <div class="control-group">
+                                            <label class="my-control-label" for="outputAnalysis">Analysis title                           
+                                            </label>
+                                            <div class="my-controls">
+                                                <select id="outputAnalysis" name="analysis">
+                                                    <% for (Analysis someAnalysis : analyses) {%>
+                                                    <option value="<%=someAnalysis.getIdAnalysis()%>"><%=someAnalysis.getAnalysisTitle()%></option>
+                                                    <%}%>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                    <button class="btn btn-primary" type="submit" name="action" value="newAnalysis">Save</button>
-                            </form>
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                        <button class="btn btn-primary" type="submit" name="action" value="newAnalysis">Save</button>
+                                    </div>  </form>
+                            </div>
                         </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane  <% if ("newDiagnosis".equals(pAction)) {%>active<%}%>" id="tab2">
+                    <div class="container" >
+                        <table  class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Doctor</th>
+                                    <th width=50%>Diagnosis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <%                                    for (Diagnosis someDiagnosis : diagnosis) {
+                                %>
+                                <tr>
+                                    <td><%=sdf.format(examinationDate)%></td>
+                                    <td><%=doctorFIO%></td>
+                                    <td><%=someDiagnosis.getIdIllnesses().getIllnessesTitle()%></td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                        <p align="right">
+                            <a class="btn" href="doctor-history.jsp?id=<%=history.getIdMedicalHistory()%>">Back to previous page</a>
+                            <a href="#newDiagnosis" role="button" class="btn btn-primary" data-toggle="modal">Make a diagnosis</a>
+                        </p>
+                        <div class="modal" id="newDiagnosis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 id="myModalLabel">Making a diagnosis</h4>
+                            </div><div>
+                                <form class="form-horizontal" method="POST">
+                                    <div class="modal-body">
+                                        <div class="control-group">
+                                            <label class="my-control-label" for="outputIllness">Illness                           
+                                            </label>
+                                            <div class="my-controls">
+                                                <select id="outputIllness" name="illness">
+                                                    <% for (Illnesses someIllness : illnesses) {%>
+                                                    <option value="<%=someIllness.getIdIllness()%>"><%=someIllness.getIllnessesTitle()%></option>
+                                                    <%}%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                        <button class="btn btn-primary" type="submit" name="action" value="newDiagnosis">Save</button>
+                                    </div></form>
+                            </div> </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane <% if ("newTreatment".equals(pAction)) {%> active<%}%>" id="tab3">
+                    <div class="container" >
+                        <table  class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Doctor</th>
+                                    <th>Drug</th>
+                                    <th>Dosage</th>
+                                    <th>Measure</th>
+                                    <th>Quantity</th>
+                                    <th>Duration</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <%
+                                    for (Treatment someTreatment : treatments) {
+
+                                %>
+                                <tr>
+                                    <td><%=sdf.format(examinationDate)%></td>
+                                    <td><%=doctorFIO%></td>
+                                    <td><%=someTreatment.getIdDrug().getDrugTitle()%></td>
+                                    <td><%=someTreatment.getDosage()%></td>
+                                    <td><%=someTreatment.getIdMeasure().getMeasureTitle()%></td>
+                                    <td><%=someTreatment.getQuantity()%></td>
+                                    <td><%=someTreatment.getDuration()%></td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                        <p align="right">
+                            <a class="btn" href="doctor-history.jsp?id=<%=history.getIdMedicalHistory()%>">Back to previous page</a>
+                            <a href="#newTreatment" role="button" class="btn btn-primary" data-toggle="modal">Prescribe treatment</a>
+                        </p>
+                        <div class="modal" id="newTreatment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 id="myModalLabel">Prescribing treatment</h4>
+                            </div><div>
+                                <form class="form-horizontal" method="POST">
+                                    <div class="modal-body">
+                                        <div class="alert alert-block">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <b>Attention! </b> All fields are mandatory.
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="my-control-label" for="outputDrug">Drug                           
+                                            </label>
+                                            <div class="my-controls">
+                                                <select id="outputDrug" name="drug">
+
+                                                    <% for (Drugs someDrug : drugs) {%>
+                                                    <option value="<%=someDrug.getIdDrug()%>"><%=someDrug.getDrugTitle()%></option>
+                                                    <%}%>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="my-control-label" for="outputDosage">Dosage                           
+                                            </label>
+                                            <div class="my-controls">
+                                                <input type="text" id="outputDosage" name="dosage" required pattern="\d+(\.\d{1,2})?" title="integer/fractional (ex.: 1 or 1.0 or 1.00)">
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="my-control-label" for="outputMeasure">Measure                           
+                                            </label>
+                                            <div class="my-controls">
+                                                <select id="outputMeasure" name="measure" >
+                                                    <% for (Measure someMeasure : measures) {%>
+                                                    <option value="<%=someMeasure.getIdMeasure()%>"><%=someMeasure.getMeasureTitle()%></option>
+                                                    <%}%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="my-control-label" for="outputQuantity">Quantity (times/day)                           
+                                            </label>
+                                            <div class="my-controls">
+                                                <input type="text" id="outputQuantity" name="quantity" required pattern="^[0-9]+$"  title="only integer number">
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="my-control-label" for="outputDuration">Duration (days)                          
+                                            </label>
+                                            <div class="my-controls">
+                                                <input type="text" id="outputDuration" name="duration" required pattern="^[0-9]+$"  title="only integer number">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal" aria-hidden="true" formnovalidate>Close</button>
+                                        <button class="btn btn-primary" type="submit" name="action" value="newTreatment" >Save</button>
+                                    </div>     </form>
+                            </div> </div>
+
+
                     </div>
                 </div >
-            </div>
-            <div class="tab-pane" id="tab2">
-                <div class="container" >
-                    <table  class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Doctor</th>
-                                <th width=50%>Diagnosis</th>
-                            </tr>
-                        </thead>
-                        <tbody>
 
-                            <%                                    for (Diagnosis someDiagnosis : diagnosis) {
-                            %>
-                            <tr>
-                                <td><%=sdf.format(examinationDate)%></td>
-                                <td><%=doctorFIO%></td>
-                                <td><%=someDiagnosis.getIdIllnesses().getIllnessesTitle()%></td>
-                            </tr>
-                            <%
-                                }
-                            %>
-                        </tbody>
-                    </table>
-                    <p align="right">
-                        <a class="btn" href="doctor-history.jsp?id=<%=history.getIdMedicalHistory()%>">Back to previous page</a>
-                        <a href="#newDiagnosis" role="button" class="btn btn-primary" data-toggle="modal">Make a diagnosis</a>
-                    </p>
-                    <div class="modal" id="newDiagnosis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 id="myModalLabel">Making a diagnosis</h4>
-                        </div>
-                        <form class="form-horizontal" method="POST">
 
-                            <div class="control-group">
-                                <label class="my-control-label" for="outputIllness">Illness                           
-                                </label>
-                                <div class="my-controls">
-                                    <select id="outputIllness" name="illness">
-                                        <% for (Illnesses someIllness : illnesses) {%>
-                                        <option value="<%=someIllness.getIdIllness()%>"><%=someIllness.getIllnessesTitle()%></option>
-                                        <%}%>
-                                    </select>
-                                </div>
-                            </div>
- 
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                <button class="btn btn-primary" type="submit" name="action" value="newDiagnosis">Save</button>
-                        </form>
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="tab-pane" id="tab3">
-            <div class="container" >
-                <table  class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Doctor</th>
-                            <th>Drug</th>
-                            <th>Dosage</th>
-                            <th>Measure</th>
-                            <th>Quantity</th>
-                            <th>Duration</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <%
-                            for (Treatment someTreatment : treatments) {
-
-                        %>
-                        <tr>
-                            <td><%=sdf.format(examinationDate)%></td>
-                            <td><%=doctorFIO%></td>
-                            <td><%=someTreatment.getIdDrug().getDrugTitle()%></td>
-                            <td><%=someTreatment.getDosage()%></td>
-                            <td><%=someTreatment.getIdMeasure().getMeasureTitle()%></td>
-                            <td><%=someTreatment.getQuantity()%></td>
-                            <td><%=someTreatment.getDuration()%></td>
-                        </tr>
-                        <%
-                            }
-                        %>
-                    </tbody>
-                </table>
-                <p align="right">
-                    <a class="btn" href="doctor-history.jsp?id=<%=history.getIdMedicalHistory()%>">Back to previous page</a>
-                    <a href="#newTreatment" role="button" class="btn btn-primary" data-toggle="modal">Prescribe treatment</a>
-                </p>
-                <div class="modal" id="newTreatment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 id="myModalLabel">Prescribing treatment</h4>
-                    </div>
-                    <form class="form-horizontal" method="POST">
-
-                        <div class="control-group warning">
-                            <label class="my-control-label" for="outputDrug">Drug                           
-                            </label>
-                            <div class="my-controls">
-                                <select id="outputDrug" name="drug">
-
-                                    <% for (Drugs someDrug : drugs) {%>
-                                    <option value="<%=someDrug.getIdDrug()%>"><%=someDrug.getDrugTitle()%></option>
-                                    <%}%>
-                                </select>
-
-                            </div>
-                        </div>
-                        <div class="control-group warning">
-                            <label class="my-control-label" for="outputDosage">Dosage                           
-                            </label>
-                            <div class="my-controls">
-                                <input type="text" id="outputDosage" name="dosage">
-                            </div>
-                        </div>
-                        <div class="control-group warning">
-                            <label class="my-control-label" for="outputMeasure">Measure                           
-                            </label>
-                            <div class="my-controls">
-                                <select id="outputMeasure" name="measure">
-                                    <% for (Measure someMeasure : measures) {%>
-                                    <option value="<%=someMeasure.getIdMeasure()%>"><%=someMeasure.getMeasureTitle()%></option>
-                                    <%}%>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="control-group warning">
-                            <label class="my-control-label" for="outputQuantity">Quantity (times/day)                           
-                            </label>
-                            <div class="my-controls">
-                                <input type="text" id="outputQuantity" name="quantity">
-                            </div>
-                        </div>
-                        <div class="control-group warning">
-                            <label class="my-control-label" for="outputDuration">Duration (days)                          
-                            </label>
-                            <div class="my-controls">
-                                <input type="text" id="outputDuration" name="duration">
-                            </div>
-                        </div>
-                        <div class="alert alert-block">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <b>Attention!</b>Highlighted fields are mandatory.
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                            <button class="btn btn-primary" type="submit" name="action" value="newTreatment">Save</button>
-                    </form>
-                </div>
-
-
-            </div>
-        </div >
-    </div>
-</div>
-</div>
-
-</body>
+    </body>
 </html>

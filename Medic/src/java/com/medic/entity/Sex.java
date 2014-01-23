@@ -1,6 +1,5 @@
 package com.medic.entity;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "SEX")
@@ -25,7 +24,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Sex.findByIdSex", query = "SELECT s FROM Sex s WHERE s.idSex = :idSex")})
 public class Sex implements Serializable {
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_SEX")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_SEX")
+    @SequenceGenerator(name = "ID_SEX", sequenceName = "ID_SEX", allocationSize = 1)
     @NotNull
     @Column(name = "ID_SEX")
     private Integer idSex;
@@ -34,22 +34,19 @@ public class Sex implements Serializable {
     @Column(name = "SEX_TITLE")
     private String sexTitle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSex")
-    private Collection <Patient> patients;
-    
+    private Collection<Patient> patients;
+
     public Sex() {
     }
 
-    public Sex(Integer idSex, String sexTitle) {
-        this.idSex = idSex;
-        this.sexTitle = sexTitle;
+    public Sex(String sexTitle) {
+        if (sexTitle != null) {
+            this.sexTitle = sexTitle;
+        }
     }
 
     public Integer getIdSex() {
         return idSex;
-    }
-
-    public void setIdSex(Integer idSex) {
-        this.idSex = idSex;
     }
 
     public String getSexTitle() {
@@ -57,25 +54,27 @@ public class Sex implements Serializable {
     }
 
     public void setSexTitle(String sexTitle) {
-        this.sexTitle = sexTitle;
+        if (sexTitle != null) {
+            this.sexTitle = sexTitle;
+        }
     }
-    
+
     public Collection<Patient> getPatients() {
         return patients;
     }
 
     public void addPatient(Patient patient) {
-        if (this.patients==null){
-            this.patients=new ArrayList<Patient>();
+        if (this.patients == null) {
+            this.patients = new ArrayList<Patient>();
         }
         this.patients.add(patient);
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idSex!=null){
-            hash +=idSex.hashCode();
+        if (idSex != null) {
+            hash += idSex.hashCode();
         }
         return hash;
     }
@@ -93,5 +92,5 @@ public class Sex implements Serializable {
     public String toString() {
         return "Sex[ idSex=" + idSex + ", sexTitle=" + sexTitle + " ]";
     }
-    
+
 }

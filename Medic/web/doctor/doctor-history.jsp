@@ -45,7 +45,7 @@
             Doctor doctor = null;
             Patient patient = null;
 
-            String doctorFIO = "";
+            String doctorFIO = null;
 
             MedicalHistoryFacadeLocal localHistory = (MedicalHistoryFacadeLocal) ic.lookup("java:comp/env/ejb/MedicalHistoryRef");
             DoctorReceptionFacadeLocal localReception = (DoctorReceptionFacadeLocal) ic.lookup("java:comp/env/ejb/DoctorReceptionRef");
@@ -53,14 +53,15 @@
 
             historyId = Integer.valueOf(pHistoryId);
             history = localHistory.find(historyId);
-
+            receptions = history.getDoctorReceptions();
+            patient = history.getIdMedicalCard().getIdPatient();
             if ("newExam".equals(pAction)) {
-                if ("".equals(pComplaints) || "null".equals(pDocReception)) {
+                if ((pComplaints.trim().isEmpty()) || (pDocReception==null)) {
         %>
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4>Error!</h4>
-            You didn't complete all required fields!
+            You didn't complete all required fields.
         </div>
         <%    } else {
             idDoctorReception = Integer.valueOf(pDocReception);
@@ -72,13 +73,12 @@
         %>
         <div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            You successfully added new examination!
+            You successfully added new examination.
         </div>
         <%
                 }
             }
-            receptions = history.getDoctorReceptions();
-            patient = history.getIdMedicalCard().getIdPatient();
+           
         %>
 
         <div class="tabbable">
@@ -123,77 +123,59 @@
 
                         </p>
 
-                        <div class="modal" id="newExam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" <%if (!"ckechReception".equals(pAction)) {%> style="display: none;"<%}%>>
+                        <div class="modal" id="newExam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 id="myModalLabel">Creating new examination</h4>
                             </div>
-                            <form class="form-horizontal" method="POST">
-                                <div class="modal-body">
-                                    <div class="control-group warning">
-                                        <label class="my-control-label" for="outputReception">Doctor reception</label>
-                                        <div class="my-controls">
-                                            <input type="text" id="outputReception" name="reception" readonly style="width: 200px;" value="<%=request.getParameter("docRec")%>">
-                                            <a href="#ckechReception" role="button" class="btn" data-toggle="modal">...</a>
+                            <div>
+                                <form class="form-horizontal" method="POST"> 
+                                    <div class="modal-body">
+                                        <div class="alert alert-block">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <b>Attention! </b> All fields are mandatory.
                                         </div>
-                                    </div>
-                                    <div class="control-group warning">
-                                        <label class="my-control-label" for="outputComplaints">Complaints</label>
-                                        <div class="my-controls">
-                                            <textarea rows="5" id="outputComplaints" name="complaints" ></textarea>
+                                        <div class="control-group ">
+                                            <label class="my-control-label" for="outputReception">Doctor reception </label>
+
+                                            <div>
+                                                <select id="outputReception" name="reception"  style="width:  520px;">
+                                                   
+                                                    <%  for (DoctorReception someReception : receptions) {
+                                                            if (someReception.getIdExamination() == null) {
+                                                                doctor = someReception.getIdDoctor();
+                                                                doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();%>
+                                                    <option value="<%=someReception.getIdDoctorReception()%>" <% if ((pDocReception != null) && (someReception.getIdDoctorReception() == Integer.valueOf(pDocReception))) {%> selected<%}%>><%=sdft.format(someReception.getReceptionDate())+ ", "+doctorFIO  %></option>
+                                                    <%}
+                                                        }%>
+                                                </select>
+
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="alert alert-block">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <b>Attention!</b>Highlighted fields are mandatory.
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                    <button type="submit" name="action" value="newExam" class="btn btn-primary">Save</button>
-                                </div>
-                            </form>
+                                        <div class="control-group ">
+                                            <label class="my-control-label" for="outputComplaints">Complaints</label>
+                                            <div>
+                                                <textarea rows="9" id="outputComplaints" name="complaints" required style="width:  510px;"></textarea>
+                                            </div>
+                                        </div>
 
-                        </div>
+                                    </div>
 
-                        <div class="modal" id="ckechReception" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 id="myModalLabel">Check reception</h4>
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal" aria-hidden="true" formnovalidate>Close</button>
+                                        <button type="submit" name="action" value="newExam" class="btn btn-primary">Save</button>
+                                    </div>
+
+
+                                </form>
                             </div>
-                            <form class="form-horizontal" method="POST">
-
-                                <%  for (DoctorReception someReception : receptions) {
-                                        if (someReception.getIdExamination() == null) {
-                                            doctor = someReception.getIdDoctor();
-                                            doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();
-
-                                %>
-                                <div class="control-group">
-                                    <label class="my-control-label" for="outputReception" style="width:500px;">
-                                        <%=doctorFIO + ", " + sdft.format(someReception.getReceptionDate())%>
-                                    </label>
-                                    <div class="my-controls">
-                                        <input type ="radio" id="outputReception" name="docRec" value="<%=someReception.getIdDoctorReception()%>">
-
-                                    </div>
-
-
-                                </div>
-                                <%}
-                                    }%>
-                                <div class="modal-footer">
-                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                    <button  type="submit" name="action" value="ckechReception" class="btn btn-primary" >Check</button>
-                            </form>
                         </div>
 
+                    </div >
 
-                    </div>
-                </div >
-
+                </div>
             </div>
         </div>
-    </div>
-</body>
+
+    </body>
 </html>

@@ -86,4 +86,40 @@
         <local>com.medic.facade.local.AnalysisFacadeLocal</local>
         <ejb-link>AnalysisBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/SexRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.SexFacadeLocal</local>
+        <ejb-link>SexBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/CardStateRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.CardStateFacadeLocal</local>
+        <ejb-link>CardStateBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/GroupInfoRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.GroupInfoFacadeLocal</local>
+        <ejb-link>GroupInfoBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/HistoryTypeRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.HistoryTypeFacadeLocal</local>
+        <ejb-link>HistoryTypeBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/DoctorRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.DoctorFacadeLocal</local>
+        <ejb-link>DoctorBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/WorkTimeRef</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.medic.facade.local.WorkTimeFacadeLocal</local>
+        <ejb-link>WorkTimeBean</ejb-link>
+    </ejb-local-ref>
 </web-app>

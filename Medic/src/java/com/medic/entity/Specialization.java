@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "SPECIALIZATION")
@@ -23,8 +23,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Specialization.findAll", query = "SELECT s FROM Specialization s"),
     @NamedQuery(name = "Specialization.findByIdSpecialization", query = "SELECT s FROM Specialization s WHERE s.idSpecialization = :idSpecialization")})
 public class Specialization implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_SPECIALIZATION")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_SPECIALIZATION")
+    @SequenceGenerator(name = "ID_SPECIALIZATION", sequenceName = "ID_SPECIALIZATION", allocationSize = 1)
     @NotNull
     @Column(name = "ID_SPECIALIZATION")
     private Integer idSpecialization;
@@ -38,17 +40,14 @@ public class Specialization implements Serializable {
     public Specialization() {
     }
 
-    public Specialization(Integer idSpecialization, String specTitle) {
-        this.idSpecialization = idSpecialization;
-        this.specTitle = specTitle;
+    public Specialization(String specTitle) {
+        if (specTitle != null) {
+            this.specTitle = specTitle;
+        }
     }
 
     public Integer getIdSpecialization() {
         return idSpecialization;
-    }
-
-    public void setIdSpecialization(Integer idSpecialization) {
-        this.idSpecialization = idSpecialization;
     }
 
     public String getSpecTitle() {
@@ -56,7 +55,9 @@ public class Specialization implements Serializable {
     }
 
     public void setSpecTitle(String specTitle) {
-        this.specTitle = specTitle;
+        if (specTitle != null) {
+            this.specTitle = specTitle;
+        }
     }
 
     public Collection<Doctor> getDoctors() {
@@ -64,8 +65,8 @@ public class Specialization implements Serializable {
     }
 
     public void addDoctor(Doctor doctor) {
-        if (this.doctors==null){
-            this.doctors=new ArrayList<Doctor>();
+        if (this.doctors == null) {
+            this.doctors = new ArrayList<Doctor>();
         }
         this.doctors.add(doctor);
     }
@@ -73,8 +74,8 @@ public class Specialization implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idSpecialization!=null){
-            hash +=idSpecialization.hashCode();
+        if (idSpecialization != null) {
+            hash += idSpecialization.hashCode();
         }
         return hash;
     }
@@ -85,12 +86,12 @@ public class Specialization implements Serializable {
             return false;
         }
         Specialization other = (Specialization) object;
-        return this.idSpecialization.equals(other.idSpecialization);   
+        return this.idSpecialization.equals(other.idSpecialization);
     }
 
     @Override
     public String toString() {
         return "Specialization[ idSpecialization=" + idSpecialization + ",specTitle=" + specTitle + " ]";
     }
-    
+
 }

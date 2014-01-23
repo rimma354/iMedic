@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "LABORATORY")
@@ -23,8 +23,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Laboratory.findAll", query = "SELECT l FROM Laboratory l"),
     @NamedQuery(name = "Laboratory.findByIdLaboratory", query = "SELECT l FROM Laboratory l WHERE l.idLaboratory = :idLaboratory")})
 public class Laboratory implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_LABORATORY")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_LABORATORY")
+    @SequenceGenerator(name = "ID_LABORATORY", sequenceName = "ID_LABORATORY", allocationSize = 1)
     @NotNull
     @Column(name = "ID_LABORATORY")
     private Integer idLaboratory;
@@ -36,21 +38,18 @@ public class Laboratory implements Serializable {
     private Collection<LaboratoryReception> laboratoryReceptions;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratory")
 //    private Collection<LaboratorySchedule> laboratorySchedules;
-    
+
     public Laboratory() {
     }
 
-    public Laboratory(Integer idLaboratory, String labTitle) {
-        this.idLaboratory = idLaboratory;
-        this.labTitle = labTitle;
+    public Laboratory(String labTitle) {
+        if (labTitle != null) {
+            this.labTitle = labTitle;
+        }
     }
 
     public Integer getIdLaboratory() {
         return idLaboratory;
-    }
-
-    public void setIdLaboratory(Integer idLaboratory) {
-        this.idLaboratory = idLaboratory;
     }
 
     public String getLabTitle() {
@@ -58,7 +57,9 @@ public class Laboratory implements Serializable {
     }
 
     public void setLabTitle(String labTitle) {
-        this.labTitle = labTitle;
+        if (labTitle != null) {
+            this.labTitle = labTitle;
+        }
     }
 
     public Collection<LaboratoryReception> getLaboratoryReceptios() {
@@ -66,8 +67,8 @@ public class Laboratory implements Serializable {
     }
 
     public void addLaboratoryReception(LaboratoryReception laboratoryReception) {
-        if (this.laboratoryReceptions==null){
-            this.laboratoryReceptions=new ArrayList<LaboratoryReception>();
+        if (this.laboratoryReceptions == null) {
+            this.laboratoryReceptions = new ArrayList<LaboratoryReception>();
         }
         this.laboratoryReceptions.add(laboratoryReception);
     }
@@ -75,8 +76,8 @@ public class Laboratory implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idLaboratory!=null){
-            hash +=idLaboratory.hashCode();
+        if (idLaboratory != null) {
+            hash += idLaboratory.hashCode();
         }
         return hash;
     }
@@ -87,7 +88,7 @@ public class Laboratory implements Serializable {
             return false;
         }
         Laboratory other = (Laboratory) object;
-        return this.idLaboratory.equals(other.idLaboratory);   
+        return this.idLaboratory.equals(other.idLaboratory);
     }
 
     @Override
@@ -105,5 +106,4 @@ public class Laboratory implements Serializable {
 //        }
 //        this.laboratorySchedules.add(laboratorySchedule);
 //    }
-    
 }

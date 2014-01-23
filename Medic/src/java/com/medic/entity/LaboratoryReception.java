@@ -18,7 +18,6 @@ import static javax.persistence.TemporalType.DATE;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
 @Table(name = "LABORATORY_RECEPTION")
 @NamedQueries({
@@ -26,8 +25,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "LaboratoryReception.findByIdLaboratoryReception", query = "SELECT l FROM LaboratoryReception l WHERE l.idLaboratoryReception = :idLaboratoryReception"),
     @NamedQuery(name = "LaboratoryReception.findByAnalysisDate", query = "SELECT l FROM LaboratoryReception l WHERE l.analysisDate = :analysisDate")})
 public class LaboratoryReception implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_LABORATORY_RECEPTION")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_LABORATORY_RECEPTION")
     @SequenceGenerator(name = "ID_LABORATORY_RECEPTION", sequenceName = "ID_LABORATORY_RECEPTION", allocationSize = 1)
     @NotNull
     @Column(name = "ID_LABORATORY_RECEPTION")
@@ -50,29 +50,18 @@ public class LaboratoryReception implements Serializable {
     @JoinColumn(name = "ID_ANALYSIS")
     private Analysis idAnalysis;
 
-    public LaboratoryReception(){
-        
-    }
-    
-    public LaboratoryReception(Examination idExamination,Analysis idAnalysis) {
-        this.idExamination=idExamination;
-        this.idAnalysis=idAnalysis; 
+    public LaboratoryReception() {
     }
 
-    public LaboratoryReception(Examination idExamination,Laboratory idLaboratory, Date analysisDate, String analysisResult,Analysis idAnalysis) {
-        this.idExamination=idExamination;
-        this.idLaboratory=idLaboratory;
-        this.analysisDate = analysisDate;
-        this.analysisResult = analysisResult;
-        this.idAnalysis=idAnalysis;
+    public LaboratoryReception(Examination idExamination, Analysis idAnalysis) {
+        if ((idExamination != null) && (idAnalysis != null)) {
+            this.idExamination = idExamination;
+            this.idAnalysis = idAnalysis;
+        }
     }
 
     public Integer getIdLaboratoryReception() {
         return idLaboratoryReception;
-    }
-
-    public void setIdLaboratoryReception(Integer idLaboratoryReception) {
-        this.idLaboratoryReception = idLaboratoryReception;
     }
 
     public Date getAnalysisDate() {
@@ -80,7 +69,9 @@ public class LaboratoryReception implements Serializable {
     }
 
     public void setAnalysisDate(Date analysisDate) {
-        this.analysisDate = analysisDate;
+        if (analysisDate != null) {
+            this.analysisDate = analysisDate;
+        }
     }
 
     public String getAnalysisResult() {
@@ -88,7 +79,9 @@ public class LaboratoryReception implements Serializable {
     }
 
     public void setAnalysisResult(String analysisResult) {
-        this.analysisResult = analysisResult;
+        if (analysisResult != null) {
+            this.analysisResult = analysisResult;
+        }
     }
 
     public Examination getIdExamination() {
@@ -96,7 +89,9 @@ public class LaboratoryReception implements Serializable {
     }
 
     public void setIdExamination(Examination idExamination) {
-        this.idExamination = idExamination;
+        if (idExamination != null) {
+            this.idExamination = idExamination;
+        }
     }
 
     public Laboratory getIdLaboratory() {
@@ -104,21 +99,26 @@ public class LaboratoryReception implements Serializable {
     }
 
     public void setIdLaboratory(Laboratory idLaboratory) {
-        this.idLaboratory = idLaboratory;
+        if (idLaboratory != null) {
+            this.idLaboratory = idLaboratory;
+        }
     }
+
     public Analysis getIdAnalysis() {
         return idAnalysis;
     }
 
     public void setIdAnalysis(Analysis idAnalysis) {
-        this.idAnalysis = idAnalysis;
+        if (idAnalysis != null) {
+            this.idAnalysis = idAnalysis;
+        }
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idLaboratoryReception!=null){
-            hash +=idLaboratoryReception.hashCode();
+        if (idLaboratoryReception != null) {
+            hash += idLaboratoryReception.hashCode();
         }
         return hash;
     }
@@ -129,12 +129,12 @@ public class LaboratoryReception implements Serializable {
             return false;
         }
         LaboratoryReception other = (LaboratoryReception) object;
-        return this.idLaboratoryReception.equals(other.idLaboratoryReception);   
+        return this.idLaboratoryReception.equals(other.idLaboratoryReception);
     }
 
     @Override
     public String toString() {
         return "LaboratoryReception[ idLaboratoryReception=" + idLaboratoryReception + ",idExamination=" + idExamination + ",idLaboratory=" + idLaboratory + ",analysisDate=" + analysisDate + ",analysisResult=" + analysisResult + ",idAnalysis=" + idAnalysis + " ]";
     }
-    
+
 }

@@ -14,10 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "DOCTOR")
@@ -26,8 +26,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Doctor.findByIdDoctor", query = "SELECT d FROM Doctor d WHERE d.idDoctor = :idDoctor"),
     @NamedQuery(name = "Doctor.findByLastName", query = "SELECT d FROM Doctor d WHERE d.lastName = :lastName")})
 public class Doctor implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_DOCTOR")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_DOCTOR")
+    @SequenceGenerator(name = "ID_DOCTOR", sequenceName = "ID_DOCTOR", allocationSize = 1)
     @NotNull
     @Column(name = "ID_DOCTOR")
     private Integer idDoctor;
@@ -47,26 +49,23 @@ public class Doctor implements Serializable {
     @JoinColumn(name = "ID_SPECIALIZATION")
     private Specialization idSpecialization;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDoctor")
-    private Collection <DoctorReception> doctorReceptions;
+    private Collection<DoctorReception> doctorReceptions;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
 //    private Collection<DoctorSchedule> doctorSchedules;
 
     public Doctor() {
     }
 
-    public Doctor(Integer idDoctor, String firstName, String lastName, String patronymic) {
-        this.idDoctor = idDoctor;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
+    public Doctor(String firstName, String lastName, String patronymic) {
+        if ((firstName != null) && (lastName != null) && (patronymic != null)) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.patronymic = patronymic;
+        }
     }
 
     public Integer getIdDoctor() {
         return idDoctor;
-    }
-
-    public void setIdDoctor(Integer idDoctor) {
-        this.idDoctor = idDoctor;
     }
 
     public String getFirstName() {
@@ -74,7 +73,9 @@ public class Doctor implements Serializable {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (firstName != null) {
+            this.firstName = firstName;
+        }
     }
 
     public String getLastName() {
@@ -82,7 +83,9 @@ public class Doctor implements Serializable {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (lastName != null) {
+            this.lastName = lastName;
+        }
     }
 
     public String getPatronymic() {
@@ -90,7 +93,9 @@ public class Doctor implements Serializable {
     }
 
     public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
+        if (patronymic != null) {
+            this.patronymic = patronymic;
+        }
     }
 
     public Specialization getIdSpecialization() {
@@ -98,16 +103,18 @@ public class Doctor implements Serializable {
     }
 
     public void setIdSpecialization(Specialization idSpecialization) {
-        this.idSpecialization = idSpecialization;
+        if (idSpecialization != null) {
+            this.idSpecialization = idSpecialization;
+        }
     }
-  
+
     public Collection<DoctorReception> getDoctorReceptions() {
         return doctorReceptions;
     }
 
     public void addDoctorReception(DoctorReception doctorReception) {
-        if (this.doctorReceptions==null){
-            this.doctorReceptions=new ArrayList<DoctorReception>();
+        if (this.doctorReceptions == null) {
+            this.doctorReceptions = new ArrayList<DoctorReception>();
         }
         this.doctorReceptions.add(doctorReception);
     }
@@ -115,8 +122,8 @@ public class Doctor implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idDoctor!=null){
-            hash +=idDoctor.hashCode();
+        if (idDoctor != null) {
+            hash += idDoctor.hashCode();
         }
         return hash;
     }
@@ -127,7 +134,7 @@ public class Doctor implements Serializable {
             return false;
         }
         Doctor other = (Doctor) object;
-        return this.idDoctor.equals(other.idDoctor);   
+        return this.idDoctor.equals(other.idDoctor);
 
     }
 
@@ -146,5 +153,4 @@ public class Doctor implements Serializable {
 //        }
 //        this.doctorSchedules.add(doctorSchedule);
 //    }
-    
 }

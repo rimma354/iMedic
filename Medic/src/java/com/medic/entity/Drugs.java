@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "DRUGS")
@@ -23,8 +23,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Drugs.findAll", query = "SELECT d FROM Drugs d"),
     @NamedQuery(name = "Drugs.findByIdDrug", query = "SELECT d FROM Drugs d WHERE d.idDrug = :idDrug")})
 public class Drugs implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_DRUG")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_DRUG")
+    @SequenceGenerator(name = "ID_DRUG", sequenceName = "ID_DRUG", allocationSize = 1)
     @NotNull
     @Column(name = "ID_DRUG")
     private Integer idDrug;
@@ -33,22 +35,19 @@ public class Drugs implements Serializable {
     @Column(name = "DRUG_TITLE")
     private String drugTitle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDrug")
-    private Collection <Treatment> treatments;
-    
+    private Collection<Treatment> treatments;
+
     public Drugs() {
     }
 
-    public Drugs(Integer idDrug, String drugTitle) {
-        this.idDrug = idDrug;
-        this.drugTitle = drugTitle;
+    public Drugs(String drugTitle) {
+        if (drugTitle != null) {
+            this.drugTitle = drugTitle;
+        }
     }
 
     public Integer getIdDrug() {
         return idDrug;
-    }
-
-    public void setIdDrug(Integer idDrug) {
-        this.idDrug = idDrug;
     }
 
     public String getDrugTitle() {
@@ -56,16 +55,18 @@ public class Drugs implements Serializable {
     }
 
     public void setDrugTitle(String drugTitle) {
-        this.drugTitle = drugTitle;
+        if (drugTitle != null) {
+            this.drugTitle = drugTitle;
+        }
     }
-    
+
     public Collection<Treatment> getTreatments() {
         return treatments;
     }
 
     public void addTreatment(Treatment treatment) {
-        if (this.treatments==null){
-            this.treatments=new ArrayList<Treatment>();
+        if (this.treatments == null) {
+            this.treatments = new ArrayList<Treatment>();
         }
         this.treatments.add(treatment);
     }
@@ -73,8 +74,8 @@ public class Drugs implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idDrug!=null){
-            hash +=idDrug.hashCode();
+        if (idDrug != null) {
+            hash += idDrug.hashCode();
         }
         return hash;
     }
@@ -85,7 +86,7 @@ public class Drugs implements Serializable {
             return false;
         }
         Drugs other = (Drugs) object;
-        return this.idDrug.equals(other.idDrug);   
+        return this.idDrug.equals(other.idDrug);
 
     }
 
@@ -93,5 +94,5 @@ public class Drugs implements Serializable {
     public String toString() {
         return "Drugs[ idDrug=" + idDrug + ",drugTitle=" + drugTitle + " ]";
     }
-    
+
 }

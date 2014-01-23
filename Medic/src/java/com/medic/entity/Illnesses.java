@@ -14,10 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "ILLNESSES")
@@ -25,8 +25,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Illnesses.findAll", query = "SELECT i FROM Illnesses i"),
     @NamedQuery(name = "Illnesses.findByIdIllness", query = "SELECT i FROM Illnesses i WHERE i.idIllness = :idIllness")})
 public class Illnesses implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_ILLNESS")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_ILLNESS")
+    @SequenceGenerator(name = "ID_ILLNESS", sequenceName = "ID_ILLNESS", allocationSize = 1)
     @NotNull
     @Column(name = "ID_ILLNESS")
     private Integer idIllness;
@@ -38,22 +40,19 @@ public class Illnesses implements Serializable {
     @JoinColumn(name = "ID_GROUP_ILLNESSES")
     private GroupIllnesses idGroupIllnesses;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idIllness")
-    private Collection <Diagnosis> diagnoses;
-    
+    private Collection<Diagnosis> diagnoses;
+
     public Illnesses() {
     }
 
-    public Illnesses(Integer idIllness, String illnessesTitle) {
-        this.idIllness = idIllness;
-        this.illnessesTitle = illnessesTitle;
+    public Illnesses(String illnessesTitle) {
+        if (illnessesTitle != null) {
+            this.illnessesTitle = illnessesTitle;
+        }
     }
 
     public Integer getIdIllness() {
         return idIllness;
-    }
-
-    public void setIdIllness(Integer idIllness) {
-        this.idIllness = idIllness;
     }
 
     public String getIllnessesTitle() {
@@ -61,7 +60,9 @@ public class Illnesses implements Serializable {
     }
 
     public void setIllnessesTitle(String illnessesTitle) {
-        this.illnessesTitle = illnessesTitle;
+        if (illnessesTitle != null) {
+            this.illnessesTitle = illnessesTitle;
+        }
     }
 
     public GroupIllnesses getIdGroupIllnesses() {
@@ -69,16 +70,18 @@ public class Illnesses implements Serializable {
     }
 
     public void setIdGroupIllnesses(GroupIllnesses idGroupIllnesses) {
-        this.idGroupIllnesses = idGroupIllnesses;
+        if (idGroupIllnesses != null) {
+            this.idGroupIllnesses = idGroupIllnesses;
+        }
     }
-    
+
     public Collection<Diagnosis> getDiagnoses() {
         return this.diagnoses;
     }
 
     public void addDiagnosis(Diagnosis diagnosis) {
-        if (this.diagnoses==null){
-            this.diagnoses=new ArrayList<Diagnosis>();
+        if (this.diagnoses == null) {
+            this.diagnoses = new ArrayList<Diagnosis>();
         }
         this.diagnoses.add(diagnosis);
     }
@@ -86,8 +89,8 @@ public class Illnesses implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idIllness!=null){
-            hash +=idIllness.hashCode();
+        if (idIllness != null) {
+            hash += idIllness.hashCode();
         }
         return hash;
     }
@@ -98,12 +101,12 @@ public class Illnesses implements Serializable {
             return false;
         }
         Illnesses other = (Illnesses) object;
-        return this.idIllness.equals(other.idIllness);   
+        return this.idIllness.equals(other.idIllness);
     }
 
     @Override
     public String toString() {
         return "Illnesses[ idIllness=" + idIllness + ",illnessesTitle=" + illnessesTitle + ",idGroupIllnesses=" + idGroupIllnesses + " ]";
     }
-    
+
 }

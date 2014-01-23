@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "MEASURE")
@@ -23,8 +23,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Measure.findAll", query = "SELECT m FROM Measure m"),
     @NamedQuery(name = "Measure.findByIdMeasure", query = "SELECT m FROM Measure m WHERE m.idMeasure = :idMeasure")})
 public class Measure implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_MEASURE")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_MEASURE")
+    @SequenceGenerator(name = "ID_MEASURE", sequenceName = "ID_MEASURE", allocationSize = 1)
     @NotNull
     @Column(name = "ID_MEASURE")
     private Integer idMeasure;
@@ -33,22 +35,19 @@ public class Measure implements Serializable {
     @Column(name = "MEASURE_TITLE")
     private String measureTitle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMeasure")
-    private Collection <Treatment> treatments;
-    
+    private Collection<Treatment> treatments;
+
     public Measure() {
     }
 
-    public Measure(Integer idMeasure, String measureTitle) {
-        this.idMeasure = idMeasure;
-        this.measureTitle = measureTitle;
+    public Measure(String measureTitle) {
+        if (measureTitle != null) {
+            this.measureTitle = measureTitle;
+        }
     }
 
     public Integer getIdMeasure() {
         return idMeasure;
-    }
-
-    public void setIdMeasure(Integer idMeasure) {
-        this.idMeasure = idMeasure;
     }
 
     public String getMeasureTitle() {
@@ -56,7 +55,9 @@ public class Measure implements Serializable {
     }
 
     public void setMeasureTitle(String measureTitle) {
-        this.measureTitle = measureTitle;
+        if (measureTitle != null) {
+            this.measureTitle = measureTitle;
+        }
     }
 
     public Collection<Treatment> getTreatments() {
@@ -64,8 +65,8 @@ public class Measure implements Serializable {
     }
 
     public void addTreatment(Treatment treatment) {
-        if (this.treatments==null){
-            this.treatments=new ArrayList<Treatment>();
+        if (this.treatments == null) {
+            this.treatments = new ArrayList<Treatment>();
         }
         this.treatments.add(treatment);
     }
@@ -73,8 +74,8 @@ public class Measure implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idMeasure!=null){
-            hash +=idMeasure.hashCode();
+        if (idMeasure != null) {
+            hash += idMeasure.hashCode();
         }
         return hash;
     }
@@ -85,7 +86,7 @@ public class Measure implements Serializable {
             return false;
         }
         Measure other = (Measure) object;
-        return this.idMeasure.equals(other.idMeasure);   
+        return this.idMeasure.equals(other.idMeasure);
 
     }
 
@@ -93,5 +94,5 @@ public class Measure implements Serializable {
     public String toString() {
         return "Measure[ idMeasure=" + idMeasure + ",measureTitle=" + measureTitle + " ]";
     }
-    
+
 }

@@ -32,23 +32,37 @@
             Patient patient = null;
             MedicalCard card = null;
             Collection<AdditionalInfo> additionalInfos = null;
-            Collection <MedicalHistory> medicalHistories=null;
+            Collection<MedicalHistory> medicalHistories = null;
             InitialContext ic = new InitialContext();
             PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/PatientRef");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             String patientFIO = "";
+            String birth = null;
             Integer id = null;
             if (patientId != null) {
-                id = Integer.valueOf(patientId);
-            }
-            if (id != null) {
-                patient = localPatient.find(id);
-                card = patient.getIdMedicalCard();
+                if (!"".equals(patientId)) {
+                    id = Integer.valueOf(patientId);
+                    patient = localPatient.find(id);
+
+                    if (patient == null) {
+        %>
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Error!</h4>
+            Patient with such ID doesn't exist! <a href="doctor-search.jsp">Return back </a> and enter right ID.
+        </div>
+        <%
+        } else {
+            card = patient.getIdMedicalCard();
+            if (card != null) {
                 additionalInfos = card.getAdditionalInfos();
-                medicalHistories=card.getMedicaHistories();
+                medicalHistories = card.getMedicaHistories();
+
+                patientFIO = patient.getLastName() + " " + patient.getFirstName() + " " + patient.getPatronymic();
+                birth = sdf.format(patient.getDateBirth());
+                
             }
-            patientFIO = patient.getLastName() + " " + patient.getFirstName() + " " + patient.getPatronymic();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String birth = sdf.format(patient.getDateBirth());
+
         %>
         <div class="tabbable">
             <ul class="nav nav-tabs" >
@@ -195,34 +209,46 @@
 
                 <div class="tab-pane" id="tab3">
                     <div class="container" >
-    <table  class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>History type</th>
-                    <th>Opening date</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+                        <table  class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>History type</th>
+                                    <th>Opening date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                <%
-                    for (MedicalHistory someHistory : medicalHistories) {
-                %>
-                <tr>
-                    <td><%= someHistory.getDescription()%></td>
-                    <td><%= someHistory.getIdHistoryType().getTypeTitle()%></td>
-                    <td></td>
-                    <td> <a href="doctor-history.jsp?id=<%=someHistory.getIdMedicalHistory()%>">View</a> </td>
-                </tr>
-                <%
-                    }
-                %>
-            </tbody>
-        </table>
-                   </div >
+                                <%
+                                    for (MedicalHistory someHistory : medicalHistories) {
+                                %>
+                                <tr>
+                                    <td><%= someHistory.getDescription()%></td>
+                                    <td><%= someHistory.getIdHistoryType().getTypeTitle()%></td>
+                                    <td><%= sdf.format(someHistory.getOpenningDate())%> </td>
+                                    <td> <a href="doctor-history.jsp?id=<%=someHistory.getIdMedicalHistory()%>">View</a> </td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                    </div >
                 </div>
             </div>
         </div>
+        <% }
+                }
+                else {
+                   %>
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Error!</h4>
+            Your should fill in field before searching! <a href="doctor-search.jsp">Return back </a> and enter ID.
+        </div>
+        <%  
+                }
+            }%>
     </body>
 </html>

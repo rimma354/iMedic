@@ -15,9 +15,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
 
 @Entity
 @Table(name = "MEDICAL_CARD")
@@ -26,7 +26,8 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "MedicalCard.findByIdMedicalCard", query = "SELECT m FROM MedicalCard m WHERE m.idMedicalCard = :idMedicalCard")})
 public class MedicalCard implements Serializable {
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="ID_MEDICAL_CARD")
+    @GeneratedValue(strategy = SEQUENCE, generator = "ID_MEDICAL_CARD")
+    @SequenceGenerator(name = "ID_MEDICAL_CARD", sequenceName = "ID_MEDICAL_CARD", allocationSize = 1)
     @NotNull
     @Column(name = "ID_MEDICAL_CARD")
     private Integer idMedicalCard;
@@ -39,25 +40,22 @@ public class MedicalCard implements Serializable {
     @JoinColumn(name = "ID_STATE")
     private CardState idState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMedicalCard")
-    private Collection <MedicalHistory> medicalHistories;
+    private Collection<MedicalHistory> medicalHistories;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMedicalCard")
-    private Collection <AdditionalInfo> additionalInfos;
-    
+    private Collection<AdditionalInfo> additionalInfos;
+
     public MedicalCard() {
     }
-    
-    public MedicalCard(Integer idMedicalCard, Patient idPatient, CardState idState) {
-        this.idMedicalCard = idMedicalCard;
-        this.idPatient = idPatient;
-        this.idState = idState;
-    }
-    
-    public Integer getIdMedicalCard() {
-        return idMedicalCard;
+
+    public MedicalCard(Patient idPatient, CardState idState) {
+        if ((idPatient != null) && (idState != null)) {
+            this.idPatient = idPatient;
+            this.idState = idState;
+        }
     }
 
-    public void setIdMedicalCard(Integer idMedicalCard) {
-        this.idMedicalCard = idMedicalCard;
+    public Integer getIdMedicalCard() {
+        return idMedicalCard;
     }
 
     public Patient getIdPatient() {
@@ -65,35 +63,39 @@ public class MedicalCard implements Serializable {
     }
 
     public void setIdPatient(Patient idPatient) {
-        this.idPatient = idPatient;
+        if (idPatient != null) {
+            this.idPatient = idPatient;
+        }
     }
-    
+
     public CardState getIdState() {
         return idState;
     }
 
     public void setIdState(CardState idState) {
-        this.idState = idState;
+        if (idState != null) {
+            this.idState = idState;
+        }
     }
-    
+
     public Collection<MedicalHistory> getMedicaHistories() {
         return medicalHistories;
     }
 
     public void addMedicalHistory(MedicalHistory medicalHistory) {
-        if (this.medicalHistories==null){
-            this.medicalHistories=new ArrayList<MedicalHistory>();
+        if (this.medicalHistories == null) {
+            this.medicalHistories = new ArrayList<MedicalHistory>();
         }
         this.medicalHistories.add(medicalHistory);
     }
-  
-     public Collection<AdditionalInfo> getAdditionalInfos() {
+
+    public Collection<AdditionalInfo> getAdditionalInfos() {
         return additionalInfos;
     }
 
     public void addMAdditionalInfo(AdditionalInfo additionalInfo) {
-        if (this.additionalInfos==null){
-            this.additionalInfos=new ArrayList<AdditionalInfo>();
+        if (this.additionalInfos == null) {
+            this.additionalInfos = new ArrayList<AdditionalInfo>();
         }
         this.additionalInfos.add(additionalInfo);
     }
@@ -101,8 +103,8 @@ public class MedicalCard implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        if (idMedicalCard!=null){
-            hash +=idMedicalCard.hashCode();
+        if (idMedicalCard != null) {
+            hash += idMedicalCard.hashCode();
         }
         return hash;
     }
@@ -120,5 +122,5 @@ public class MedicalCard implements Serializable {
     public String toString() {
         return "MedicalCard[ idMedicalCard=" + idMedicalCard + ",idPatient=" + idPatient + ",idState=" + idState + " ]";
     }
-    
+
 }
