@@ -57,6 +57,7 @@ CREATE TABLE Medical_history (
   id_medical_card    number(10) NOT NULL, 
   id_history_type    number(10) NOT NULL, 
   description        varchar2(255) NOT NULL, 
+  openning_date      date NOT NULL,
   PRIMARY KEY (id_medical_history));
  
 ALTER TABLE Medical_history ADD CONSTRAINT FKMedical_history_type FOREIGN KEY (id_history_type) REFERENCES History_type (id_history_type);

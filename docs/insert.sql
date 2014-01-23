@@ -50,9 +50,9 @@ INSERT INTO Additional_info VALUES (id_info.nextval,6,6,'Whooping cough');
 INSERT INTO History_type VALUES (id_history_type.nextval, 'Illness');
 INSERT INTO History_type VALUES (id_history_type.nextval, 'Examination');
 
---Medical_history(id_medical_history,id_medical_card,id_history_type,description)
-INSERT INTO Medical_history VALUES (id_medical_history.nextval,1,1,'Scelalgia');
-INSERT INTO Medical_history VALUES (id_medical_history.nextval,2,1,'Fever, cough, runny nose');
+--Medical_history(id_medical_history,id_medical_card,id_history_type,description,openning_date)
+INSERT INTO Medical_history VALUES (id_medical_history.nextval,1,1,'Scelalgia',TO_DATE('11-NOV-2013', 'DD-MON-YYYY '));
+INSERT INTO Medical_history VALUES (id_medical_history.nextval,2,1,'Fever, cough, runny nose',TO_DATE('15-NOV-2013', 'DD-MON-YYYY '));
 
 --Specialization(id_specialization, specialiazation_title)
 INSERT INTO Specialization VALUES (id_specialization.nextval, 'Surgeon');
