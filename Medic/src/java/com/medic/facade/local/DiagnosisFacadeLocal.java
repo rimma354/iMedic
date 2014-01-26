@@ -1,6 +1,7 @@
 package com.medic.facade.local;
 
 import com.medic.entity.Diagnosis;
+import com.medic.entity.MedicalCard;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -16,4 +17,6 @@ public interface DiagnosisFacadeLocal {
     Diagnosis find(Object id);
 
     List<Diagnosis> findAll();
+    
+    List<Diagnosis> findByIdCard(MedicalCard medicalCard);
 }

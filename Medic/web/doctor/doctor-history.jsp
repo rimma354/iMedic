@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="com.medic.facade.local.DoctorReceptionFacadeLocal"%>
 <%@page import="com.medic.facade.local.ExaminationFacadeLocal"%>
 <%@page import="com.medic.entity.Patient"%>
@@ -44,8 +45,12 @@
             Collection<Examination> exams = null;
             Doctor doctor = null;
             Patient patient = null;
+            Date receptionDate;
+            String receptionDateStr = "";
+            Integer examId;
 
-            String doctorFIO = null;
+            String doctorFIO;
+            String complaintsStr;
 
             MedicalHistoryFacadeLocal localHistory = (MedicalHistoryFacadeLocal) ic.lookup("java:comp/env/ejb/MedicalHistoryRef");
             DoctorReceptionFacadeLocal localReception = (DoctorReceptionFacadeLocal) ic.lookup("java:comp/env/ejb/DoctorReceptionRef");
@@ -56,7 +61,7 @@
             receptions = history.getDoctorReceptions();
             patient = history.getIdMedicalCard().getIdPatient();
             if ("newExam".equals(pAction)) {
-                if ((pComplaints.trim().isEmpty()) || (pDocReception==null)) {
+                if ((pComplaints.trim().isEmpty()) || (pDocReception == null)) {
         %>
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -78,7 +83,7 @@
         <%
                 }
             }
-           
+
         %>
 
         <div class="tabbable">
@@ -91,10 +96,10 @@
                         <table  class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Doctor</th>
-                                    <th width="50%">Complaints</th>
-                                    <th></th>
+                                    <th width="13%">Date</th>
+                                    <th width="25%">Doctor</th>
+                                    <th>Complaints</th>
+                                    <th width="5%"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,19 +107,45 @@
                                 <%                                    for (DoctorReception someReception : receptions) {
                                         examination = someReception.getIdExamination();
                                         if (examination != null) {
+                                            examId=examination.getIdExamination();
                                             doctor = someReception.getIdDoctor();
                                             doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();
+                                            complaintsStr = examination.getComplaints();
+                                            receptionDate = someReception.getReceptionDate();
+                                            if (receptionDate != null) {
+                                                receptionDateStr = sdf.format(receptionDate);
+                                            }
                                 %>
-                                <tr>
-                                    <td><%= sdf.format(someReception.getReceptionDate())%></td>
-                                    <td><%= doctorFIO%></td>
-                                    <td><%= examination.getComplaints()%></td>
-                                    <td> <a href="doctor-exam.jsp?id=<%=examination.getIdExamination()%>">View</a> </td>
-                                </tr>
-                                <%
-                                        }
+                            <div class="modal" id="complaints<%=examId%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h5 id="myModalLabel">Complaints, <%=receptionDateStr%></h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p><%=complaintsStr%></p>
+                                </div>
+                            </div>
+                            <tr>
+                                <td><%=receptionDateStr%></td>
+                                <td><%= doctorFIO%></td>
+                                <td><%
+                                if(complaintsStr.length()<75){
+                                    out.print(complaintsStr);}
+                                    else{
+                                        out.print(complaintsStr.substring(0,74)+" ");
+                                          %>
+                                          <a href="#complaints<%=examId%>"  data-toggle="modal">more...</a>
+                                    <%
+                                            }
+                                    
+                                %></td>             
+
+                                <td> <a href="doctor-exam.jsp?id=<%=examination.getIdExamination()%>">View</a> </td>
+                            </tr>
+                            <%
                                     }
-                                %>
+                                }
+                            %>
                             </tbody>
                         </table>
                         <p align="right">
@@ -140,12 +171,11 @@
 
                                             <div>
                                                 <select id="outputReception" name="reception"  style="width:  520px;">
-                                                   
                                                     <%  for (DoctorReception someReception : receptions) {
                                                             if (someReception.getIdExamination() == null) {
                                                                 doctor = someReception.getIdDoctor();
                                                                 doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();%>
-                                                    <option value="<%=someReception.getIdDoctorReception()%>" <% if ((pDocReception != null) && (someReception.getIdDoctorReception() == Integer.valueOf(pDocReception))) {%> selected<%}%>><%=sdft.format(someReception.getReceptionDate())+ ", "+doctorFIO  %></option>
+                                                    <option value="<%=someReception.getIdDoctorReception()%>" <% if ((pDocReception != null) && (someReception.getIdDoctorReception() == Integer.valueOf(pDocReception))) {%> selected<%}%>><%=sdft.format(someReception.getReceptionDate()) + ", " + doctorFIO%></option>
                                                     <%}
                                                         }%>
                                                 </select>
@@ -165,7 +195,6 @@
                                         <button class="btn" data-dismiss="modal" aria-hidden="true" formnovalidate>Close</button>
                                         <button type="submit" name="action" value="newExam" class="btn btn-primary">Save</button>
                                     </div>
-
 
                                 </form>
                             </div>

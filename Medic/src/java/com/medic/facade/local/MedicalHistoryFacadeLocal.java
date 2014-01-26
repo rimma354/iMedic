@@ -2,6 +2,7 @@
 package com.medic.facade.local;
 
 import com.medic.entity.MedicalHistory;
+import com.medic.entity.Patient;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,4 +18,5 @@ public interface MedicalHistoryFacadeLocal {
     MedicalHistory find(Object id);
 
     List<MedicalHistory> findAll();
+      List<MedicalHistory> findByIdPat(Integer id);
 }

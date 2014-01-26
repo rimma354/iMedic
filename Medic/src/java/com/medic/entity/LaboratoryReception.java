@@ -19,11 +19,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "LABORATORY_RECEPTION")
-@NamedQueries({
-    @NamedQuery(name = "LaboratoryReception.findAll", query = "SELECT l FROM LaboratoryReception l"),
-    @NamedQuery(name = "LaboratoryReception.findByIdLaboratoryReception", query = "SELECT l FROM LaboratoryReception l WHERE l.idLaboratoryReception = :idLaboratoryReception"),
-    @NamedQuery(name = "LaboratoryReception.findByAnalysisDate", query = "SELECT l FROM LaboratoryReception l WHERE l.analysisDate = :analysisDate")})
+        @Table(name = "LABORATORY_RECEPTION")
+        @NamedQueries({
+            @NamedQuery(name = "LaboratoryReception.findAll",
+                    query = "SELECT l FROM LaboratoryReception l"),
+            @NamedQuery(name = "LaboratoryReception.findByIdLaboratoryReception",
+                    query = "SELECT l FROM LaboratoryReception l WHERE l.idLaboratoryReception = :idLaboratoryReception"),
+            @NamedQuery(name = "LaboratoryReception.findByAnalysisDate",
+                    query = "SELECT l FROM LaboratoryReception l WHERE l.analysisDate = :analysisDate")})
+
 public class LaboratoryReception implements Serializable {
 
     @Id

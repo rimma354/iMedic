@@ -87,8 +87,13 @@
             Collection<Treatment> treatments = null;
             Collection<LaboratoryReception> laboratoryReceptions = null;
             Doctor doctor = null;
-            String doctorFIO = "";
-            Date examinationDate = null;
+            String doctorFIO;
+            Date examinationDate;
+            Date analysisDate;
+            String analysisDateStr;
+            String analysisResult;
+            String analysisTitle;
+            Integer labRecId;
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -103,7 +108,7 @@
             history = examination.getIdDoctorReception().getIdMedicalHistory();
 
             if ("newTreatment".equals(pAction)) {
-                if ("".equals(pDrugId) || "".equals(pMeasureId) || "".equals(pDosage) || "".equals(pQuantity) || "".equals(pDuration)) {
+                if ("".equals(pDrugId) || "".equals(pMeasureId) || "".equals(pDosage) || "".equals(pQuantity) || "".equals(pDuration) || (pDrugId == null) || (pMeasureId == null)) {
         %>
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -140,11 +145,12 @@
             <h4>Error!</h4>Fields "quantity","duration","dosage" should be numeric. Check them.
         </div>
         <%
+                    }
                 }
-            }}
+            }
 
             if ("newAnalysis".equals(pAction)) {
-                if ("".equals(pAnalysisId)) {
+                if ("".equals(pAnalysisId) || (pAnalysisId == null)) {
         %>
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -168,7 +174,7 @@
         <%                }
             }
             if ("newDiagnosis".equals(pAction)) {
-                if ("".equals(pIllnessesId)) {
+                if ("".equals(pIllnessesId) || (pIllnessesId == null)) {
         %>
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -201,38 +207,53 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane  <% if ("newAnalysis".equals(pAction) || (pAction == null)) {%>active<%}%>"   id="tab1">
-                    <div class="container" >
+                    <div class="container">
                         <table  class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Title</th>
+                                    <th width="13%">Date</th>
+                                    <th width="35%">Title</th>
                                     <th>Result</th>
-                                    <th>Appointment card</th>
+                                    <th width="35%">Appointment card</th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <%                                    for (LaboratoryReception someLabReception : laboratoryReceptions) {
-                                %>
-                                <tr>
+                                        labRecId = someLabReception.getIdLaboratoryReception();
+                                        analysisDate=someLabReception.getAnalysisDate();
+                                        analysisResult=someLabReception.getAnalysisResult();
+                                        if (analysisDate != null){
+                                        analysisDateStr=sdf.format(analysisDate);}
+                                        else{
+                                            analysisDateStr="no record";
+                                        }
+                                        analysisTitle = someLabReception.getIdAnalysis().getAnalysisTitle();%>
+                            <div class="modal" id="result<%=labRecId%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h5 id="myModalLabel">Result of "<%=analysisTitle%>", by <%=analysisDateStr%></h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p><%=analysisResult%></p>
+                                </div>
+                            </div>
+                            <tr>
 
-                                    <td <% if (someLabReception.getAnalysisDate() == null) { %> class="text-warning"<%}%> ><% if (someLabReception.getAnalysisDate() != null) {
-                                            out.print(sdf.format(someLabReception.getAnalysisDate()));
-                                        } else {
-                                            out.print("no record");
-                                        }%></td>
-                                    <td><%=someLabReception.getIdAnalysis().getAnalysisTitle()%></td>
-                                    <td <% if (someLabReception.getAnalysisResult() == null) { %> class="text-warning"<%}%> ><% if (someLabReception.getAnalysisResult() != null) {
-                                            out.print(someLabReception.getAnalysisResult());
-                                        } else {
-                                            out.print("no results");
-                                        }%></td>
-                                    <td><%=doctorFIO + ", " + sdf.format(examinationDate)%></td>
-                                </tr>
-                                <%
-                                    }
-                                %>
+                                <td <% if (analysisDate == null) { %> class="text-warning"<%}%> >
+                                        <%=analysisDateStr%></td>
+                                <td><%=analysisTitle%></td>
+                                <td <% if (analysisResult == null) { %> class="text-warning"<%}%> ><% if (analysisResult != null) {%>
+                                    <a href="#result<%=labRecId%>"  data-toggle="modal">view result</a>
+                                    <% } else {
+                                                out.print("no results");
+                                            }%></td>
+                                <td><%=doctorFIO + ", " + sdf.format(examinationDate)%></td>
+                            </tr>
+
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                         <p align="right">
@@ -274,9 +295,10 @@
                         <table  class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Doctor</th>
-                                    <th width=50%>Diagnosis</th>
+                                    <th>Diagnosis</th>
+                                    <th width="13%">Date</th>
+                                    <th width=25%>Doctor</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -284,9 +306,9 @@
                                 <%                                    for (Diagnosis someDiagnosis : diagnosis) {
                                 %>
                                 <tr>
+                                    <td><%=someDiagnosis.getIdIllnesses().getIllnessesTitle()%></td>
                                     <td><%=sdf.format(examinationDate)%></td>
                                     <td><%=doctorFIO%></td>
-                                    <td><%=someDiagnosis.getIdIllnesses().getIllnessesTitle()%></td>
                                 </tr>
                                 <%
                                     }
@@ -329,14 +351,13 @@
                         <table  class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Doctor</th>
-                                    <th>Drug</th>
+                                    <th width="25%">Drug</th>
                                     <th>Dosage</th>
                                     <th>Measure</th>
                                     <th>Quantity</th>
                                     <th>Duration</th>
-                                    <th></th>
+                                    <th width="13%">Date</th>
+                                    <th width=25%>Doctor</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -346,13 +367,13 @@
 
                                 %>
                                 <tr>
-                                    <td><%=sdf.format(examinationDate)%></td>
-                                    <td><%=doctorFIO%></td>
                                     <td><%=someTreatment.getIdDrug().getDrugTitle()%></td>
                                     <td><%=someTreatment.getDosage()%></td>
                                     <td><%=someTreatment.getIdMeasure().getMeasureTitle()%></td>
                                     <td><%=someTreatment.getQuantity()%></td>
                                     <td><%=someTreatment.getDuration()%></td>
+                                    <td><%=sdf.format(examinationDate)%></td>
+                                    <td><%=doctorFIO%></td>
                                 </tr>
                                 <%
                                     }
@@ -423,7 +444,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn" data-dismiss="modal" aria-hidden="true" formnovalidate>Close</button>
-                                        <button class="btn btn-primary" type="submit" name="action" value="newTreatment" >Save</button>
+                                        <button class="btn btn-primary" type="submit" name="action" value="newTreatment"  >Save</button>
                                     </div>     </form>
                             </div> </div>
 

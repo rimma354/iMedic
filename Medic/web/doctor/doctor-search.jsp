@@ -25,35 +25,26 @@
         <div class="container" >
             <form class="form-horizontal" action="doctor-search.jsp" >
 
-                <div class="row">
-                    <div class="span8 " style="margin-left: 200px;">
-                        <div class="control-group">
-                            <label class="my-control-label" for="inputSearch" >Searching patient by id</label>
-                            <div class="my-controls">
-                                <input type="text" name="id" required pattern="^[0-9]+$"  title="only integer number"> <button type="submit"  name="action" value="searchById" class="btn">Search</button>
-                            </div>
-                        </div>	
+                <div class="control-group">
+                    <label class="my-control-label" for="inputSearch" >Searching patient by id</label>
+                    <div class="my-controls">
+                        <input type="text" name="id" required pattern="^[0-9]+$"  title="only integer number"> <button type="submit"  name="action" value="searchById" class="btn">Search</button>
                     </div>
-                </div >
+                </div>	
             </form>
         </div>
 
         <div class="container" >
             <form class="form-horizontal" action="doctor-search.jsp" >
-
-                <div class="row">
-                    <div class="span8" style="margin-left: 200px;">
-                        <div class="control-group">
-                            <label class="my-control-label" for="inputSearch" >Searching patient by last name</label>
-                            <div class="my-controls">
-                                <input type="text" name="lastName" required pattern="^[a-zA-Z]+$" title="only latin "> <button type="submit"   name="action"  value="searchByLastName" class="btn">Search</button>
-                            </div>
-                        </div>	
+                <div class="control-group">
+                    <label class="my-control-label" for="inputSearch" >Searching patient by last name</label>
+                    <div class="my-controls">
+                        <input type="text" name="lastName" required pattern="^[a-zA-Z]+$" title="only latin "> <button type="submit" name="action"  value="searchByLastName" class="btn">Search</button>
                     </div>
-                </div >
+                </div>	
             </form>
         </div>
-
+        <br>
         <%
             String patientLastName = request.getParameter("lastName");
             String patientId = request.getParameter("id");
@@ -65,43 +56,45 @@
             PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/PatientRef");
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             if ("searchByLastName".equals(pAction)) {
-                if ((patientLastName != null) && (!"".equals(patientLastName))&&(!patientLastName.trim().isEmpty())) {
+                if ((patientLastName != null) && (!"".equals(patientLastName)) && (!patientLastName.trim().isEmpty())) {
                     patients = localPatient.findByLastName(patientLastName);
                     if (!patients.isEmpty()) {
         %>
-        <table  class="table table-hover">
-            <thead>
-                <tr>
-                    <th width="60">ID</th>
-                    <th>Last name</th>
-                    <th>First name</th>
-                    <th>Patronymic</th>
-                    <th>Sex</th>
-                    <th>Date of birth</th>
-                    <th>Passport</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="container" >
+            <table  class="table table-hover">
+                <thead>
+                    <tr>
+                        <th width="60">ID</th>
+                        <th>Last name</th>
+                        <th>First name</th>
+                        <th>Patronymic</th>
+                        <th>Sex</th>
+                        <th>Date of birth</th>
+                        <th>Passport</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <%
-                    for (Patient somePatient : patients) {
-                %>
-                <tr>
-                    <td><%= somePatient.getIdPatient()%></td>
-                    <td><%= somePatient.getLastName()%></td>
-                    <td><%= somePatient.getFirstName()%></td>
-                    <td><%= somePatient.getPatronymic()%></td>
-                    <td><%= somePatient.getIdSex().getSexTitle()%></td>
-                    <td><%= sdf.format(somePatient.getDateBirth())%></td>
-                    <td><%= somePatient.getPassport()%></td>
-                    <td> <a href="doctor-patient.jsp?id=<%=somePatient.getIdPatient()%>">View</a> </td>
-                </tr>
-                <%
-                    }
-                %>
-            </tbody>
-        </table>
+                    <%
+                        for (Patient somePatient : patients) {
+                    %>
+                    <tr>
+                        <td><%= somePatient.getIdPatient()%></td>
+                        <td><%= somePatient.getLastName()%></td>
+                        <td><%= somePatient.getFirstName()%></td>
+                        <td><%= somePatient.getPatronymic()%></td>
+                        <td><%= somePatient.getIdSex().getSexTitle()%></td>
+                        <td><%= sdf.format(somePatient.getDateBirth())%></td>
+                        <td><%= somePatient.getPassport()%></td>
+                        <td> <a href="doctor-patient.jsp?id=<%=somePatient.getIdPatient()%>">View</a> </td>
+                    </tr>
+                    <%
+                        }
+                    %>
+                </tbody>
+            </table>
+        </div>
         <%
         } else {
         %>
@@ -132,34 +125,36 @@
                         patient = localPatient.find(id);
                         if (patient != null) {
         %>
-        <table  class="table table-hover">
-            <thead>
-                <tr>
-                    <th width="60">ID</th>
-                    <th>Last name</th>
-                    <th>First name</th>
-                    <th>Patronymic</th>
-                    <th>Sex</th>
-                    <th>Date of birth</th>
-                    <th>Passport</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="container" >
+            <table  class="table table-hover">
+                <thead>
+                    <tr>
+                        <th width="60">ID</th>
+                        <th>Last name</th>
+                        <th>First name</th>
+                        <th>Patronymic</th>
+                        <th>Sex</th>
+                        <th>Date of birth</th>
+                        <th>Passport</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <tr>
-                    <td><%= patient.getIdPatient()%></td>
-                    <td><%= patient.getLastName()%></td>
-                    <td><%= patient.getFirstName()%></td>
-                    <td><%= patient.getPatronymic()%></td>
-                    <td><%= patient.getIdSex().getSexTitle()%></td>
-                    <td><%= sdf.format(patient.getDateBirth())%></td>
-                    <td><%= patient.getPassport()%></td>
-                    <td> <a href="doctor-patient.jsp?id=<%=patient.getIdPatient()%>">View</a> </td>
-                </tr>
+                    <tr>
+                        <td><%= patient.getIdPatient()%></td>
+                        <td><%= patient.getLastName()%></td>
+                        <td><%= patient.getFirstName()%></td>
+                        <td><%= patient.getPatronymic()%></td>
+                        <td><%= patient.getIdSex().getSexTitle()%></td>
+                        <td><%= sdf.format(patient.getDateBirth())%></td>
+                        <td><%= patient.getPassport()%></td>
+                        <td> <a href="doctor-patient.jsp?id=<%=patient.getIdPatient()%>">View</a> </td>
+                    </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         <%
         } else {
         %>

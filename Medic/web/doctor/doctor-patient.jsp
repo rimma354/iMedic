@@ -1,3 +1,9 @@
+<%@page import="com.medic.entity.Laboratory"%>
+<%@page import="com.medic.entity.Diagnosis"%>
+<%@page import="com.medic.facade.local.DiagnosisFacadeLocal"%>
+<%@page import="com.medic.entity.Doctor"%>
+<%@page import="com.medic.facade.local.LaboratoryReceptionFacadeLocal"%>
+<%@page import="com.medic.entity.LaboratoryReception"%>
 <%@page import="com.medic.entity.MedicalHistory"%>
 <%@page import="com.medic.facade.local.MedicalHistoryFacadeLocal"%>
 <%@page import="java.util.Collection"%>
@@ -33,17 +39,30 @@
             MedicalCard card = null;
             Collection<AdditionalInfo> additionalInfos = null;
             Collection<MedicalHistory> medicalHistories = null;
+            Collection<LaboratoryReception> laboratoryReceptions = null;
+            Collection<Diagnosis> diagnosis = null;
             InitialContext ic = new InitialContext();
             PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/PatientRef");
+            LaboratoryReceptionFacadeLocal localLabRec = (LaboratoryReceptionFacadeLocal) ic.lookup("java:comp/env/ejb/LaboratoryReceptionRef");
+            DiagnosisFacadeLocal localDiagnosis = (DiagnosisFacadeLocal) ic.lookup("java:comp/env/ejb/DiagnosisRef");
+            Date examinationDate;
+            Date analysisDate;
+            String analysisDateStr;
+            String analysisResult;
+            String analysisTitle;
+            Integer labRecId;
+            Doctor doctor;
+            Laboratory laboratory;
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             String patientFIO = "";
+            String doctorFIO = "";
+            String laboratoryStr = " ";
             String birth = null;
             Integer id = null;
             if (patientId != null) {
                 if (!"".equals(patientId)) {
                     id = Integer.valueOf(patientId);
                     patient = localPatient.find(id);
-
                     if (patient == null) {
         %>
         <div class="alert alert-error">
@@ -57,18 +76,22 @@
             if (card != null) {
                 additionalInfos = card.getAdditionalInfos();
                 medicalHistories = card.getMedicaHistories();
-
+                laboratoryReceptions = localLabRec.findByIdCard(card);
+                diagnosis = localDiagnosis.findByIdCard(card);
                 patientFIO = patient.getLastName() + " " + patient.getFirstName() + " " + patient.getPatronymic();
                 birth = sdf.format(patient.getDateBirth());
-                
+
             }
 
         %>
         <div class="tabbable">
             <ul class="nav nav-tabs" >
-                <li class="active"><a href="#tab1" data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Personal data</a></li>
-                <li><a href="#tab2"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Additional information</a></li>
-                <li><a href="#tab3"data-toggle="tab" class="calendar-cancel" onclick="calendar.hideCalendar()">Medical histories</a></li>
+                <li class="active"><a href="#tab1" data-toggle="tab" >Personal data</a></li>
+                <li><a href="#tab2"data-toggle="tab" >Additional information</a></li>
+                <li><a href="#tab3"data-toggle="tab" >Medical histories</a></li>
+                <li><a href="#tab4"data-toggle="tab" >Analysis</a></li>
+                <li><a href="#tab5"data-toggle="tab" >Diagnosis</a></li>
+
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
@@ -126,85 +149,69 @@
                 </div>
                 <div class="tab-pane" id="tab2">
                     <div class="container" >
-                        <form class="form-horizontal">
-                            <div class="row">
-                                <div class="span8 "style="margin-left: 200px;">
-                                    <div class="control-group">
-                                        <label class="my-control-label" for="outputChronicDiseases" >Chronic illness</label>
-                                        <div class="my-controls">
-                                            <input type="text" id="outputChronicDiseases" readonly placeholder="<%
-                                                for (AdditionalInfo someInfo : additionalInfos) {
-                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 3) {
-                                                        out.print(someInfo.getDescription());
-                                                    }
+                        <table  class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Factor</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Blood group</td>
+                                    <td>
+                                        <%
+                                            for (AdditionalInfo someInfo : additionalInfos) {
+                                                if (someInfo.getIdGroupInfo().getIdGroupInfo() == 2) {
+                                                    out.print(someInfo.getDescription());
                                                 }
-                                                   %>">
-                                        </div>
-                                    </div>	
-                                    <div class="control-group">
-                                        <label class="my-control-label" for="outputDrugIntolerance">Drug intolerance</label>
-                                        <div class="my-controls">
-                                            <input type="text" id="outputDrugIntolerance" readonly placeholder="<%
-                                                for (AdditionalInfo someInfo : additionalInfos) {
-                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 4) {
-                                                        out.print(someInfo.getDescription());
-                                                    }
+                                            }
+                                        %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>RH factor</td>
+                                    <td> 
+                                        <%
+                                            for (AdditionalInfo someInfo : additionalInfos) {
+                                                if (someInfo.getIdGroupInfo().getIdGroupInfo() == 5) {
+                                                    out.print(someInfo.getDescription());
                                                 }
-                                                   %>">
-                                        </div>
-                                    </div>	
-                                    <div class="control-group">
-                                        <label class="my-control-label" for="outputAllergy">Allergies</label>
-                                        <div class="my-controls">
-                                            <input type="text" id="outputAllergy" readonly placeholder="<%
-                                                for (AdditionalInfo someInfo : additionalInfos) {
-                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 1) {
-                                                        out.print(someInfo.getDescription());
-                                                    }
-                                                }
-                                                   %>">
-                                        </div>
-                                    </div>	
-                                    <div class="control-group">
-                                        <label class="my-control-label" for="outputVaccinations">Vaccinations</label>
-                                        <div class="my-controls">
-                                            <input type="text" id="outputVaccinations" readonly placeholder="<%
-                                                for (AdditionalInfo someInfo : additionalInfos) {
-                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 6) {
-                                                        out.print(someInfo.getDescription());
-                                                    }
-                                                }
-                                                   %>">
-                                        </div>
-                                    </div>	
-                                    <div class="control-group">
-                                        <label class="my-control-label" for="outputBloodGroup">Blood group</label>
-                                        <div class="my-controls">
-                                            <input type="text" id="outputBloodGroup" readonly placeholder="<%
-                                                for (AdditionalInfo someInfo : additionalInfos) {
-                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 2) {
-                                                        out.print(someInfo.getDescription());
-                                                    }
-                                                }
-                                                   %>">
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="my-control-label" for="outputRHFactor">RH factor</label>
-                                        <div class="my-controls">
-                                            <input type="text" id="outputRHFactor" readonly placeholder="<%
-                                                for (AdditionalInfo someInfo : additionalInfos) {
-                                                    if (someInfo.getIdGroupInfo().getIdGroupInfo() == 5) {
-                                                        out.print(someInfo.getDescription());
-                                                    }
-                                                }
-                                                   %>">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </div >
-                    </form>
+                                            }
+                                        %>
+                                    </td>
+                                </tr>
+                                <tr><td>Chronic illness</td><td><%
+                                    for (AdditionalInfo someInfo : additionalInfos) {
+                                        if (someInfo.getIdGroupInfo().getIdGroupInfo() == 3) {
+                                            out.print(someInfo.getDescription() + "; ");
+                                        }
+                                    }
+                                        %></td></tr>
+                                <tr><td>Allergies</td><td><%
+                                    for (AdditionalInfo someInfo : additionalInfos) {
+                                        if (someInfo.getIdGroupInfo().getIdGroupInfo() == 1) {
+                                            out.print(someInfo.getDescription() + "; ");
+                                        }
+                                    }
+                                        %></td></tr>
+                                <tr><td>Drug intolerance</td><td><%
+                                    for (AdditionalInfo someInfo : additionalInfos) {
+                                        if (someInfo.getIdGroupInfo().getIdGroupInfo() == 4) {
+                                            out.print(someInfo.getDescription() + "; ");
+                                        }
+                                    }
+                                        %></td></tr>
+                                <tr><td>Vaccinations</td><td><%
+                                    for (AdditionalInfo someInfo : additionalInfos) {
+                                        if (someInfo.getIdGroupInfo().getIdGroupInfo() == 6) {
+                                            out.print(someInfo.getDescription() + "; ");
+                                        }
+                                    }
+                                        %></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="tab-pane" id="tab3">
@@ -212,10 +219,10 @@
                         <table  class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th width="13%">Opening date</th>
+                                    <th width="15%">History type</th>
                                     <th>Description</th>
-                                    <th>History type</th>
-                                    <th>Opening date</th>
-                                    <th></th>
+                                    <th  width="5%"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -224,10 +231,105 @@
                                     for (MedicalHistory someHistory : medicalHistories) {
                                 %>
                                 <tr>
-                                    <td><%= someHistory.getDescription()%></td>
-                                    <td><%= someHistory.getIdHistoryType().getTypeTitle()%></td>
                                     <td><%= sdf.format(someHistory.getOpenningDate())%> </td>
+                                    <td><%= someHistory.getIdHistoryType().getTypeTitle()%></td>
+                                    <td><%= someHistory.getDescription()%></td>
                                     <td> <a href="doctor-history.jsp?id=<%=someHistory.getIdMedicalHistory()%>">View</a> </td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                    </div >
+                </div>
+                <div class="tab-pane" id="tab4">
+                    <div class="container" >
+                        <table  class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="13%">Date</th>
+                                    <th width="18%">Laboratory</th>
+                                    <th width="25%">Title</th>
+                                    <th>Result</th>
+                                    <th width="30%">Appointment card</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <%                                    for (LaboratoryReception someLabReception : laboratoryReceptions) {
+                                        labRecId = someLabReception.getIdLaboratoryReception();
+                                        laboratory = someLabReception.getIdLaboratory();
+                                        if (laboratory != null) {
+                                            laboratoryStr = laboratory.getLabTitle();
+                                        } else {
+laboratoryStr = "no record";
+                                        }
+                                        analysisDate = someLabReception.getAnalysisDate();
+                                        analysisResult = someLabReception.getAnalysisResult();
+                                        examinationDate = someLabReception.getIdExamination().getIdDoctorReception().getReceptionDate();
+                                        doctor = someLabReception.getIdExamination().getIdDoctorReception().getIdDoctor();
+                                        doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();
+                                        if (analysisDate != null) {
+                                            analysisDateStr = sdf.format(analysisDate);
+                                        } else {
+                                            analysisDateStr = "no record";
+                                        }
+                                        analysisTitle = someLabReception.getIdAnalysis().getAnalysisTitle();%>
+                            <div class="modal" id="result<%=labRecId%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h5 id="myModalLabel">Result of "<%=analysisTitle%>", by <%=analysisDateStr%></h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p><%=analysisResult%></p>
+                                </div>
+                            </div>
+                            <tr>
+
+                                <td <% if (analysisDate == null) { %> class="text-warning"<%}%> >
+                                    <%=analysisDateStr%></td>
+                                <td  <% if (laboratory == null) { %> class="text-warning"<%}%>><%=laboratoryStr%></td>
+                                <td><%=analysisTitle%></td>
+                                <td <% if (analysisResult == null) { %> class="text-warning"<%}%> ><% if (analysisResult != null) {%>
+                                    <a href="#result<%=labRecId%>"  data-toggle="modal">view result</a>
+                                    <% } else {
+                                            out.print("no results");
+                                        }%></td>
+                                <td><%=doctorFIO + ", " + sdf.format(examinationDate)%></td>
+                            </tr>
+
+                            <%
+                                }
+                            %>
+                            </tbody>
+                        </table>
+                    </div >
+                </div>
+                <div class="tab-pane" id="tab5">
+                    <div class="container" >
+                        <table  class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Diagnosis</th>
+                                    <th width="13%">Date</th>
+                                    <th width=25%>Doctor</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <%                                    for (Diagnosis someDiagnosis : diagnosis) {
+                                        doctor = someDiagnosis.getIdExamination().getIdDoctorReception().getIdDoctor();
+                                        doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();
+                                        doctorFIO = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getPatronymic();
+                                        examinationDate = someDiagnosis.getIdExamination().getIdDoctorReception().getReceptionDate();
+
+                                %>
+                                <tr>
+                                    <td><%=someDiagnosis.getIdIllnesses().getIllnessesTitle()%></td>
+                                    <td><%=sdf.format(examinationDate)%></td>
+                                    <td><%=doctorFIO%></td>
                                 </tr>
                                 <%
                                     }
@@ -239,15 +341,14 @@
             </div>
         </div>
         <% }
-                }
-                else {
-                   %>
+        } else {
+        %>
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4>Error!</h4>
             Your should fill in field before searching! <a href="doctor-search.jsp">Return back </a> and enter ID.
         </div>
-        <%  
+        <%
                 }
             }%>
     </body>

@@ -4,6 +4,9 @@
     Author     : Rimma
 --%>
 
+<%@page import="com.medic.entity.Patient"%>
+<%@page import="java.util.List"%>
+<%@page import="com.medic.facade.local.PatientFacadeLocal"%>
 <%@page import="com.medic.facade.local.SexFacadeLocal"%>
 <%@page import="com.medic.entity.Sex"%>
 <%@page import="com.medic.facade.local.ExaminationFacadeLocal"%>
@@ -23,28 +26,14 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <%  
-            
-            String pa=request.getParameter("a");
-            String pb=request.getParameter("b");
-            String pAction=request.getParameter("action");
-            if (pb!=null){
-            String paCheck=pb.trim();
-            out.print(paCheck+"!");
-            out.print(pb+"!");
-            if (paCheck.isEmpty())
-                out.print("eee");
-                    }
-
-        %>
-        <form action='test.jsp' method="GET" >
-            <input type='text' name="a" required>
-                        <input type='text' name="b" required pattern="[A-Za-z-0-9]+\s[A-Za-z-'0-9]+"  title="firstname lastname" >
-            <button type="submit" name="action" value="first" class="btn">sss</button>
-        </form>
-         <form action='test.jsp' method="GET">
-            <input type="text" name="b">
-            <button type="submit" name="action" value="second" class="btn">sss</button>
-        </form>z
+       <%
+        InitialContext ic = new InitialContext();
+            PatientFacadeLocal localPatient = (PatientFacadeLocal) ic.lookup("java:comp/env/ejb/PatientRef");
+            MedicalHistoryFacadeLocal localHistory = (MedicalHistoryFacadeLocal) ic.lookup("java:comp/env/ejb/MedicalHistoryRef");
+            List <MedicalHistory> med=localHistory.findByIdPat(1);
+            for (MedicalHistory some:med){
+                out.print(some.getDescription());
+            }
+       %>
     </body>
 </html>
